@@ -13,3 +13,5 @@ rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
 3. Added middlewares [rack-attack](https://github.com/kickstarter/rack-attack) and [rack-cors](https://github.com/cyu/rack-cors)
 
 4. Added [config](https://github.com/railsconfig/config) gem
+
+5. Added [jwt](https://github.com/jwt/ruby-jwt) gem

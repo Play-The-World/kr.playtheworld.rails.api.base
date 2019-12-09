@@ -41,3 +41,7 @@ gem 'rack-cors' # https://github.com/cyu/rack-cors
 
 # Configuration
 gem 'config' # https://github.com/railsconfig/config
+
+# Security
+# Use Json Web Token (JWT) for token based authentication
+gem 'jwt' # https://github.com/jwt/ruby-jwt
