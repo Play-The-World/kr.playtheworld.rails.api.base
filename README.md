@@ -1,24 +1,11 @@
-# README
+# PlayTheWorld API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Instruction
 
-Things you may want to cover:
+1. Create Rails App
 
-* Ruby version
+```bash
+rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+2. Disabled action_mailer and active_model
