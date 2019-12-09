@@ -25,7 +25,7 @@ module PlayTheWorldAPI
     config.load_defaults 6.0
 
     # Middleware
-    config.middleware.use Rack::Attack
+    # config.middleware.use Rack::Attack
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
