@@ -45,3 +45,10 @@ gem 'config' # https://github.com/railsconfig/config
 # Security
 # Use Json Web Token (JWT) for token based authentication
 gem 'jwt' # https://github.com/jwt/ruby-jwt
+
+# Database
+# Use mongodb as the database
+gem 'mongoid', '~> 7.0.5'
+
+# Serialize
+gem 'fast_jsonapi' # https://github.com/Netflix/fast_jsonapi
