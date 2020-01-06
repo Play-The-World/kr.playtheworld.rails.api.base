@@ -16,7 +16,7 @@
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
-# /config/master.key
+/config/master.key
 
 # Created by https://www.gitignore.io/api/ruby,linux,macos,xcode,rails,windows,rubymine,visualstudiocode
 
