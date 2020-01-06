@@ -1,0 +1,3 @@
+[submodule "azeroth"]
+	path = azeroth
+	url = https://github.com/Play-The-World/kr.playtheworld.rails.azeroth

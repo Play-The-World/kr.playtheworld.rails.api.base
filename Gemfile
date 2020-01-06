@@ -52,3 +52,5 @@ gem 'mongoid', '~> 7.0.5'
 
 # Serialize
 gem 'fast_jsonapi' # https://github.com/Netflix/fast_jsonapi
+
+gem 'azeroth', path: 'azeroth'
