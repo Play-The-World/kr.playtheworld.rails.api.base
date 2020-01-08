@@ -15,3 +15,13 @@ rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
 4. Added [config](https://github.com/railsconfig/config) gem
 
 5. Added [jwt](https://github.com/jwt/ruby-jwt) gem
+
+## Dealing with Submodule
+
+```bash
+git push --recurse-submodules=on-demand
+```
+
+```bash
+git submodule update --remote --rebase
+```
