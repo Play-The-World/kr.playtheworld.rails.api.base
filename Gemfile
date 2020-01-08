@@ -55,4 +55,8 @@ gem 'mysql2'
 # Serialize
 gem 'fast_jsonapi' # https://github.com/Netflix/fast_jsonapi
 
+# Model
 gem 'model', path: 'engines/model'
+
+# AWS S3 for active-stroage
+gem "aws-sdk-s3", require: false

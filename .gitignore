@@ -269,18 +269,14 @@ xcuserdata/
 # Ignore application configuration
 /config/application.yml
 /config/database.yml
-# /config/master.key
-# /config/credentials.yml.enc
 /public/assets/*
 /public/packs/*
 
 # Database
-/db/*
+/db
 # /db/schema.rb
 /node_modules
 
-#for video stage
-/public/*.mp4
 /storage
 
 /node_modules/.yarn-integrity

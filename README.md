@@ -25,3 +25,10 @@ git push --recurse-submodules=on-demand
 ```bash
 git submodule update --remote --rebase
 ```
+
+## To Start
+
+```bash
+rails railties:install:migrations db:drop db:create db:migrate
+rails s -b 0.0.0.0
+```
