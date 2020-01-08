@@ -1,7 +1,9 @@
 # PlayTheWorld API
 
 추후 여러 API로 분할되기 전의 기본이 될 API 서버입니다.
+
 engines/model에 model만 분리하여 놓았습니다.
+
 model이라는 rails engine은 모델부분만 다루는 gem으로 git submodule로 관리됩니다.
 
 ## Instruction
@@ -22,7 +24,7 @@ rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
 
 ...
 
-## Dealing with Submodule
+## Deal with submodules
 
 - git push시 (서브모듈도 함께)
 ```bash
