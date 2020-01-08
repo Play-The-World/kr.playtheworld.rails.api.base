@@ -4,7 +4,7 @@ require "rails"
 # Pick the frameworks you want:
 # require "active_model/railtie"
 require "active_job/railtie"
-# require "active_record/railtie"
+require "active_record/railtie"
 # require "active_storage/engine"
 require "action_controller/railtie"
 # require "action_mailer/railtie"
@@ -33,5 +33,11 @@ module PlayTheWorldAPI
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Internationalization
+    I18n.available_locales = [:en, :ko]
+    config.encoding = "utf-8"
+    config.time_zone = "Seoul"
+    config.i18n.default_locale = :ko
   end
 end

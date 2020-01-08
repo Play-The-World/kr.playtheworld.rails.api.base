@@ -47,10 +47,12 @@ gem 'config' # https://github.com/railsconfig/config
 gem 'jwt' # https://github.com/jwt/ruby-jwt
 
 # Database
-# Use mongodb as the database
-gem 'mongoid', '~> 7.0.5'
+# Use mongodb as a database
+# gem 'mongoid', '~> 7.0.5'
+# Use mysql as a database
+gem 'mysql2'
 
 # Serialize
 gem 'fast_jsonapi' # https://github.com/Netflix/fast_jsonapi
 
-gem 'azeroth', path: 'azeroth'
+gem 'model', path: 'engines/model'
