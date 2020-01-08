@@ -1,5 +1,9 @@
 # PlayTheWorld API
 
+추후 여러 API로 분할되기 전의 기본이 될 API 서버입니다.
+engines/model에 model만 분리하여 놓았습니다.
+model이라는 rails engine은 모델부분만 다루는 gem으로 git submodule로 관리됩니다.
+
 ## Instruction
 
 1. Create Rails App
@@ -16,17 +20,23 @@ rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
 
 5. Added [jwt](https://github.com/jwt/ruby-jwt) gem
 
+...
+
 ## Dealing with Submodule
 
+- git push시 (서브모듈도 함께)
 ```bash
 git push --recurse-submodules=on-demand
 ```
 
+- 서브모듈 업데이트(git pull과 같음)
 ```bash
 git submodule update --remote --rebase
 ```
 
 ## To Start
+
+Migration파일들을 가져온 후, migrate합니다.
 
 ```bash
 rails railties:install:migrations db:drop db:create db:migrate
