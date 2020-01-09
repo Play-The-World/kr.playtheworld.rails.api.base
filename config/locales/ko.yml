@@ -1,0 +1,19 @@
+ko:
+  difficulty:
+    easy: "쉬움"
+    normal: "보통"
+    hard: "어려움"
+  site:
+    theme: 
+      self: "테마"
+      category: "카테고리"
+      genre: "장르"
+      price: "가격"
+      cautions: "주의 사항"
+      play_time: "소요 시간"
+      data_size: "크기"
+      copyright: "저작권"
+      infomation: "정보"
+      content: "테마 소개"
+    genernal:
+      more: "더 보기"

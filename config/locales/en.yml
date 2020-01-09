@@ -30,4 +30,21 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  difficulty:
+    easy: "Easy"
+    normal: "Normal"
+    hard: "Hard"
+  site:
+    theme: 
+      self: "Theme"
+      category: "Category"
+      genre: "Genre"
+      price: "Price"
+      cautions: "Cautions"
+      play_time: "Play Time"
+      data_size: "Data Size"
+      copyright: "Copyright"
+      infomation: "Infomation"
+      content: "Content"
+    genernal:
+      more: "More"
