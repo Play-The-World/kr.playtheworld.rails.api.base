@@ -273,8 +273,9 @@ xcuserdata/
 /public/packs/*
 
 # Database
-/db
-# /db/schema.rb
+/db/migrate
+/db/schema.rb
+
 /node_modules
 
 /storage
