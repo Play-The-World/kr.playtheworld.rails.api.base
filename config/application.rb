@@ -39,5 +39,9 @@ module PlayTheWorldAPI
     config.encoding = "utf-8"
     config.time_zone = "Seoul"
     config.i18n.default_locale = :ko
+
+    # Annotations
+    config.annotations.register_directories("engines")
+    config.annotations.register_tags("TESTME")
   end
 end

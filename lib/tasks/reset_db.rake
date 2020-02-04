@@ -1,5 +1,5 @@
-desc "reset DB"
-task :reset => :environment do
+desc "reset DB (only for development)"
+task reset: :environment do
   sh("rails db:environment:set RAILS_ENV=development")
   sh("rm -rf db")
   Rake::Task["db:drop"].invoke
