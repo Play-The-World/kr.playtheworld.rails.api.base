@@ -60,3 +60,6 @@ gem 'model', path: 'engines/model'
 
 # AWS S3 for active-stroage
 gem "aws-sdk-s3", require: false
+
+# RDoc
+# gem "hanna-nouveau" # https://github.com/ruby/hanna-nouveau

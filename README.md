@@ -6,7 +6,7 @@ engines/model에 model만 분리하여 놓았습니다.
 
 model이라는 rails engine은 모델부분만 다루는 gem으로 git submodule로 관리됩니다.
 
-## Instruction
+## 기록
 
 1. Create Rails App
 
@@ -24,19 +24,21 @@ rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
 
 ...
 
-## Deal with submodules
+## 서브모듈 관리
 
 - git push시 (서브모듈도 함께)
+
 ```bash
 git push --recurse-submodules=on-demand
 ```
 
 - 서브모듈 업데이트(git pull과 같음)
+
 ```bash
 git submodule update --remote --rebase
 ```
 
-## To Start
+## 시작하기
 
 Migration파일들을 가져온 후, migrate합니다.
 
@@ -44,3 +46,11 @@ Migration파일들을 가져온 후, migrate합니다.
 rails railties:install:migrations db:drop db:create db:migrate
 rails s -b 0.0.0.0
 ```
+
+## 문서 보기
+
+```bash
+rails doc
+```
+
+- 이후, doc/index.html을 열기
