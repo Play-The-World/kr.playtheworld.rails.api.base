@@ -57,6 +57,7 @@ gem 'fast_jsonapi' # https://github.com/Netflix/fast_jsonapi
 
 # Model
 gem 'model', path: 'engines/model'
+gem 'pagy', '~> 3.7.0'  # https://github.com/ddnexus/pagy
 
 # AWS S3 for active-stroage
 gem "aws-sdk-s3", require: false
