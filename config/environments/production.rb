@@ -71,6 +71,17 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  if ENV["ENABLE_FILE_LOG"].present?
+    # Create File Logger
+    # 자동으로 로테이션 되도록 설정할 수 있다.
+    file_logger = ActiveSupport::Logger.new(config.paths["log"].first, 5, 10.megabytes)
+    file_logger.formatter = config.log_formatter
+    file_logger.level = ENV["FILE_LOG_LEVEL"] || :info
+    file_logger = ActiveSupport::TaggedLogging.new(file_logger)
+    # 로거를 교체하는 대신 로그 브로드캐스팅을 사용한다.
+    config.logger.extend(ActiveSupport::Logger.broadcast(file_logger))
+  end
+
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
   # middleware. The `delay` is used to determine how long to wait after a write

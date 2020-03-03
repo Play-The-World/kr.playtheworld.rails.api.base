@@ -54,3 +54,15 @@ rails doc
 ```
 
 - 이후, doc/index.html을 열기
+
+## Install ruby 2.7.0 manually
+
+```bash
+curl -O 'https://raw.githubusercontent.com/rbenv/ruby-build/master/share/ruby-build/2.7.0'
+rbenv install 2.7.0
+rm 2.7.0
+rbenv local 2.7.0
+rbenv rehash
+bundle
+```
+
