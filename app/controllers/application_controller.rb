@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  # include DeviseTokenAuth::Concerns::SetUserByToken
   include ActionController::MimeResponds
   respond_to :json
-  around_action :set_current_user
+  # around_action :set_current_user
 
   # https://stackoverflow.com/a/2513456
   def set_current_user
