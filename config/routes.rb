@@ -11,6 +11,9 @@ Rails.application.routes.draw do
         get :super_themes
       end
     end
-    resources :super_themes
+    resources :super_themes do
+    end
+    resources :achievements do
+    end
   end
 end
