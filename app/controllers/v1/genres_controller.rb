@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Genre constant
       def constant
-        Model.config.genre.constant
+        Model::Genre
       end
   end
 end

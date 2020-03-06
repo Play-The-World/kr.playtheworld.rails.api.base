@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # StageList constant
       def constant
-        Model.config.stage_list.constant
+        Model::StageList
       end
   end
 end

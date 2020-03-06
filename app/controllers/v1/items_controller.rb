@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Item constant
       def constant
-        Model.config.item.constant
+        Model::Item
       end
   end
 end

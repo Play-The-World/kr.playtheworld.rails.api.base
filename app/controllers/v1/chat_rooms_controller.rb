@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # ChatRoom constant
       def constant
-        Model.config.chat_room.constant
+        Model::ChatRoom
       end
   end
 end

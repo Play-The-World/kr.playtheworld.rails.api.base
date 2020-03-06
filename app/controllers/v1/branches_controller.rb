@@ -40,7 +40,8 @@ module V1 # :nodoc:
 
       # Branch constant
       def constant
-        Model.config.branch.constant
+        # Model.config.branch.constant
+        Model::Branch
       end
   end
 end

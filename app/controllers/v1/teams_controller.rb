@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Team constant
       def constant
-        Model.config.team.constant
+        Model::Team
       end
   end
 end

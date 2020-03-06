@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Rank constant
       def constant
-        Model.config.rank.constant
+        Model::Rank
       end
   end
 end

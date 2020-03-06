@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # MakerTeam constant
       def constant
-        Model.config.maker_team.constant
+        Model::MakerTeam
       end
   end
 end

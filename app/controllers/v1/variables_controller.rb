@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Variable constant
       def constant
-        Model.config.variable.constant
+        Model::Variable
       end
   end
 end

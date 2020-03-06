@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # ViewType constant
       def constant
-        Model.config.view_type.constant
+        Model::ViewType
       end
   end
 end
