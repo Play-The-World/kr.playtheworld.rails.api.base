@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Maker constant
       def constant
-        Model.config.maker.constant
+        Model::Maker
       end
   end
 end

@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # ChatMessage constant
       def constant
-        Model.config.chat_message.constant
+        Model::ChatMessage
       end
   end
 end

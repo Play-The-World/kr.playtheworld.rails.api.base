@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Hint constant
       def constant
-        Model.config.hint.constant
+        Model::Hint
       end
   end
 end

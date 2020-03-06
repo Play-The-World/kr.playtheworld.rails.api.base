@@ -1,12 +1,27 @@
-module V1
+module V1 # :nodoc:
+  #
+  # Topics Controller
+  # TODO Controller에 대한 설명
+  #
   class TopicsController < BaseController
-    # skip_before_action :authenticate_user!, only: [:create]
-    before_action :set_topic, except: [:index, :test]
-  
+    # skip_before_action :authenticate_user!, except: [:index]
+    before_action :set_topic, except: [:index]
+
     # GET /
     def index
-      topics = Model::Application.current.setting.topics rescue []
-      render json: topics
+      @pagy, @topics = pagy(constant.all)
+      render json: @topics
+    end
+
+    # POST /
+    def create
+      @topic = constant.new
+      render json: @topic
+    end
+
+    # PATCH/PUT /:id
+    def update
+      render json: @topic
     end
 
     # GET /:id
@@ -14,20 +29,24 @@ module V1
       render json: @topic
     end
 
+    # DELETE /:id
+    def destroy
+    end
+
     # GET /:id/super_themes
     def super_themes
       super_themes = @topic.super_themes
-      super_themes = [Model::SuperTheme::Base.first, Model::SuperTheme::Base.first]
       render json: super_themes
-    end
-
-    def test
-      render json: {}
     end
 
     private
       def set_topic
-        @topic = Model.config.topic.constant.find(params[:id])
+        @topic = constant.find(params[:id])
+      end
+
+      # Topic constant
+      def constant
+        Model.config.topic.constant
       end
   end
 end

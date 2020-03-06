@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Inventory constant
       def constant
-        Model.config.inventory.constant
+        Model::Inventory
       end
   end
 end

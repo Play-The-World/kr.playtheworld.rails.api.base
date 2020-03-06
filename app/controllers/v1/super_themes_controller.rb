@@ -5,8 +5,7 @@ module V1
   
     # GET /
     def index
-      super_themes = Model.config.super_theme.constant.all
-      @pagy, @super_themes = pagy(super_themes)
+      @pagy, @super_themes = pagy(constant.all)
       render json: @super_themes
     end
 
@@ -21,7 +20,11 @@ module V1
 
     private
       def set_super_theme
-        @super_theme = Model.config.super_theme.constant.find(params[:id])
+        @super_theme = constant.find(params[:id])
+      end
+
+      def constant
+        Model.config.super_theme.constant
       end
   end
 end

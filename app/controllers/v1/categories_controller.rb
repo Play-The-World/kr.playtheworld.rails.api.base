@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Category constant
       def constant
-        Model.config.category.constant
+        Model::Category
       end
   end
 end

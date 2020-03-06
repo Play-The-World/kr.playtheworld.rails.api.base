@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # RankSeason constant
       def constant
-        Model.config.rank_season.constant
+        Model::RankSeason
       end
   end
 end

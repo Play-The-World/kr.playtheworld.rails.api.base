@@ -40,7 +40,7 @@ module V1 # :nodoc:
 
       # Location constant
       def constant
-        Model.config.location.constant
+        Model::Location
       end
   end
 end
