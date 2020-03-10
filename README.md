@@ -70,6 +70,8 @@ bundle
 
 ```bash
 export GIT_TOKEN={{your_git_personel_token}}
-docker build --build-arg GIT_TOKEN=$GIT_TOKEN --tag rails-docker .
-docker run -v $(pwd)/.docker/storage:/app/storage -v $(pwd)/.docker/log:/app/log rails-docker
+# docker build --build-arg GIT_TOKEN=$GIT_TOKEN --tag rails-docker .
+# docker run -v $(pwd)/.docker/storage:/app/storage -v $(pwd)/.docker/log:/app/log rails-docker
+docker-compose build --no-cache
+docker-compose up -d
 ```
