@@ -41,7 +41,7 @@ RUN apk add --no-cache --update \
     mariadb-dev \
     tzdata
 
-RUN gem install bundler \
+RUN gem install bundler --no-ri --no-rdoc \
     && bundler config --global frozen 1
 
 WORKDIR /app
@@ -50,7 +50,7 @@ WORKDIR /app
 # ENV RACK_ENV production
 ENV ENABLE_FILE_LOG true
 
-COPY ./.docker/compose/dev/database.yml ./config/
+COPY .docker/compose/dev/database.yml ./config/
 
 # Node 모듈 설치
 # COPY package.json yarn.lock ./
@@ -62,8 +62,8 @@ RUN bundle install
 # 레일즈 앱 전체 복사
 # COPY . .
 
-# EXPOSE 3000
-# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+EXPOSE 3000
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 # CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 # VOLUME ["/app/storage", "/app/log"]

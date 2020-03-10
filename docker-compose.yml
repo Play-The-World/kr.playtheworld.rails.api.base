@@ -22,5 +22,5 @@ services:
     volumes:
       - ./.docker/log:/app/log
       - ./.docker/storage:/app/storage
-    command: 
-      - bundle exec rails server -b 0.0.0.0 -p 3000
+    # command: 
+    #   - rails server -b 0.0.0.0 -p 3000

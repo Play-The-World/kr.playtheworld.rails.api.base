@@ -294,4 +294,6 @@ config/environments/*.local.yml
 eric.rb
 
 # Docker
-.docker/
+.docker/log
+.docker/data
+.docker/storage
