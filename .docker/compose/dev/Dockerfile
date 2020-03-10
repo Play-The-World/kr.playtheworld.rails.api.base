@@ -41,7 +41,7 @@ RUN apk add --no-cache --update \
     mariadb-dev \
     tzdata
 
-RUN gem install bundler --no-ri --no-rdoc \
+RUN gem install bundler \
     && bundler config --global frozen 1
 
 WORKDIR /app
