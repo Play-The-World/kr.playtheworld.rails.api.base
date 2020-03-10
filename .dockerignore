@@ -268,7 +268,7 @@ xcuserdata/
 
 # Ignore application configuration
 /config/application.yml
-# /config/database.yml
+/config/database.yml
 /public/assets/*
 /public/packs/*
 
@@ -292,3 +292,6 @@ config/environments/*.local.yml
 
 # For Test
 eric.rb
+
+# Docker
+.docker/

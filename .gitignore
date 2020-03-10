@@ -292,3 +292,8 @@ config/environments/*.local.yml
 
 # For Test
 eric.rb
+
+# Docker
+.docker/log
+.docker/data
+.docker/storage

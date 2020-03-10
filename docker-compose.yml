@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+  app:
+    build: 
+      context: .
+      dockerfile: ./.docker/compose/dev/Dockerfile
+      args:
+        GIT_TOKEN: ce2bcde01b235e23e01b8ae74c9a20ea9eeddc1f
+    depends_on: 
+      - db
+    ports:
+      - 3000:3000
+    env_file: 
+      - ./.docker/compose/dev/.env
+    volumes:
+      - ./.docker/log:/app/log
+      - ./.docker/storage:/app/storage
+    command: 
+      - bundle exec rails server -b 0.0.0.0 -p 3000
