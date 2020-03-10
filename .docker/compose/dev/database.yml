@@ -3,7 +3,7 @@ development:
   encoding: utf8mb4
   port: 3306
   pool: 5
-  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
   host: localhost
   database: development
   username: root
