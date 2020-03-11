@@ -24,27 +24,11 @@ RUN git clone https://github.com/Play-The-World/kr.playtheworld.rails.api.base.g
 
 RUN cd app && git submodule init && git submodule update
 
-FROM ruby:2.7.0-alpine
+FROM playtheworld/rails
 # copy the repository form the previous image
 COPY --from=intermediate /app /app
 
 MAINTAINER Mechuri "mechuri@playthe.world"
-
-# ENV NODE_VERSION 11.15.1
-
-RUN apk update && apk upgrade
-
-RUN apk add --no-cache \
-    ca-certificates \
-    linux-headers \
-    build-base \
-    libxml2-dev \
-    libxslt-dev \
-    mariadb-dev \
-    tzdata
-
-RUN gem install bundler \
-    && bundler config --global frozen 1
 
 WORKDIR /app
 
@@ -57,7 +41,7 @@ ENV ENABLE_FILE_LOG true
 # Node 모듈 설치
 # COPY package.json yarn.lock ./
 # RUN yarn install --production
-
+# certbot-auto certonly --manual --preferred-challenges=dns --email spb828@naver.com --server https://acme-v02.api.letsencrypt.org/directory --agree-tos --debug --no-bootstrap -d ericsnas.com
 # Gem 모듈 설치
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
@@ -65,7 +49,7 @@ RUN bundle install
 # COPY . .
 
 EXPOSE 3000
-ENTRYPOINT ["sh", "./.docker/compose/dev/startup.sh"]
+ENTRYPOINT ["sh", "./.docker/compose/dev/start-up.sh"]
 # CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 # CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
