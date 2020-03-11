@@ -32,7 +32,9 @@ MAINTAINER Mechuri "mechuri@playthe.world"
 
 # ENV NODE_VERSION 11.15.1
 
-RUN apk add --no-cache --update \
+RUN apk update && apk upgrade
+
+RUN apk add --no-cache \
     ca-certificates \
     linux-headers \
     build-base \
@@ -50,7 +52,7 @@ WORKDIR /app
 # ENV RACK_ENV production
 ENV ENABLE_FILE_LOG true
 
-COPY .docker/compose/dev/database.yml ./config/
+# COPY .docker/compose/dev/database.yml ./config/
 
 # Node 모듈 설치
 # COPY package.json yarn.lock ./
@@ -63,9 +65,10 @@ RUN bundle install
 # COPY . .
 
 EXPOSE 3000
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+ENTRYPOINT ["sh", "./.docker/compose/dev/startup.sh"]
+# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 # CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
-# VOLUME ["/app/storage", "/app/log"]
+VOLUME ["/app/storage", "/app/log", "/app/config/database.yml"]
 
 # RUN rm /root/.ssh/id_rsa

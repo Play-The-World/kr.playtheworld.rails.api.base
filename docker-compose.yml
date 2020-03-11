@@ -6,25 +6,39 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
     volumes: 
       - ./.docker/data:/var/lib/mysql
     ports:
       - 3306:3306
+
   app:
     build: 
       context: .
       dockerfile: ./.docker/compose/dev/Dockerfile
       args:
         GIT_TOKEN: ce2bcde01b235e23e01b8ae74c9a20ea9eeddc1f
+    restart: always
     depends_on: 
       - db
     ports:
       - 3000:3000
     env_file: 
       - ./.docker/compose/dev/.env
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_DATABASE: development
+      DB_PORT: 3306
+      DB_HOST: db
+      RACK_ENV: development
+      RAILS_ENV: development
+      RAILS_MAX_THREADS: 5
     volumes:
       - ./.docker/log:/app/log
       - ./.docker/storage:/app/storage
+      - ./.docker/compose/dev/database.yml:/app/config/database.yml
     # command: 
     #   - rails server -b 0.0.0.0 -p 3000
