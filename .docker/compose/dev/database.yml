@@ -4,7 +4,7 @@ development:
   port: 3306
   pool: 5
   socket: /tmp/mysql.sock
-  host: localhost
+  host: 127.0.0.1
   database: development
   username: root
   password: 123456
