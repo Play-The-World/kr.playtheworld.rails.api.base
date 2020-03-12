@@ -1,4 +1,5 @@
 class V1::BaseController < ApplicationController
+  # include AutoGenDoc
   include Pagy::Backend
   # before_action :authenticate_user!
   after_action { pagy_headers_merge(@pagy) if @pagy }

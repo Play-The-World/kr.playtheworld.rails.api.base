@@ -64,3 +64,6 @@ gem "aws-sdk-s3", require: false
 
 # RDoc
 # gem "hanna-nouveau" # https://github.com/ruby/hanna-nouveau
+
+# OpenAPI Docs
+gem 'zero-rails_openapi' # https://github.com/zhandao/zero-rails_openapi/
