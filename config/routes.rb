@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
+  apipie
   namespace :v1, defaults: { format: :json } do
-    resources :tests, only: [:index, :create, :show, :destroy]
-    # namespace :list do
-    #   get '', action: :index
-    #   post :join
-    #   get :show
-    # end
     resources :achievements do
     end
     resources :answers do

@@ -71,6 +71,8 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    apipie-rails (0.5.17)
+      rails (>= 4.1)
     aws-eventstream (1.0.3)
     aws-partitions (1.279.0)
     aws-sdk-core (3.90.1)
@@ -92,7 +94,6 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.1)
-    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     config (2.2.1)
       deep_merge (~> 1.2, >= 1.2.1)
@@ -287,15 +288,12 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
     zeitwerk (2.2.2)
-    zero-rails_openapi (2.1.4)
-      activesupport (>= 4.1)
-      colorize
-      rails (>= 4.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  apipie-rails
   aws-sdk-s3
   bootsnap (>= 1.4.5)
   byebug
@@ -313,7 +311,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
-  zero-rails_openapi
 
 RUBY VERSION
    ruby 2.7.0p0
