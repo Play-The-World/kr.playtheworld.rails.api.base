@@ -1,0 +1,32 @@
+ko:
+  apipie:
+    resources: Resources
+    resource: Resource
+    description: 설명
+    no_docs_found: No documentation found
+    no_docs_found_descr: 작성된 API 문서가 없습니다.
+    follow_instructions_html: Follow %{href} on how to describe your controllers.
+    follow_instructions_href: 추가 정보
+    oops: 이런!!
+    resource_not_found_html: Resource %{resource} not found.
+    method_not_found_html: Method %{method} not found for resource %{resource}.
+    goto_homepage_html: Try going to %{href}
+    goto_homepage_href: "%{app_name} API documentation homepage"
+    required: 필수
+    optional: 옵션
+    nil_allowed: nil allowed
+    param_name: 파라미터 이름
+    params: 파라미터
+    examples: 예시
+    metadata: Metadata
+    errors: 에러
+    error_code: Code
+    error_description: Description
+    error_metadata: Metadata
+    supported_formats: 지원 포맷
+    enable_javascript_html: Please enable JavaScript to view the %{comments_href}.
+    comments_powered_by_disqus: comments powered by %{disqus}
+    api_documentation: API 문서
+    headers: 헤더
+    header_name: 헤더 이름
+    code: Code
