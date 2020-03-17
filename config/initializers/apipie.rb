@@ -6,6 +6,6 @@ Apipie.configure do |config|
   config.api_controllers_matcher = "#{Rails.root}/app/controllers/**/*.rb"
 
   config.translate               = false
-  config.default_locale          = nil
-  # config.default_locale          = "ko"
+  # config.default_locale          = nil
+  config.default_locale          = "ko"
 end
