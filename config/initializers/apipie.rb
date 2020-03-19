@@ -8,4 +8,10 @@ Apipie.configure do |config|
   config.translate               = false
   # config.default_locale          = nil
   config.default_locale          = "ko"
+
+  config.copyright = "&copy; 2020 PLAY THE WORLD"
+
+  # Swagger
+  config.swagger_content_type_input = :json
+  config.swagger_api_host = "localhost:3000"
 end

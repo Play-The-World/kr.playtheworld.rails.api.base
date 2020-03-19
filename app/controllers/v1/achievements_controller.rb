@@ -8,12 +8,16 @@ module V1 # :nodoc:
     before_action :set_achievement, except: [:index]
 
     def_param_group :achievement do
-      param     :id,                Integer,        desc: "업적 ID", required: true
-      param     :title,             String,         desc: "업적 이름", required: true
-      param     :content,           String,         desc: "업적 설명", required: true
-      param     :condition_content, String,         desc: "업적 획득 조건 설명", required: true
-      param     :level,             Integer,        desc: "업적 등급", required: true
-      param     :stackable,         [true, false],  desc: "동일 업적 중복 획득 가능 여부", required: true
+      param     :id,                Integer,        desc: "ID", required: true
+      property  :type,              ["achievement"],desc: "Type"
+      param     :data,              Hash,           desc: "Data", required: true do
+        param     :title,             String,         desc: "업적 이름", required: true
+        param     :content,           String,         desc: "업적 설명", required: true
+        param     :condition_content, String,         desc: "업적 획득 조건 설명", required: true
+        param     :level,             Integer,        desc: "업적 등급", required: true
+        param     :stackable,         [true, false],  desc: "동일 업적 중복 획득 가능 여부", required: true
+        property  :relationships,     Hash,           desc: "Relationships", default_value: {}
+      end
     end
 
     api! "업적 목록"
@@ -42,8 +46,8 @@ module V1 # :nodoc:
       render json: @achievement
     end
 
-    api! "업적 보기"
-    param_group :achievement
+    api! "업적 조회"
+    param :id, Integer, desc: "업적 ID", required: true
     returns :achievement
     # GET /:id
     def show
@@ -51,7 +55,7 @@ module V1 # :nodoc:
     end
 
     api! "업적 삭제"
-    param :id, Integer, desc: "업적 ID"
+    param :id, Integer, desc: "업적 ID", required: true
     returns :achievement
     # DELETE /:id
     def destroy
