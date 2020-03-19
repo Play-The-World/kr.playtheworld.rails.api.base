@@ -8,7 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'd09888c45862725c69f36268d82331b4a4dee60eb5684525f0979d4b7c6c5468e4faada9ce2659cb112d042010a81669f7c8973b21131c1684abdae728edb3d4'
+  config.secret_key = 'af0be315c1492bd621b8eaed68a8d3a5440e08640d696485cfb582c07c208de25e81ba549c005ca8aedfca504128fdfe057f10db8ce1e323cfba335fe4dcb22a'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -275,10 +275,10 @@ Devise.setup do |config|
   # is mountable, there are some extra configurations to be taken into account.
   # The following options are available, assuming the engine is mounted as:
   #
-  #     mount MyEngine, at: '/my_engine'
+  # mount Model, at: 'engines/model'
   #
   # The router that invoked `devise_for`, in the example above, would be:
-  # config.router_name = :my_engine
+  # config.router_name = :model
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:

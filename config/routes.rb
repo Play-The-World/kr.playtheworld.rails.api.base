@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   apipie
   namespace :v1, defaults: { format: :json } do
+    devise_for :users, class_name: 'Model::User'
     resources :achievements do
     end
     resources :answers do
