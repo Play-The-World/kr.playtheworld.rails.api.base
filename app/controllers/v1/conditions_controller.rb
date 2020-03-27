@@ -7,6 +7,14 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_condition, except: [:index]
 
+    def_param_group :condition do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+      param :value1, String, desc: "값1", required: true
+      param :value2, String, desc: "값2", required: true
+    end
+    crud_with :condition
+
     # GET /
     def index
       @pagy, @conditions = pagy(constant.all)

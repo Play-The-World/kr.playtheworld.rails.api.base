@@ -7,6 +7,14 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_maker, except: [:index]
 
+    def_param_group :maker do
+      param :id, Integer, desc: "ID", required: true
+      param :name, String, desc: "이름", required: true
+      param :content, String, desc: "설명", required: true
+      param :status, String, desc: "상태", required: true
+    end
+    crud_with :maker
+
     # GET /
     def index
       @pagy, @makers = pagy(constant.all)

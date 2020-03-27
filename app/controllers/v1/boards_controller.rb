@@ -13,36 +13,25 @@ module V1 # :nodoc:
       param     :status,            String,         desc: "게시판 상태", required: true
       property  :posts_count,       Integer,        desc: "게시글 수", default_value: 0
     end
+    crud_with :board
 
-    api! "게시판 목록"
-    param :page, Integer, desc: "페이지 번호", default_value: 1
-    returns array_of: :board
     # GET /
     def index
       @pagy, @boards = pagy(constant.all)
       render json: @boards
     end
 
-    api! "게시판 생성"
-    param_group :board
-    returns :board
     # POST /
     def create
       @board = constant.new
       render json: @board
     end
 
-    api! "게시판 수정"
-    param_group :board
-    returns :board
     # PATCH/PUT /:id
     def update
       render json: @board
     end
 
-    api! "게시판 삭제"
-    param :id, Integer, desc: "게시판 ID", required: true
-    returns :board
     # GET /:id
     def show
       render json: @board

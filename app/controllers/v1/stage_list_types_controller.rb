@@ -7,6 +7,14 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_stage_list_type, except: [:index]
 
+    def_param_group :stage_list_type do
+      param :id, Integer, desc: "ID", required: true
+      param :game_component, String, desc: "컴포넌트 유형", required: true
+      param :chance_count, Integer, desc: "오답 기회", required: true
+      property :hints_count, Integer, desc: "힌트 개수"
+    end
+    crud_with :stage_list_type
+
     # GET /
     def index
       @pagy, @stage_list_types = pagy(constant.all)

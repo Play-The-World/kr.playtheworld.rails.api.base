@@ -1,10 +1,11 @@
 class V1::BaseController < ApplicationController
-  # include AutoGenDoc
   include Pagy::Backend
   extend ParameterValidator
+  include V1::CRUD
   # before_action :authenticate_user!
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
+  # Exception Handler
   rescue_from Apipie::ParamMissing do |exception|
     json = {
       exception.param.name => "required"

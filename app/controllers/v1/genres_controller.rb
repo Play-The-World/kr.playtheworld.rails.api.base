@@ -7,6 +7,12 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_genre, except: [:index]
 
+    def_param_group :genre do
+      param :id, Integer, desc: "ID", required: true
+      param :title, String, desc: "제목", required: true
+    end
+    crud_with :genre
+
     # GET /
     def index
       @pagy, @genres = pagy(constant.all)

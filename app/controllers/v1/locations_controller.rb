@@ -7,6 +7,12 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_location, except: [:index]
 
+    def_param_group :location do
+      param :id, Integer, desc: "ID", required: true
+      param :title, String, desc: "이름", required: true
+    end
+    crud_with :location
+
     # GET /
     def index
       @pagy, @locations = pagy(constant.all)

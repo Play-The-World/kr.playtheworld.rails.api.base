@@ -7,6 +7,15 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_team, except: [:index]
 
+    def_param_group :team do
+      param :id, Integer, desc: "ID", required: true
+      param :status, String, desc: "상태", required: true
+      param :name, String, desc: "이름", required: true
+      param :content, String, desc: "내용", required: true
+      property :super_plays_count, Integer, desc: "플레이 수"
+    end
+    crud_with :team
+
     # GET /
     def index
       @pagy, @teams = pagy(constant.all)

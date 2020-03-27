@@ -7,6 +7,13 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_view_type, except: [:index]
 
+    def_param_group :view_type do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+      property :views_count, desc: "조회 수"
+    end
+    crud_with :view_type
+
     # GET /
     def index
       @pagy, @view_types = pagy(constant.all)

@@ -7,6 +7,14 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_stage, except: [:index]
 
+    def_param_group :stage do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+      param :order, Integer, desc: "순서", required: true
+      param :content, String, desc: "내용", required: true
+    end
+    crud_with :stage
+
     # GET /
     def index
       @pagy, @stages = pagy(constant.all)

@@ -14,44 +14,30 @@ module V1 # :nodoc:
       param     :ordered,           [true, false],  desc: "순서 상관 여부", default_value: false
       param     :case_sensitive,    [true, false],  desc: "대소문자 구분 여부", default_value: false
     end
+    crud_with :answer
 
-    api! "정답 목록"
-    param :page, Integer, desc: "페이지 번호", default_value: 1
-    returns array_of: :answer
     # GET /
     def index
       @pagy, @answers = pagy(constant.all)
       render json: @answers
     end
 
-    api! "정답 생성"
-    param_group :answer
-    returns :answer
     # POST /
     def create
       @answer = constant.new
       render json: @answer
     end
 
-    api! "정답 수정"
-    param_group :answer
-    returns :answer
     # PATCH/PUT /:id
     def update
       render json: @answer
     end
 
-    api! "정답 조회"
-    param :id, Integer, desc: "정답 ID", required: true
-    returns :answer
     # GET /:id
     def show
       render json: @answer
     end
 
-    api! "정답 삭제"
-    param :id, Integer, desc: "정답 ID", required: true
-    returns :answer
     # DELETE /:id
     def destroy
     end

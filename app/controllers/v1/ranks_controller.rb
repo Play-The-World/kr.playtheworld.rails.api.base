@@ -7,6 +7,12 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_rank, except: [:index]
 
+    def_param_group :rank do
+      param :id, Integer, desc: "ID", required: true
+      param :value, String, desc: "점수", required: true
+    end
+    crud_with :rank
+
     # GET /
     def index
       @pagy, @ranks = pagy(constant.all)

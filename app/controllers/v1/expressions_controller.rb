@@ -7,6 +7,12 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_expression, except: [:index]
 
+    def_param_group :expression do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+    end
+    crud_with :expression
+
     # GET /
     def index
       @pagy, @expressions = pagy(constant.all)

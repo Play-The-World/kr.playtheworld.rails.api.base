@@ -7,6 +7,12 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_inventory, except: [:index]
 
+    def_param_group :inventory do
+      param :id, Integer, "ID", required: true
+      param :space, Integer, "공간", default_value: 9
+    end
+    crud_with :inventory
+
     # GET /
     def index
       @pagy, @inventories = pagy(constant.all)

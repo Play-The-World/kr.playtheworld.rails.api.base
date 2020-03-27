@@ -7,6 +7,14 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_super_play, except: [:index]
 
+    def_param_group :super_play do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+      param :status, String, desc: "상태", required: true
+      property :plays_count, Integer, desc: "플레이 개수"
+    end
+    crud_with :super_play
+
     # GET /
     def index
       @pagy, @super_plays = pagy(constant.all)

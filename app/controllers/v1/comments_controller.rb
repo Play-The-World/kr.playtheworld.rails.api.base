@@ -7,6 +7,15 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_comment, except: [:index]
 
+    def_param_group :comment do
+      param :id, Integer, desc: "ID", required: true
+      param :title, String, desc: "제목", required: true
+      param :content, String, desc: "내용", required: true
+      param :type, String, desc: "유형", required: true
+      param :status, String, desc: "상태", required: true
+    end
+    crud_with :comment
+    
     # GET /
     def index
       @pagy, @comments = pagy(constant.all)
@@ -32,7 +41,7 @@ module V1 # :nodoc:
     # DELETE /:id
     def destroy
     end
-
+    
     private
       def set_comment
         @comment = constant.find(params[:id])

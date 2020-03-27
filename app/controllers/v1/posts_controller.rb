@@ -7,6 +7,15 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_post, except: [:index]
 
+    def_param_group :post do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+      param :status, String, desc: "상태", required: true
+      param :title, String, desc: "제목", required: true
+      param :content, String, desc: "내용", required: true
+    end
+    crud_with :post
+
     # GET /
     def index
       @pagy, @posts = pagy(constant.all)

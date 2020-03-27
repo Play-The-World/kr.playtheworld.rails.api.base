@@ -7,6 +7,16 @@ module V1 # :nodoc:
     # skip_before_action :authenticate_user!, except: [:index]
     before_action :set_play, except: [:index]
 
+    def_param_group :play do
+      param :id, Integer, desc: "ID", required: true
+      param :type, String, desc: "유형", required: true
+      param :status, String, desc: "상태", required: true
+      param :stage_list_index, Integer, desc: "스테이지 리스트 인덱스", required: true
+      param :stage_index, Integer, desc: "스테이지 리스트의 스테이지 인덱스", required: true
+      param :finished_at, DateTime, desc: "플레이가 끝난 시간", default_value: nil
+    end
+    crud_with :play
+
     # GET /
     def index
       @pagy, @plays = pagy(constant.all)
