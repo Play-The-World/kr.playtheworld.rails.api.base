@@ -10,7 +10,7 @@ module V1 # :nodoc:
     def_param_group :view_type do
       param :id, Integer, desc: "ID", required: true
       param :type, String, desc: "유형", required: true
-      property :views_count, desc: "조회 수"
+      property :views_count, Integer, desc: "조회 수"
     end
     crud_with :view_type
 

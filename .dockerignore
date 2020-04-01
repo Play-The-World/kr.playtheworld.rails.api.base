@@ -268,7 +268,7 @@ xcuserdata/
 
 # Ignore application configuration
 /config/application.yml
-/config/database.yml
+# /config/database.yml
 /public/assets/*
 /public/packs/*
 
@@ -297,3 +297,5 @@ eric.rb
 .docker/log
 .docker/data
 .docker/storage
+
+.gitmodules
