@@ -14,7 +14,7 @@ phases:
   install:
     runtime-versions:
       docker: 19
-      ruby: 2.7.0
+      ruby: 2.7
     commands:
       - git config --global url."https://${git_token}:@github.com/".insteadOf "https://github.com/"
       # Check for a .git directory to determine if we need to set up our git package
