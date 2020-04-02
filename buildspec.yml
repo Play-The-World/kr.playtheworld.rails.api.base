@@ -4,10 +4,13 @@ version: 0.2
 
 env:
   variables:
-    remote_origin: ""
+    remote_origin: "https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git"
     RAILS_ENV: "production"
     RACK_ENV: "production"
     git_token: "8bc2db5d30945e3c4e0a19fdc65333980d57f574"
+    aws_default_region: "ap-northeast-2"
+    aws_account_id: "947202957156"
+    image_repo_name: "playtheworld/test-api"
 
 phases:
   install:
@@ -18,7 +21,7 @@ phases:
       - git config --global url."https://${git_token}:@github.com/".insteadOf "https://github.com/"
       # Check for a .git directory to determine if we need to set up our git package
       - git init                                              # Initialize Git
-      - git remote add origin https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git                # Add the remote origin so we can fetch
+      - git remote add origin "$remote_origin"                # Add the remote origin so we can fetch
       - git fetch                                             # Get all the things
       - git checkout -f "$CODEBUILD_RESOLVED_SOURCE_VERSION"  # Checkout the specific commit we are building
       # Now that setup is complete, get submodules
@@ -32,10 +35,10 @@ phases:
       - bundle install
       - echo Logging in to Amazon ECR.... 
       - aws --version
-      - $(aws ecr get-login --no-include-email --region ap-northeast-2)
+      - $(aws ecr get-login --no-include-email --region $aws_default_region)
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - REPOSITORY_URI=947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/test-api
+      - REPOSITORY_URI=$aws_account_id.dkr.ecr.$aws_default_region.amazonaws.com/$image_repo_name
   build:
     commands:
       - echo Build started on `date`
