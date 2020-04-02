@@ -4,7 +4,7 @@ version: 0.2
 
 env:
   variables:
-    remote_origin: "https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git"
+    remote_origin: "https://github.com/Play-The-World/kr.playtheworld.rails.api.main.git"
     RAILS_ENV: "production"
     RACK_ENV: "production"
   parameter_store:
