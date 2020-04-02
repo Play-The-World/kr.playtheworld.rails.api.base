@@ -7,8 +7,7 @@ env:
     remote_origin: ""
     RAILS_ENV: "production"
     RACK_ENV: "production"
-  parameter_store:
-    git_token: "git_token"
+    git_token: "8bc2db5d30945e3c4e0a19fdc65333980d57f574"
 
 phases:
   install:
