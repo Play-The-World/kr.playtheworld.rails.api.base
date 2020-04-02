@@ -15,6 +15,7 @@ env:
 phases:
   install:
     runtime-versions:
+      docker: 19
       ruby: 2.7
     commands:
       - git config --global url."https://${git_token}:@github.com/".insteadOf "https://github.com/"
@@ -26,12 +27,14 @@ phases:
       # Now that setup is complete, get submodules
       - git submodule init
       - git submodule update --recursive
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   pre_build:
     commands:
       - echo PreBuild started on `date`
-      - echo Installing Bundler...
-      - gem install bundler
-      - bundle install
+      # - echo Installing Bundler...
+      # - gem install bundler
+      # - bundle install
       - echo Logging in to Amazon ECR.... 
       - aws --version
       - $(aws ecr get-login --no-include-email --region $aws_default_region)
