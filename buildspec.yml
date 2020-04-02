@@ -4,7 +4,7 @@ version: 0.2
 
 env:
   variables:
-    remote_origin: "https://github.com/Play-The-World/kr.playtheworld.rails.api.main.git"
+    remote_origin: ""
     RAILS_ENV: "production"
     RACK_ENV: "production"
   parameter_store:
@@ -19,7 +19,7 @@ phases:
       - git config --global url."https://${git_token}:@github.com/".insteadOf "https://github.com/"
       # Check for a .git directory to determine if we need to set up our git package
       - git init                                              # Initialize Git
-      - git remote add origin "$remote_origin"                # Add the remote origin so we can fetch
+      - git remote add origin https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git                # Add the remote origin so we can fetch
       - git fetch                                             # Get all the things
       - git checkout -f "$CODEBUILD_RESOLVED_SOURCE_VERSION"  # Checkout the specific commit we are building
       # Now that setup is complete, get submodules
