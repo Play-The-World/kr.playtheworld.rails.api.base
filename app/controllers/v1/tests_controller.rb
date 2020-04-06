@@ -1,5 +1,5 @@
 module V1
-  class TestController < BaseController
+  class TestsController < BaseController
     # skip_before_action :authenticate_user!, only: [:create]
   
     # GET /tests
@@ -27,6 +27,10 @@ module V1
     # DELETE /users
     def destroy
       render json: []
+    end
+
+    def ping
+      render json: { message: "pong" }
     end
   
     private

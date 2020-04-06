@@ -2,9 +2,27 @@
   "AWSEBDockerrunVersion": 2,
   "volumes": [
     {
+      "name": "log",
+      "host": {
+        "sourcePath": "/var/app/current/log"
+      }
+    },
+    {
       "name": "db",
       "host": {
         "sourcePath": "/var/app/current/data"
+      }
+    },
+    {
+      "name": "nginx-proxy-conf",
+      "host": {
+        "sourcePath": "/var/app/current/proxy/conf.d"
+      }
+    },
+    {
+      "name": "awseb-logs-nginx-proxy",
+      "host": {
+        "sourcePath": "/var/log/nginx"
       }
     }
   ],
@@ -12,7 +30,6 @@
     {
       "name": "app",
       "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/test-api:latest",
-      "command": "--default-authentication-plugin=mysql_native_password",
       "environment": [
         {
           "name": "RAILS_ENV",

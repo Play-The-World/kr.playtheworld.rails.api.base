@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   apipie
   namespace :v1, defaults: { format: :json } do
+    resources :tests do
+      collection do
+        get :pong
+      end
+    end
     resources :achievements do
     end
     resources :answers do

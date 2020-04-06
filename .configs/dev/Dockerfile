@@ -7,10 +7,11 @@ WORKDIR /app
 ENV ENABLE_FILE_LOG true
 
 COPY . .
+COPY .configs/dev/database.yml config/database.yml
 
 RUN bundle install
 
 EXPOSE 3000
 ENTRYPOINT ["sh", "./start-up.sh"]
 
-VOLUME ["/app/log"]
+VOLUME ["/app/log", "/app/storage"]

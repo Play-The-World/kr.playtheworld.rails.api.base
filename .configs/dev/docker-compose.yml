@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+    volumes: 
+      - ../../.docker/data:/var/lib/mysql
+
+  app:
+    build: 
+      context: ../../
+      dockerfile: ./.configs/dev/Dockerfile
+    restart: always
+    depends_on: 
+      - db
+    entrypoint: ./.configs/dev/start-up.sh
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_DATABASE: development
+      DB_PORT: 3306
+      DB_HOST: db
+      RACK_ENV: development
+      RAILS_ENV: development
+      RAILS_MAX_THREADS: 5
+    volumes:
+      - ../../.docker/log/app:/app/log
+      - ../../.docker/storage:/app/storage
+  
+  nginx:
+    image: nginx:alpine
+    restart: always
+    depends_on: 
+      - app
+    ports:
+      - 80:80
+    volumes: 
+      - ../../.docker/log/nginx:/var/log/nginx
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
