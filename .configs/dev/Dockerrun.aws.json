@@ -1,0 +1,110 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "log",
+      "host": {
+        "sourcePath": "/var/app/current/log"
+      }
+    },
+    {
+      "name": "db",
+      "host": {
+        "sourcePath": "/var/app/current/data"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "app",
+      "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/test-api:latest",
+      "environment": [
+        {
+          "name": "RAILS_ENV",
+          "value": "production"
+        },
+        {
+          "name": "RACK_ENV",
+          "value": "production"
+        },
+        {
+          "name": "RAILS_MASTER_KEY",
+          "value": "b5eaa4ed133ad1e8cb94bdee99823ae3"
+        },
+        {
+          "name": "DB_HOST",
+          "value": "db"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "3306"
+        },
+        {
+          "name": "DB_DATABASE",
+          "value": "development"
+        },
+        {
+          "name": "DB_USERNAME",
+          "value": "root"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "value": "root"
+        },
+        {
+          "name": "RAILS_MAX_THREADS",
+          "value": "5"
+        }
+      ],
+      "essential": true,
+      "memoryReservation": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 3000
+        }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "log",
+          "containerPath": "/app/log"
+        }
+      ]
+    },
+    {
+      "name": "db",
+      "image": "mysql:5.7",
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "root"
+        },
+        {
+          "name": "MYSQL_USERNAME",
+          "value": "root"
+        },
+        {
+          "name": "MYSQL_PASSWORD",
+          "value": "root"
+        }
+      ],
+      "essential": true,
+      "memoryReservation": 128,
+      "portMappings": [
+        {
+          "hostPort": 3306,
+          "containerPort": 3306
+        }
+      ],
+      "links": [
+        "app"
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "db",
+          "containerPath": "/var/lib/mysql"
+        }
+      ]
+    }
+  ]
+}

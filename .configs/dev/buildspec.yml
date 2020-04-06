@@ -4,55 +4,60 @@ version: 0.2
 
 env:
   variables:
-    remote_origin: "https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git"
-    RAILS_ENV: "production"
-    RACK_ENV: "production"
-    git_token: "8bc2db5d30945e3c4e0a19fdc65333980d57f574"
-    aws_default_region: "ap-northeast-2"
-    aws_account_id: "947202957156"
-    image_repo_name: "playtheworld/test-api"
+    REMOTE_ORIGIN: "https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git"
+    GIT_TOKEN: "8bc2db5d30945e3c4e0a19fdc65333980d57f574"
+    AWS_DEFAULT_REGION: "ap-northeast-2"
+    AWS_ACCOUNT_ID: "947202957156"
+    IMAGE_REPO_NAME: "playtheworld/test-api"
 
 phases:
   install:
     runtime-versions:
       docker: 19
       ruby: 2.7
+      
     commands:
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-      - git config --global url."https://${git_token}:@github.com/".insteadOf "https://github.com/"
+      - git config --global url."https://${GIT_TOKEN}:@github.com/".insteadOf "https://github.com/"
       # Check for a .git directory to determine if we need to set up our git package
       - git init                                              # Initialize Git
-      - git remote add origin "$remote_origin"                # Add the remote origin so we can fetch
+      - git remote add origin "$REMOTE_ORIGIN"                # Add the remote origin so we can fetch
       - git fetch                                             # Get all the things
       - git checkout -f "$CODEBUILD_RESOLVED_SOURCE_VERSION"  # Checkout the specific commit we are building
       # Now that setup is complete, get submodules
       - git submodule init
       - git submodule update --recursive
+
   pre_build:
     commands:
       - echo PreBuild started on `date`
-      # - echo Installing Bundler...
-      # - gem install bundler
-      # - bundle install
       - echo Logging in to Amazon ECR.... 
       - aws --version
-      - $(aws ecr get-login --no-include-email --region $aws_default_region)
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - REPOSITORY_URI=$aws_account_id.dkr.ecr.$aws_default_region.amazonaws.com/$image_repo_name
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - CONFIG_DIR=.configs/$BUILD_ENV
+
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image... 
-      - docker build -t $REPOSITORY_URI:latest .
+      - mv $CONFIG_DIR/start-up.sh start-up.sh
+      - mv $CONFIG_DIR/database.yml config/database.yml
+      - docker build -f $CONFIG_DIR/Dockerfile -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+
   post_build:
     commands:
       - echo Build completed on `date`
       - echo pushing to repo
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - mv $CONFIG_DIR/Dockerrun.aws.json Dockerrun.aws.json
+      
+
 artifacts:
   files:
     - Dockerrun.aws.json
