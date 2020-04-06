@@ -67,13 +67,13 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV["RAILS_LOG_TO_STDOUT"] == "true"
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  if ENV["ENABLE_FILE_LOG"].present?
+  if ENV["ENABLE_FILE_LOG"] == "true"
     # Create File Logger
     # 자동으로 로테이션 되도록 설정할 수 있다.
     file_logger = ActiveSupport::Logger.new(config.paths["log"].first, 5, 10.megabytes)
