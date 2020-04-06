@@ -11,6 +11,10 @@ read BUILD_ENV
 echo Insert a docker tag\(latest is default\):
 read IMAGE_TAG
 
+# GET USER ANSWER
+echo Do you want to push? \(y/N\):
+read PUSH_FLAG
+
 export BUILD_ENV="$(echo "$BUILD_ENV" | tr -d '[:space:]')"
 export IMAGE_TAG="$(echo "$IMAGE_TAG" | tr -d '[:space:]')"
 export IMAGE_NAME="playtheworld/nginx"
@@ -27,10 +31,6 @@ fi
 # BUILD
 docker build -f .configs/"$BUILD_ENV"/nginx/Dockerfile -t "$IMAGE_NAME":"$IMAGE_TAG" .
 docker tag "$IMAGE_NAME":"$IMAGE_TAG" "$REPOSITORY_URI"/"$IMAGE_NAME":"$IMAGE_TAG"
-
-# GET USER ANSWER
-echo Do you want to push? \(y/N\):
-read PUSH_FLAG
 
 if [ "$PUSH_FLAG" = "y" ]; then
   # PUSH
