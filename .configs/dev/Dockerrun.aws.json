@@ -16,7 +16,7 @@
     {
       "name": "nginx-proxy-conf",
       "host": {
-        "sourcePath": "/var/app/current/proxy/conf.d"
+        "sourcePath": "/etc/nginx/conf.d"
       }
     },
     {
@@ -27,6 +27,32 @@
     }
   ],
   "containerDefinitions": [
+    {
+      "name": "db",
+      "image": "mysql:5.7",
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "root"
+        },
+        {
+          "name": "MYSQL_USERNAME",
+          "value": "root"
+        },
+        {
+          "name": "MYSQL_PASSWORD",
+          "value": "root"
+        }
+      ],
+      "essential": true,
+      "memoryReservation": 128,
+      "mountPoints": [
+        {
+          "sourceVolume": "db",
+          "containerPath": "/var/lib/mysql"
+        }
+      ]
+    },
     {
       "name": "app",
       "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/test-api:latest",
@@ -81,34 +107,8 @@
       ]
     },
     {
-      "name": "db",
-      "image": "mysql:5.7",
-      "environment": [
-        {
-          "name": "MYSQL_ROOT_PASSWORD",
-          "value": "root"
-        },
-        {
-          "name": "MYSQL_USERNAME",
-          "value": "root"
-        },
-        {
-          "name": "MYSQL_PASSWORD",
-          "value": "root"
-        }
-      ],
-      "essential": true,
-      "memoryReservation": 128,
-      "mountPoints": [
-        {
-          "sourceVolume": "db",
-          "containerPath": "/var/lib/mysql"
-        }
-      ]
-    },
-    {
       "name": "nginx",
-      "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/nginx:latest",
+      "image": "nginx:alpine",
       "essential": true,
       "memoryReservation": 64,
       "portMappings": [
