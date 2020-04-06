@@ -8,6 +8,7 @@ ENV ENABLE_FILE_LOG true
 
 COPY . .
 COPY .configs/dev/database.yml config/database.yml
+COPY .configs/dev/prepare-db.sh .configs/dev/wait-for-services.sh .configs/dev/
 
 RUN bundle install
 
