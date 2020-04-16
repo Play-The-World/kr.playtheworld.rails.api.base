@@ -1,6 +1,6 @@
 FROM 947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/rails:latest
 
-MAINTAINER Mechuri "mechuri@playthe.world"
+LABEL maintainer="Mechuri mechuri@playthe.world"
 
 WORKDIR /app
 

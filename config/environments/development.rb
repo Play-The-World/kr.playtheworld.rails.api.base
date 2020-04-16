@@ -33,7 +33,7 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
-  # Disable this functionality on your development environment
+  # Disable this functionality on development environment
   config.hosts = nil
 
   # Raises error for missing translations.

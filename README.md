@@ -11,7 +11,7 @@ model이라는 rails engine은 모델부분만 다루는 gem으로 git submodule
 1. Create Rails App
 
 ```bash
-rails new PlayTheWorldAPI -T -C -B --skip-active-record --api
+rails new PlayTheWorldAPI -T -C -B --api
 ```
 
 2. Disabled action_mailer and active_model
