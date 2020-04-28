@@ -45,4 +45,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
+
+  # Set host
+  self.default_url_options = { host: "localhost:3000" }
 end

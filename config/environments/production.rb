@@ -107,4 +107,7 @@ Rails.application.configure do
 
   # Store files on Amazon S3.
   config.active_storage.service = :amazon
+
+  # Set host
+  self.default_url_options = { host: "localhost:3000" }
 end

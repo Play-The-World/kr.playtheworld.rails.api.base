@@ -45,4 +45,7 @@ Rails.application.configure do
 
   # Store files locally.
   config.active_storage.service = :local
+
+  # Set host
+  self.default_url_options = { host: "localhost:3000" }
 end
