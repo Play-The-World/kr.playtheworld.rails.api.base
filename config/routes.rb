@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   apipie
   namespace :v1, defaults: { format: :json } do
+    # 제작 툴 사이트용 API
+    namespace :making do
+      namespace :main do
+      end
+    end
+    # 플레이 사이트용 API
+    namespace :playing do
+      namespace :main do
+      end
+    end
     resources :tests do
       collection do
         get :pong

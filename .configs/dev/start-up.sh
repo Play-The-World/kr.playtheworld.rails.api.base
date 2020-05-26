@@ -4,7 +4,7 @@
 sh ./.configs/dev/wait-for-services.sh
 
 # Prepare DB (Migrate - If not? Create db & Migrate)
-sh ./.configs/dev/prepare-db.sh
+# sh ./.configs/dev/prepare-db.sh
 
 # Pre-comple app assets
 # sh ./asset-pre-compile.sh
