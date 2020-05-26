@@ -12,7 +12,7 @@ services:
     volumes: 
       - ../../.docker/data:/var/lib/mysql
 
-  app:
+  back-end:
     build: 
       context: ../../
       dockerfile: ./.configs/dev/Dockerfile
@@ -37,7 +37,7 @@ services:
     image: nginx:alpine
     restart: always
     depends_on: 
-      - app
+      - back-end
     ports:
       - 80:80
     volumes: 
