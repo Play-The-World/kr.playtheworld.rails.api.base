@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     # 플레이 사이트용 API
     namespace :playing do
       namespace :main do
+        get :topics
       end
     end
     resources :tests do
