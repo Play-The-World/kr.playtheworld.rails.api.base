@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     # 플레이 사이트용 API
     namespace :playing do
       namespace :main do
+        get :banners
         get :topics
         get :create_new_play
       end
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
         post :sign_up
         delete :sign_out
         patch :update_nickname
+        patch :update_password
       end
     end
     resources :tests do

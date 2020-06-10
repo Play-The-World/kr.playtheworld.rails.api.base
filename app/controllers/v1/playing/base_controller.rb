@@ -1,13 +1,16 @@
 module V1::Playing
   class BaseController < ::V1::BaseController
+    before_action :authenticate_user
     before_action :authenticate_user!
     
     def test
     end
 
     private
-      def authenticate_user!
+      def authenticate_user
         @user = current_user
+      end
+      def authenticate_user!
         if current_user.nil?
           render json: {
               message: "로그인 필요.",

@@ -23,9 +23,13 @@ module V1::Playing
 
     # 이메일 인증
     def confirm_email
-      user = current_user
-
-      if user.confirm_email(user_params[:email_confirmation])
+      if @user.status != :unauthorized
+        # 안됨
+        render json: {
+            message: "잘못된 계정",
+            code: 4000
+          }, status: :bad_request
+      elsif @user.confirm_email(user_params[:email_confirmation])
         # 됨
         render json: {
             message: "성공",
@@ -35,7 +39,7 @@ module V1::Playing
         # 안됨
         render json: {
             message: "잘못된 인증번호",
-            code: 4000
+            code: 4001
           }, status: :bad_request
       end
     end
@@ -124,17 +128,30 @@ module V1::Playing
     end
 
     def update_nickname
-      user = current_user
-
-      if user.nickname == user_params[:nickname]
+      if @user.nickname == user_params[:nickname]
         render json: {
             message: "변경 사항 없음.",
             code: 2000
           }, status: :ok
-      elsif user.update(nickname: user_params[:nickname])
+      elsif @user.update(nickname: user_params[:nickname])
         render json: {
             message: "닉네임 변경 성공",
             code: 2001
+          }, status: :ok
+      else
+        # 뭔가 에러
+        render json: {
+            message: "뭔가 에러남.",
+            code: 4000
+          }, status: :bad_request
+      end
+    end
+
+    def update_password
+      if @user.update(password: user_params[:password], password_confirmation: user_params[:password])
+        render json: {
+            message: "비번 변경 성공",
+            code: 2000
           }, status: :ok
       else
         # 뭔가 에러
