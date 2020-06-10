@@ -11,6 +11,14 @@ Rails.application.routes.draw do
       namespace :main do
         get :topics
       end
+      namespace :sessions do
+        get :email
+        post :confirm_email
+        post :sign_in
+        post :sign_up
+        delete :sign_out
+        patch :update_nickname
+      end
     end
     resources :tests do
       collection do
