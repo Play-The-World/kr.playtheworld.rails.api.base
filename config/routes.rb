@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :playing do
       namespace :main do
         get :topics
+        get :create_new_play
       end
       namespace :sessions do
         get :email

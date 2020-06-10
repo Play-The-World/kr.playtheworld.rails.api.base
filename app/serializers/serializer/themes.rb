@@ -1,16 +1,16 @@
 module Serializer
-  class Main# < Struct.new(:topics)
+  class themes# < Struct.new(:topics)
     class << self
       def topics(data)
         data.map do |d|
           {
             titleTheme: d.title,
-            content: d.themes.map { |s|
+            content: d.super_themes.map { |s|
               {
-                themeName: d.title,
+                themeName: s.title,
                 themePlace: "온라인",
-                themeGenre: d.genres.take.title
-                # themeImageUrl: s.images.where(type: :poster).take.url
+                themeGenre: s.genres.take.title,
+                themeImageUrl: s.images.where(type: :poster).take.url
               }
             }
           }
