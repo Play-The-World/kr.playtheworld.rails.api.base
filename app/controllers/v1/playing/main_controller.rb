@@ -5,52 +5,35 @@ module V1::Playing
     def banners
       render json: {
         main_post: {
-          id: 1,
           type: "notice",
+          id: 1,
           title: "플레이더월드 뉴스! 플더월 리뉴얼!"
         },
         banners: [
           {
-            type: "super_theme",
-            title: "김부장 프로젝트",
-            content: "꼰대력을 자랑하는 HR 1부 김부장이\n편지 한 장만 두고 사라졌다?!?",
-            categories: [
-              { title: "오프라인" }
-            ],
-            genres: [
-              { title: "코믹" }
-            ],
-            location: "세종문화회관",
-            images: [
-              {
-                type: "thumbnail",
-                url: "https://t.playthe.world/t.png"
-              }
-            ],
-            styles: [
-              {
-                type: "background_color",
-                value: "#0074ff"
-              }
-            ]
-          },
-          {
-            type: "super_theme",
-            title: "김부장 프로젝트",
-            content: "꼰대력을 자랑하는 HR 1부 김부장이\n편지 한 장만 두고 사라졌다?!?",
-            categories: [
-              { title: "오프라인" }
-            ],
-            genres: [
-              { title: "코믹" }
-            ],
-            location: "세종문화회관",
-            images: [
-              {
-                type: "thumbnail",
-                url: "https://t.playthe.world/t.png"
-              }
-            ],
+            type: "theme",
+            id: 1,
+            data: {
+              type: "super_theme",
+              id: "sadffwaefa",
+              title: "김부장 프로젝트",
+              summary: "꼰대력을 자랑하는 HR 1부 김부장이\n편지 한 장만 두고 사라졌다?!?",
+              categories: [
+                { title: "오프라인" }
+              ],
+              genres: [
+                { title: "코믹" }
+              ],
+              locations: [
+                { title: "세종문화회관" }
+              ],
+              images: [
+                {
+                  type: "thumbnail",
+                  url: "https://t.playthe.world/t.png"
+                }
+              ]
+            },
             styles: [
               {
                 type: "background_color",

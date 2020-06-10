@@ -1,6 +1,6 @@
 module V1::Playing
   class SessionsController < BaseController
-    skip_before_action :authenticate_user!, except: [:confirm_email, :sign_out, :update_nickname]
+    before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname]
     User = ::Model::User
 
     # 이메일 가입여부 확인

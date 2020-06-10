@@ -1,7 +1,7 @@
 module V1::Playing
   class BaseController < ::V1::BaseController
     before_action :authenticate_user
-    before_action :authenticate_user!
+    # before_action :authenticate_user!
     
     def test
     end
