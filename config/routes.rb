@@ -22,8 +22,11 @@ Rails.application.routes.draw do
         patch :update_nickname
         patch :update_password
       end
+      resources :super_themes, only: [:index, :show] do
+      end
       resources :themes, only: [:index, :show] do
         member do
+          post :play
           get :related_topics
         end
       end
