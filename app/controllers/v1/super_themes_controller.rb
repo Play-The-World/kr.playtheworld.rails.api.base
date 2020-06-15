@@ -19,8 +19,25 @@ module V1
 
     # GET /
     def index
-      @pagy, @super_themes = pagy(constant.all)
-      render json: @super_themes
+      data = constant.includes(
+          locations: [:translations],
+          genres: [:translations],
+          categories: [:translations],
+          # themes: [:translations],
+        ).with_translations
+        # .where()
+      # data = constant.joins(
+      #     locations: :translations,
+      #     genres: :translations,
+      #     categories: :translations,
+      #     themes: :translations,
+      #   ).with_translations
+      # data = constant.includes(:classifications, :themes).with_translations
+      @pagy, @super_themes = pagy(data)
+      render json: {
+          data: @super_themes.as_json(options),
+          meta: pagy_metadata(@pagy)
+        }
     end
 
     # GET /:id
@@ -39,6 +56,14 @@ module V1
 
       def constant
         Model.config.super_theme.constant
+      end
+
+      def options
+        {
+          fields: {
+            super_theme: %i(status title summary content price data_size play_time caution genres locations categories)
+          }
+        }
       end
   end
 end
