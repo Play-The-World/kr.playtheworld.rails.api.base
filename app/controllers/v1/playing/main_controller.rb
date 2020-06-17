@@ -2,6 +2,24 @@ module V1::Playing
   class MainController < BaseController
     # skip_before_action :authenticate_user!, except: [:index]
 
+    def news
+      # main_post = Model::Topic::MainPost.includes(
+      #   :posts
+      # ).with_translations.all
+      main_post = Model::Topic::MainPost.first
+      banners = Model::Topic::Banner.includes(
+        super_themes: [
+          locations: [:translations],
+          genres: [:translations],
+          categories: [:translations],
+        ]
+      ).with_translations.all
+      render json: {
+        main_post: main_post.as_json({ include: [:posts] }),
+        banners: banners.as_json({ include: [:super_themes] })
+      }
+    end
+
     def banners
       render json: {
         main_post: {
