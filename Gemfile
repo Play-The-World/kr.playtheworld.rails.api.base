@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '2.7.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3'
@@ -28,6 +28,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  # Error Page
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -52,9 +55,6 @@ gem 'jwt' # https://github.com/jwt/ruby-jwt
 # Use mysql as a database
 gem 'mysql2'
 
-# Serialize
-gem 'fast_jsonapi' # https://github.com/Netflix/fast_jsonapi
-
 # Model
 gem 'model', path: 'engines/model'
 gem 'pagy', '~> 3.7.0'  # https://github.com/ddnexus/pagy
@@ -67,4 +67,4 @@ gem "aws-sdk-s3", require: false
 
 # API Docs
 # gem 'zero-rails_openapi' # https://github.com/zhandao/zero-rails_openapi/
-gem 'apipie-rails' # https://github.com/Apipie/apipie-rails
+# gem 'apipie-rails' # https://github.com/Apipie/apipie-rails
