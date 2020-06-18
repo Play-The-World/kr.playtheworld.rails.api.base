@@ -7,18 +7,23 @@ class V1::BaseController < ApplicationController
 
   # Exception handler
   rescue_from Error::Base do |e|
-    render json: e, status: e.status
+    render_error(e)
   end
-  rescue_from do |e|
-    raise_error
-  end
+  # TODO: Production에서만 활성화하기.
+  # rescue_from StandardError do |e|
+  #   error = Error::Standard.new
+  #   render_error(error)
+  # end
 
   protected
-    def respond(message = nil, code = 2000, status = :ok)
+    def respond(message = nil, code = nil, status = Response::DEFAULT_STATUS)
       render json: Response.new(message, code), status: status
     end
-    def raise_error(message = "알 수 없는 에러", code = 4999, status = :bad_request)
+    def raise_error(message = nil, code = nil, status = nil)
       raise Error::Standard.new(message, code, status)
+    end
+    def render_error(e)
+      render json: e, status: e.status
     end
 
   private
@@ -36,16 +41,15 @@ class V1::BaseController < ApplicationController
       end
     end
 
-    # def authenticate_user
-    #   @user = current_user
-    # end
     def authenticate_user!
       raise_error("로그인 필요", 1000, :unauthorized) if current_user.nil?
     end
     
     def current_user
       # Model.current.user ||= Model::User.find(session[:user_id])
-      session[:user_id] ? Model::User.find_by(id: session[:user_id]) : nil
+      @current_user ||= session[:user_id] ? Model::User.find_by(id: session[:user_id]) : nil
+      Model.current.user = @current_user
+      @current_user
     end
 
     # def authenticate_user!

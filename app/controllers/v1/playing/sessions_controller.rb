@@ -16,9 +16,9 @@ module V1::Playing
 
     # 이메일 인증
     def confirm_email
-      if @user.status != :unauthorized
+      if current_user.status != :unauthorized
         raise_error("잘못된 요청", 4000)
-      elsif @user.confirm_email(user_params[:email_confirmation])
+      elsif current_user.confirm_email(user_params[:email_confirmation])
         respond("성공")
       else
         raise_error("잘못된 인증번호", 4001)
@@ -82,9 +82,9 @@ module V1::Playing
     end
 
     def update_nickname
-      if @user.nickname == user_params[:nickname]
+      if current_user.nickname == user_params[:nickname]
         respond("변경 사항 없음.")
-      elsif @user.update(nickname: user_params[:nickname])
+      elsif current_user.update(nickname: user_params[:nickname])
         respond("닉네임 변경 성공", 2001)
       else
         # 뭔가 에러
@@ -96,7 +96,7 @@ module V1::Playing
       # TODO 비번 양식 확인
       # raise_error("올바르지 않은 비번 양식")
 
-      if @user.update(password: user_params[:password], password_confirmation: user_params[:password])
+      if current_user.update(password: user_params[:password], password_confirmation: user_params[:password])
         respond("비번 변경 성공.")
       else
         # 뭔가 에러
