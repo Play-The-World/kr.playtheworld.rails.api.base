@@ -15,8 +15,8 @@ module V1::Playing
         ]
       ).with_translations.all
       render json: {
-        main_post: main_post.as_json({ include: [:posts] }),
-        banners: banners.as_json({ include: [:super_themes] })
+        main_post: main_post.as_json(),
+        banners: banners.as_json()
       }
     end
 

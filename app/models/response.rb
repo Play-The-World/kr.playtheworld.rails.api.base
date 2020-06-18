@@ -1,6 +1,7 @@
 class Response
   DEFAULT_MESSAGE = "성공!"
   DEFAULT_CODE = 4000
+  DEFAULT_STATUS = :ok
   # attr_reader :message, :code
 
   def initialize(message = nil, code = nil)

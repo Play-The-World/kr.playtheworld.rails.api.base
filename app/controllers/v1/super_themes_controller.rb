@@ -20,19 +20,19 @@ module V1
       # data = constant.includes(:classifications, :themes).with_translations
       @pagy, @super_themes = pagy(data)
       render json: {
-          data: @super_themes,
+          data: @super_themes.as_json(:detail),
           meta: { total: data.size }
         }
     end
 
     # GET /:id
     def show
-      render json: @super_theme
+      render json: @super_theme.as_json(:detail)
     end
 
     private
       def set_super_theme
-        @super_theme = constant.find(params[:id])
+        @super_theme = constant.find_by_fake_id(params[:id])
       end
 
       def constant
