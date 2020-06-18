@@ -6,104 +6,64 @@ module V1::Playing
     # 이메일 가입여부 확인
     def email
       # TODO: EMAIL주소 올바른지 확인 필요.
+      # raise_error("올바르지 않은 이메일 주소")
       if User.where(email: user_params[:email]).exists?
-        # 가입됨
-        render json: {
-            message: "가입된 이메일",
-            code: 2000
-          }, status: :ok
+        respond("가입된 이메일")
       else
-        # 가입안됨.
-        render json: {
-            message: "아직 가입 안된 이메일",
-            code: 2001
-          }, status: :ok
+        respond("아직 가입 안된 이메일", 2001)
       end
     end
 
     # 이메일 인증
     def confirm_email
       if @user.status != :unauthorized
-        # 안됨
-        render json: {
-            message: "잘못된 계정",
-            code: 4000
-          }, status: :bad_request
+        raise_error("잘못된 요청", 4000)
       elsif @user.confirm_email(user_params[:email_confirmation])
-        # 됨
-        render json: {
-            message: "성공",
-            code: 2000
-          }, status: :ok
+        respond("성공")
       else
-        # 안됨
-        render json: {
-            message: "잘못된 인증번호",
-            code: 4001
-          }, status: :bad_request
+        raise_error("잘못된 인증번호", 4001)
       end
     end
 
     # 로그인
     def sign_in
-      unless current_user.nil?
-        render json: {
-            message: "이미 로긴",
-            code: 4001
-          }, status: :bad_request
-        return
-      end
+      raise_error("이미 로긴", 4001) unless current_user.nil?
 
-      user = user_by_email
+      user = User.find_by(email: user_params[:email])
+      # 유저 없음.
+      raise_error("아직 가입되지 않은 이메일입니다.", 4000) if user.nil?
 
-      if user.nil?
-        # 유저 없음.
-        render json: {
-            message: "아직 가입되지 않은 이메일입니다.",
-            code: 4000
-          }, status: :bad_request
-      elsif user.valid_password?(user_params[:password])
+      if user.valid_password?(user_params[:password])
         # 로그인 성공
         reset_session
         session[:user_id] = user.id
-        render json: {
-            mesage: "성공적으로 로그인되었습니다.",
-            code: 2000
-          }, status: :ok
+        respond("성공적으로 로그인되었습니다.")
       else
         # 비번틀림
-        render json: {
-            message: "비밀번호가 틀렸습니다.",
-            code: 4001
-          }, status: :bad_request
+        raise_error("비밀번호가 틀렸습니다.", 4001)
       end
     end
 
     # 가입
     def sign_up
       # TODO 올바른 이메일 체크
+      # raise_error("올바르지 않은 이메일 주소")
+
       if User.where(email: user_params[:email]).exists?
         # 이미 가입된 이메일
-        render json: {
-            message: "이미 가입된 이메일입니다.",
-            code: 4000
-          }, status: :bad_request
+        raise_error("이미 가입된 이메일입니다.", 4000)
       else
-        # TODO 비번 체크
+        # TODO 비번 양식 확인
+        # raise_error("올바르지 않은 비번 양식")
+
         user = User.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
         if user.save
           # 가입 성공 + 로그인
           session[:user_id] = user.id
-          render json: {
-              message: "성공적으로 가입되었습니다.",
-              code: 2000
-            }, status: :ok
+          respond("성공적으로 가입되었습니다.")
         else
           # 뭔가 에러 생김.
-          render json: {
-              message: "뭔가 에러 생김.",
-              code: 4001
-            }, status: :bad_request
+          raise_error
         end
       end
     end
@@ -114,61 +74,39 @@ module V1::Playing
         # 로그아웃
         # session.delete(:user_id)
         reset_session
-        render json: {
-            message: "로그아웃 성공",
-            code: 2000
-          }, status: :ok
+        respond("로그아웃 성공")
       else
         # 로그인되어 있지 않음
-        render json: {
-            message: "로그인 안되있음.",
-            code: 4000
-          }, status: :bad_request
+        raise_error("로그인 안되있음.", 4000)
       end
     end
 
     def update_nickname
       if @user.nickname == user_params[:nickname]
-        render json: {
-            message: "변경 사항 없음.",
-            code: 2000
-          }, status: :ok
+        respond("변경 사항 없음.")
       elsif @user.update(nickname: user_params[:nickname])
-        render json: {
-            message: "닉네임 변경 성공",
-            code: 2001
-          }, status: :ok
+        respond("닉네임 변경 성공", 2001)
       else
         # 뭔가 에러
-        render json: {
-            message: "뭔가 에러남.",
-            code: 4000
-          }, status: :bad_request
+        raise_error
       end
     end
 
     def update_password
+      # TODO 비번 양식 확인
+      # raise_error("올바르지 않은 비번 양식")
+
       if @user.update(password: user_params[:password], password_confirmation: user_params[:password])
-        render json: {
-            message: "비번 변경 성공",
-            code: 2000
-          }, status: :ok
+        respond("비번 변경 성공.")
       else
         # 뭔가 에러
-        render json: {
-            message: "뭔가 에러남.",
-            code: 4000
-          }, status: :bad_request
+        raise_error
       end
     end
 
     private
       def user_params
         params.fetch(:user, {}).permit(:email, :password, :nickname, :email_confirmation)
-      end
-
-      def user_by_email
-        User.find_by(email: user_params[:email])
       end
   end
 end

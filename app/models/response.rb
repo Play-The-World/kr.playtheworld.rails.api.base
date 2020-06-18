@@ -1,15 +1,17 @@
 class Response
-  attr_reader :message, :code
+  # attr_reader :message, :code
 
-  def initialize(message: "", code: 4000)
+  def initialize(message = "", code = 4000)
     @message = message
     @code = code
   end
 
-  def as_json
+  def as_json(options = {})
     {
-      message: @message,
-      code: @code
+      response: {
+        message: @message,
+        code: @code
+      }
     }
   end
 end
