@@ -46,6 +46,11 @@ module PlayTheWorldAPI
     config.middleware.use ActionDispatch::Cookies # Required for all session management (regardless of session_store)
     config.middleware.use config.session_store, config.session_options
 
+    # Autoloads
+    [
+      %W(#{config.root}/lib),
+    ].each { |path| config.autoload_paths += path }
+
     # Annotations
     config.annotations.register_directories("engines")
     config.annotations.register_tags("TESTME")
