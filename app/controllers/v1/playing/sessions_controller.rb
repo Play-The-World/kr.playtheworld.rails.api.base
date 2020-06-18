@@ -27,11 +27,11 @@ module V1::Playing
 
     # 로그인
     def sign_in
-      raise_error("이미 로긴", 4001) unless current_user.nil?
+      raise_error("이미 로긴", 4000) unless current_user.nil?
 
       user = User.find_by(email: user_params[:email])
       # 유저 없음.
-      raise_error("아직 가입되지 않은 이메일입니다.", 4000) if user.nil?
+      raise_error("아직 가입되지 않은 이메일입니다.", 4001) if user.nil?
 
       if user.valid_password?(user_params[:password])
         # 로그인 성공
@@ -40,7 +40,7 @@ module V1::Playing
         respond("성공적으로 로그인되었습니다.")
       else
         # 비번틀림
-        raise_error("비밀번호가 틀렸습니다.", 4001)
+        raise_error("비밀번호가 틀렸습니다.", 4002)
       end
     end
 
