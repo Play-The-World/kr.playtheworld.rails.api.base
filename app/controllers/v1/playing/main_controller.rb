@@ -15,55 +15,24 @@ module V1::Playing
         ]
       ).with_translations.all
       render json: {
-        main_post: main_post.as_json(),
-        banners: banners.as_json()
+        data: {
+          main_post: main_post.as_json(),
+          banners: banners.as_json()
+        }
       }
     end
 
-    def banners
+    def topics
+      t = Model::Repository::Topic.new.current_topics_with_super_themes.distinct
       render json: {
-        main_post: {
-          type: "notice",
-          id: 1,
-          title: "플레이더월드 뉴스! 플더월 리뉴얼!"
+        data: {
+          topics: t
         },
-        banners: [
-          {
-            type: "theme",
-            id: 1,
-            data: {
-              type: "super_theme",
-              id: "sadffwaefa",
-              title: "김부장 프로젝트",
-              summary: "꼰대력을 자랑하는 HR 1부 김부장이\n편지 한 장만 두고 사라졌다?!?",
-              categories: [
-                { title: "오프라인" }
-              ],
-              genres: [
-                { title: "코믹" }
-              ],
-              locations: [
-                { title: "세종문화회관" }
-              ],
-              images: [
-                {
-                  type: "thumbnail",
-                  url: "https://t.playthe.world/t.png"
-                }
-              ]
-            },
-            styles: [
-              {
-                type: "background_color",
-                value: "#0074ff"
-              }
-            ]
-          }
-        ]
+        meta: { total: t.size }
       }
     end
     
-    def topics
+    def topics2
       # data = Model::Repository::Topic.new.current_topics_with_super_themes
       # data = Model::SuperTheme::Base.with_translations(:ko).eager_load(:themes, genres: [:translations]).all
       # data = Repository::Theme.each_for_genre(genre: "코믹", translation: :ko)

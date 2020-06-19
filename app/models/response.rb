@@ -1,6 +1,6 @@
 class Response
   DEFAULT_MESSAGE = "성공!"
-  DEFAULT_CODE = 4000
+  DEFAULT_CODE = 2000
   DEFAULT_STATUS = :ok
   # attr_reader :message, :code
 
@@ -13,10 +13,8 @@ class Response
 
   def as_json(options = {})
     {
-      response: {
-        message: @message,
-        code: @code
-      }
+      message: @message,
+      code: @code
     }
   end
 end

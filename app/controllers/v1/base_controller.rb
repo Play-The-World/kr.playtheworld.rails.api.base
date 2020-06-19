@@ -17,13 +17,18 @@ class V1::BaseController < ApplicationController
 
   protected
     def respond(message = nil, code = nil, status = Response::DEFAULT_STATUS)
-      render json: Response.new(message, code), status: status
+      response = { response: Response.new(message, code) }
+      response.merge!({ data: @data }) if @data
+      render json: response, status: status
     end
     def raise_error(message = nil, code = nil, status = nil)
       raise Error::Standard.new(message, code, status)
     end
     def render_error(e)
       render json: e, status: e.status
+    end
+    def set_data(data)
+      @data = data
     end
 
   private

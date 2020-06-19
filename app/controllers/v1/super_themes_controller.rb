@@ -27,7 +27,9 @@ module V1
 
     # GET /:id
     def show
-      render json: @super_theme.as_json(:detail)
+      render json: {
+        data: @super_theme.as_json(:detail)
+      }
     end
 
     private
