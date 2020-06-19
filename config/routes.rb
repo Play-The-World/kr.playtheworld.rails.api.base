@@ -30,6 +30,11 @@ Rails.application.routes.draw do
           get :related_topics
         end
       end
+      namespace :plays do
+        post :set
+        get :detail
+        get :stage_lists
+      end
     end
     
     resources :super_themes, only: [:index, :show] do
