@@ -12,7 +12,7 @@ COPY .configs/dev/prepare-db.sh .configs/dev/wait-for-services.sh .configs/dev/
 
 RUN bundle install
 
-# EXPOSE 3000
+EXPOSE 3000
 # ENTRYPOINT ["sh", "./start-up.sh"]
 
 VOLUME ["/app/log", "/app/storage"]

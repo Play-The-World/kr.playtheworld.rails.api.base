@@ -40,6 +40,17 @@ module PlayTheWorldAPI
     config.time_zone = "Seoul"
     config.i18n.default_locale = :ko
 
+    # Middlewares
+    # Session
+    config.session_store :cookie_store, key: '_playtheworld' # <-- this also configures session_options for use below
+    config.middleware.use ActionDispatch::Cookies # Required for all session management (regardless of session_store)
+    config.middleware.use config.session_store, config.session_options
+
+    # Autoloads
+    [
+      %W(#{config.root}/lib),
+    ].each { |path| config.autoload_paths += path }
+
     # Annotations
     config.annotations.register_directories("engines")
     config.annotations.register_tags("TESTME")
