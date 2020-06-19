@@ -26,8 +26,7 @@ phases:
       - git fetch                                             # Get all the things
       - git checkout -f "$CODEBUILD_RESOLVED_SOURCE_VERSION"  # Checkout the specific commit we are building
       # Now that setup is complete, get submodules
-      - git submodule init
-      - git submodule update --recursive
+      - git submodule update --init --recursive
 
   pre_build:
     commands:
