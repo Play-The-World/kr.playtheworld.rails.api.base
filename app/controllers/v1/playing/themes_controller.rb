@@ -1,7 +1,6 @@
 module V1::Playing
   class ThemesController < BaseController
     before_action :set_theme, only: [:show, :play]
-    before_action :authenticate_user!, only: [:play]
 
     Theme = Model::Theme
 
@@ -32,7 +31,6 @@ module V1::Playing
       #     }
       #   ]
       # }
-
     end
 
     def show

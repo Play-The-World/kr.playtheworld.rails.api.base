@@ -19,6 +19,8 @@ module V1::Playing
     def set
       # TODO: 플레이가 있는지, 권한이 있는지.
       session[:play_id] = params[:play_id].to_i
+      set_play
+      set_data(@play)
       respond("성공")
     end
 

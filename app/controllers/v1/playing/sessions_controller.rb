@@ -47,14 +47,14 @@ module V1::Playing
     # 가입
     def sign_up
       # TODO 올바른 이메일 체크
-      # raise_error("올바르지 않은 이메일 주소")
+      # raise_error("올바르지 않은 이메일 주소", 4000)
 
       if User.where(email: user_params[:email]).exists?
         # 이미 가입된 이메일
-        raise_error("이미 가입된 이메일입니다.", 4000)
+        raise_error("이미 가입된 이메일입니다.", 4001)
       else
         # TODO 비번 양식 확인
-        # raise_error("올바르지 않은 비번 양식")
+        # raise_error("올바르지 않은 비번 양식", 4002)
 
         user = User.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
         if user.save
@@ -96,6 +96,8 @@ module V1::Playing
       # TODO 비번 양식 확인
       # raise_error("올바르지 않은 비번 양식")
 
+      raise_error("불일치", 4001) if user_params[:password] != user_params[:password_confirmation]
+
       if current_user.update(password: user_params[:password], password_confirmation: user_params[:password])
         respond("비번 변경 성공.")
       else
@@ -104,9 +106,23 @@ module V1::Playing
       end
     end
 
+    def update_email
+      # TODO 올바른 이메일 체크
+      # raise_error("올바르지 않은 이메일 주소", 4000)
+
+      if current_user.email == user_params[:email]
+        respond("변경사항 없음", 2001)
+      elsif current_user.update(email: user_params[:email])
+        respond("이메일 변경 성공.")
+      else
+        # 뭔가 에러
+        raise_error
+      end
+    end
+
     private
       def user_params
-        params.fetch(:user, {}).permit(:email, :password, :nickname, :email_confirmation)
+        params.fetch(:user, {}).permit(:email, :password, :password_confirmation, :nickname, :email_confirmation)
       end
   end
 end

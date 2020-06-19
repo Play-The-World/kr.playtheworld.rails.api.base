@@ -20,7 +20,7 @@ module V1
       # data = constant.includes(:classifications, :themes).with_translations
       @pagy, @super_themes = pagy(data)
       render json: {
-          data: @super_themes.as_json(:detail),
+          data: @super_themes.as_json(:images),
           meta: { total: data.size }
         }
     end

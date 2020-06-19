@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         delete :sign_out
         patch :update_nickname
         patch :update_password
+        patch :update_email
       end
       resources :themes, only: [:index, :show] do
         member do
