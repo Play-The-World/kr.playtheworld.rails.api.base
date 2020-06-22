@@ -29,6 +29,7 @@ class V1::BaseController < ApplicationController
     end
     def set_data(data)
       @data = data
+      @data = @data.as_json unless data.is_a?(Hash)
     end
 
   private

@@ -35,6 +35,8 @@ Rails.application.routes.draw do
         post :set
         get :detail
         get :stage_lists
+        post :answer
+        post :hint
       end
     end
     
