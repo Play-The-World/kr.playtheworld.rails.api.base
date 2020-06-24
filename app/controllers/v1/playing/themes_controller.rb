@@ -4,35 +4,6 @@ module V1::Playing
 
     Theme = Model::Theme
 
-    def index
-      # render json: {
-      #   count: 1462,
-      #   themes: [
-      #     {
-      #       type: "super_theme",
-      #       id: "sadffwaefa",
-      #       title: "김부장 프로젝트",
-      #       summary: "꼰대력을 자랑하는 HR 1부 김부장이\n편지 한 장만 두고 사라졌다?!?",
-      #       categories: [
-      #         { title: "오프라인" }
-      #       ],
-      #       genres: [
-      #         { title: "코믹" }
-      #       ],
-      #       locations: [
-      #         { title: "세종문화회관" }
-      #       ],
-      #       images: [
-      #         {
-      #           type: "thumbnail",
-      #           url: "https://t.playthe.world/t.png"
-      #         }
-      #       ]
-      #     }
-      #   ]
-      # }
-    end
-
     def show
       @theme = Theme::Base.first
       # json = @theme.serializer.new(@theme, include: [:super_theme]).serializable_hash

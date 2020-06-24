@@ -33,6 +33,7 @@ module V1::Playing
       # 유저 없음.
       raise_error("아직 가입되지 않은 이메일입니다.", 4001) if user.nil?
 
+      # TODO: 이메일 인증 받았는지 등. 분기 처리 많이 필요할 듯.
       if user.valid_password?(user_params[:password])
         # 로그인 성공
         reset_session

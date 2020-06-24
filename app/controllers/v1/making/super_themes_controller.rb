@@ -1,4 +1,4 @@
-module V1
+module V1::Making
   class SuperThemesController < BaseController
     # skip_before_action :authenticate_user!, only: [:create]
     before_action :set_super_theme, except: [:index]
@@ -30,6 +30,19 @@ module V1
       render json: {
         data: @super_theme.as_json(:detail)
       }
+    end
+
+    # POST /
+    def create
+      
+    end
+
+    # PATCH/PUT /:id
+    def update
+    end
+
+    # DELETE /:id
+    def destroy
     end
 
     private

@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     # 제작 툴 사이트용 API
     namespace :making do
       namespace :main do
+        post :create_theme
+      end
+      resources :super_themes, only: [:index, :show, :create, :update, :destroy] do
       end
     end
     resources :tests, only: [:index] do
@@ -25,7 +28,7 @@ Rails.application.routes.draw do
         patch :update_password
         patch :update_email
       end
-      resources :themes, only: [:index, :show] do
+      resources :themes, only: [:show] do
         member do
           post :play
           get :related_topics
@@ -38,9 +41,8 @@ Rails.application.routes.draw do
         post :answer
         post :hint
       end
-    end
-    
-    resources :super_themes, only: [:index, :show] do
+      resources :super_themes, only: [:index, :show] do
+      end
     end
   end
 end
