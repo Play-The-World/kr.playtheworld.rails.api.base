@@ -32,43 +32,61 @@ module V1::Making
     # PATCH/PUT /:id
     def update
       ActiveRecord::Base.transaction do
-        @theme.content = theme_params[:content]
-        @theme.caution = theme_params[:caution]
-        @theme.caution_bold = theme_params[:caution_bold]
-        @theme.start_address = theme_params[:start_address]
-        @theme.start_position = theme_params[:start_position]
-        @theme.difficulty = theme_params[:difficulty]
-        @theme.render_type = theme_params[:render_type]
-        @theme.price = theme_params[:price]
-        @theme.play_time = theme_params[:play_time]
-        @theme.use_memo = theme_params[:use_memo]
-        @theme.has_deadline = theme_params[:has_deadline]
-        @theme.deadline = theme_params[:deadline]
-        @theme.is_reviewable = theme_params[:is_reviewable]
-        @theme.is_rankable = theme_params[:is_rankable]
-        @theme.need_agreement = theme_params[:need_agreement]
-        @theme.play_user_count = theme_params[:play_user_count]
-        @theme.publish_type = theme_params[:publish_type]
+        @theme.content = theme_params[:content] unless theme_params[:content].nil?
+        @theme.caution = theme_params[:caution] unless theme_params[:caution].nil?
+        @theme.caution_bold = theme_params[:caution_bold] unless theme_params[:caution_bold].nil?
+        @theme.start_address = theme_params[:start_address] unless theme_params[:start_address].nil?
+        @theme.start_position = theme_params[:start_position] unless theme_params[:start_position].nil?
+        @theme.difficulty = theme_params[:difficulty] unless theme_params[:difficulty].nil?
+        @theme.render_type = theme_params[:render_type] unless theme_params[:render_type].nil?
+        @theme.price = theme_params[:price] unless theme_params[:price].nil?
+        @theme.play_time = theme_params[:play_time] unless theme_params[:play_time].nil?
+        @theme.use_memo = theme_params[:use_memo] unless theme_params[:use_memo].nil?
+        @theme.has_deadline = theme_params[:has_deadline] unless theme_params[:has_deadline].nil?
+        @theme.deadline = theme_params[:deadline] unless theme_params[:deadline].nil?
+        @theme.is_reviewable = theme_params[:is_reviewable] unless theme_params[:is_reviewable].nil?
+        @theme.is_rankable = theme_params[:is_rankable] unless theme_params[:is_rankable].nil?
+        @theme.need_agreement = theme_params[:need_agreement] unless theme_params[:need_agreement].nil?
+        @theme.play_user_count = theme_params[:play_user_count] unless theme_params[:play_user_count].nil?
+        @theme.publish_type = theme_params[:publish_type] unless theme_params[:publish_type].nil?
         
         @theme.save!
 
         set_data(@theme.as_json(:making_detail))
-        respond
+        respond("성공")
       end
     end
 
     # DELETE /:id
     def destroy
+      if @theme.super_theme.destroy
+        respond("성공")
+      else
+        raise_error("실패", 4000)
+      end
     end
 
     # PATCH /:id/upload_image
     def upload_image
+      # ImageType = :profile, :preview
+      ActiveRecord::Base.transaction do
+        image = @theme.images.create!(type: params[:image_type])
+        image.attach(params[:file])
+
+        set_data(image)
+        respond("성공")
+      end
     end
 
     # DELETE /:id/remove_image
     def remove_image
       @image = Model::Image.find_by(id: params[:image_id])
-      @image.destroy
+      raise_error("존재하지 않는 이미지", 4000) if @image.nil?
+      if @image.destroy
+        respond("이미지 삭제 성공")
+      else
+        raise_error("이미지 삭제 실패", 4001)
+      end
     end
 
     private
