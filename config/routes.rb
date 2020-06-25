@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       end
       resources :super_themes, only: [:index, :show, :create, :update, :destroy] do
       end
+      resources :themes, only: [:index, :show, :update, :destroy] do
+      end
     end
     resources :tests, only: [:index] do
     end
