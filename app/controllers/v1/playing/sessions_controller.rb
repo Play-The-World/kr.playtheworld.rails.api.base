@@ -121,6 +121,10 @@ module V1::Playing
       end
     end
 
+    def test
+      render json: session
+    end
+
     private
       def user_params
         params.fetch(:user, {}).permit(:email, :password, :password_confirmation, :nickname, :email_confirmation)

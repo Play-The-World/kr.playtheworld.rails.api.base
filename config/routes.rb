@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       resources :super_themes, only: [:index, :show, :create, :update, :destroy] do
       end
       resources :themes, only: [:index, :show, :update, :destroy] do
+        member do
+          delete :remove_image
+          patch :upload_image
+        end
       end
     end
     resources :tests, only: [:index] do
@@ -29,6 +33,7 @@ Rails.application.routes.draw do
         patch :update_nickname
         patch :update_password
         patch :update_email
+        get :test
       end
       resources :themes, only: [:show] do
         member do

@@ -6,15 +6,10 @@ module V1::Making
     # GET /
     def index
       data = constant.includes(
-          :images
-        ).with_translations
-      # data = constant.joins(
-      #     locations: :translations,
-      #     genres: :translations,
-      #     categories: :translations,
-      #     themes: :translations,
-      #   ).with_translations
-      # data = constant.includes(:classifications, :themes).with_translations
+          translations: [],
+          images: [],
+          super_theme: [:translations]
+        )
       @pagy, @themes = pagy(data)
       render json: {
           data: @themes.as_json(:images),
@@ -37,8 +32,25 @@ module V1::Making
         @theme.caution_bold = theme_params[:caution_bold] unless theme_params[:caution_bold].nil?
         @theme.start_address = theme_params[:start_address] unless theme_params[:start_address].nil?
         @theme.start_position = theme_params[:start_position] unless theme_params[:start_position].nil?
-        @theme.difficulty = theme_params[:difficulty] unless theme_params[:difficulty].nil?
-        @theme.render_type = theme_params[:render_type] unless theme_params[:render_type].nil?
+        case theme_params[:difficulty]
+        when "easy"
+          @theme.theme_type = theme_params[:difficulty]
+          @theme.difficulty = 0
+        when "normal"
+          @theme.theme_type = theme_params[:difficulty]
+          @theme.difficulty = 5
+        when "hard"
+          @theme.theme_type = theme_params[:difficulty]
+          @theme.difficulty = 10
+        end
+        case theme_params[:render_type]
+        when "swiper"
+          @theme.render_type = Model::RenderType::Swiper.new
+        when "scroll"
+          @theme.render_type = Model::RenderType::Scroll.new
+        when "text"
+          @theme.render_type = Model::RenderType::Text.new
+        end
         @theme.price = theme_params[:price] unless theme_params[:price].nil?
         @theme.play_time = theme_params[:play_time] unless theme_params[:play_time].nil?
         @theme.use_memo = theme_params[:use_memo] unless theme_params[:use_memo].nil?
@@ -82,6 +94,7 @@ module V1::Making
     def remove_image
       @image = Model::Image.find_by(id: params[:image_id])
       raise_error("존재하지 않는 이미지", 4000) if @image.nil?
+
       if @image.destroy
         respond("이미지 삭제 성공")
       else
