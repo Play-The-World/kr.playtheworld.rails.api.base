@@ -2,6 +2,12 @@ class V1::BaseController < ApplicationController
   include Pagy::Backend
   # before_action :authenticate_user
   after_action { pagy_headers_merge(@pagy) if @pagy }
+  before_action :allow_cross_domain_ajax
+  def allow_cross_domain_ajax
+      headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+      headers['Access-Control-Request-Method'] = 'GET, POST'
+      headers['Access-Control-Allow-Credentials'] = 'true'
+  end
 
   Error = ::Error
 
