@@ -52,4 +52,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  # CORS Preflight
+  match '*all' => 'application#cors_preflight', via: [:options]
 end

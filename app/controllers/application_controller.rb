@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
   respond_to :json
   # around_action :set_current_user
 
+  def cors_preflight
+    render nothing: true
+  end
+
   # https://stackoverflow.com/a/2513456
   def set_current_user
     Model::Current.user = current_user

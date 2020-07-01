@@ -7,7 +7,7 @@ module V1::Playing
     def email
       # TODO: EMAIL주소 올바른지 확인 필요.
       # raise_error("올바르지 않은 이메일 주소")
-      if User.where(email: user_params[:email]).exists?
+      if User::Base.where(email: user_params[:email]).exists?
         respond("가입된 이메일")
       else
         respond("아직 가입 안된 이메일", 2001)
