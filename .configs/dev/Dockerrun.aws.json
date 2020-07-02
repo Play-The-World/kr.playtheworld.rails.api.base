@@ -16,7 +16,7 @@
     {
       "name": "nginx-proxy-conf",
       "host": {
-        "sourcePath": "/var/app/current/proxy/conf.d"
+        "sourcePath": "/var/app/current/.configs/dev/nginx/conf.d"
       }
     },
     {
@@ -57,6 +57,10 @@
       "name": "app",
       "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/test-api:latest",
       "environment": [
+        {
+          "name": "CONTAINER_ROLE",
+          "value": "app_server"
+        },
         {
           "name": "RAILS_ENV",
           "value": "development"

@@ -10,7 +10,7 @@
     {
       "name": "nginx-proxy-conf",
       "host": {
-        "sourcePath": "/var/app/current/proxy/conf.d"
+        "sourcePath": "/var/app/current/.configs/production/nginx/conf.d"
       }
     },
     {
@@ -26,12 +26,16 @@
       "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/api:latest",
       "environment": [
         {
+          "name": "CONTAINER_ROLE",
+          "value": "app_server"
+        },
+        {
           "name": "RAILS_ENV",
-          "value": "production"
+          "value": "development"
         },
         {
           "name": "RACK_ENV",
-          "value": "production"
+          "value": "development"
         },
         {
           "name": "RAILS_MASTER_KEY",
