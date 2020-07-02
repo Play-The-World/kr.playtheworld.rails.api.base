@@ -10,5 +10,5 @@
 # sh ./asset-pre-compile.sh
 
 # Start Application
-bundle exec puma -C config/puma.rb
-# bundle exec rails server -b 0.0.0.0 -p 3000
+# bundle exec puma -C config/puma.rb
+bundle exec rails server -b 0.0.0.0 -p 3000

@@ -10,6 +10,10 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   socket: /var/run/mysqld/mysqlx.sock
 
+development:
+ <<: *default
+ database: <%= ENV['DB_DATABASE'] %>_development
+
 production:
  <<: *default
  database: <%= ENV['DB_DATABASE'] %>
