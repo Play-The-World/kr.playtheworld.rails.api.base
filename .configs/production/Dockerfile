@@ -13,6 +13,6 @@ COPY .configs/production/prepare-db.sh .configs/production/wait-for-services.sh 
 RUN bundle install
 
 EXPOSE 3000
-# ENTRYPOINT ["sh", "./start-up.sh"]
+ENTRYPOINT ["sh", "./start-up.sh"]
 
 VOLUME ["/app/log", "/app/storage"]
