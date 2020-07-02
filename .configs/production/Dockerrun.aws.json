@@ -23,7 +23,7 @@
   "containerDefinitions": [
     {
       "name": "app",
-      "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/api:latest",
+      "image": "947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/test-api:stable",
       "environment": [
         {
           "name": "CONTAINER_ROLE",
@@ -31,11 +31,11 @@
         },
         {
           "name": "RAILS_ENV",
-          "value": "development"
+          "value": "production"
         },
         {
           "name": "RACK_ENV",
-          "value": "development"
+          "value": "production"
         },
         {
           "name": "RAILS_MASTER_KEY",
