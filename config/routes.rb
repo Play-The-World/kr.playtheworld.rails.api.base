@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :v1, defaults: { format: :json } do
+
     # 제작 툴 사이트용 API
     namespace :making do
       namespace :main do
@@ -14,8 +15,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :tests, only: [:index] do
-    end
+
     # 플레이 사이트용 API
     namespace :playing do
       namespace :main do

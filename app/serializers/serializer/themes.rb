@@ -1,5 +1,5 @@
 module Serializer
-  class themes# < Struct.new(:topics)
+  class Themes# < Struct.new(:topics)
     class << self
       def topics(data)
         data.map do |d|
