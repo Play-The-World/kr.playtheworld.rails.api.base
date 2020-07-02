@@ -12,6 +12,8 @@ amazon:
   secret_access_key: <%= Rails.application.credentials.aws[:s3][:secret_access_key] %>
   region: <%= Settings.aws.s3.region %>
   bucket: <%= Settings.aws.s3.bucket %>
+  upload:
+    server_side_encryption: 'AES256'
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
