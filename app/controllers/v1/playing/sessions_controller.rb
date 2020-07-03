@@ -29,7 +29,7 @@ module V1::Playing
     def sign_in
       raise_error("이미 로긴", 4000) unless current_user.nil?
 
-      user = User.find_by(email: user_params[:email])
+      user = User::Base.find_by(email: user_params[:email])
       # 유저 없음.
       raise_error("아직 가입되지 않은 이메일입니다.", 4001) if user.nil?
 
@@ -50,14 +50,14 @@ module V1::Playing
       # TODO 올바른 이메일 체크
       # raise_error("올바르지 않은 이메일 주소", 4000)
 
-      if User.where(email: user_params[:email]).exists?
+      if User::Base.where(email: user_params[:email]).exists?
         # 이미 가입된 이메일
         raise_error("이미 가입된 이메일입니다.", 4001)
       else
         # TODO 비번 양식 확인
         # raise_error("올바르지 않은 비번 양식", 4002)
 
-        user = User.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
+        user = User::Base.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
         if user.save
           # 가입 성공 + 로그인
           session[:user_id] = user.id

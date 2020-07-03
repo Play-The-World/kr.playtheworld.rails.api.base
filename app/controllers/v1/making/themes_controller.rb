@@ -1,18 +1,24 @@
 module V1::Making
   class ThemesController < BaseController
-    # skip_before_action :authenticate_user!, only: [:create]
+    before_action :authenticate_user!#, only: [:create]
     before_action :set_theme, except: [:index]
   
     # GET /
     def index
-      data = constant.includes(
+      data = current_user.maker.themes.includes(
           translations: [],
           images: [],
           super_theme: [:translations]
         )
+
+      # data = constant.includes(
+      #     translations: [],
+      #     images: [],
+      #     super_theme: [:translations]
+      #   )
       @pagy, @themes = pagy(data)
       render json: {
-          data: @themes.as_json(:images),
+          data: @themes.as_json(:making),
           meta: { total: data.size }
         }
     end
@@ -27,6 +33,7 @@ module V1::Making
     # PATCH/PUT /:id
     def update
       ActiveRecord::Base.transaction do
+        @theme.super_theme.update!(title: theme_params[:title]) unless theme_params[:title].nil?
         @theme.content = theme_params[:content] unless theme_params[:content].nil?
         @theme.caution = theme_params[:caution] unless theme_params[:caution].nil?
         @theme.caution_bold = theme_params[:caution_bold] unless theme_params[:caution_bold].nil?
@@ -61,6 +68,8 @@ module V1::Making
         @theme.need_agreement = theme_params[:need_agreement] unless theme_params[:need_agreement].nil?
         @theme.play_user_count = theme_params[:play_user_count] unless theme_params[:play_user_count].nil?
         @theme.publish_type = theme_params[:publish_type] unless theme_params[:publish_type].nil?
+        @theme.publish_alert = theme_params[:publish_alert] unless theme_params[:publish_alert].nil?
+        @theme.has_teaser_stage = theme_params[:has_teaser_stage] unless theme_params[:has_teaser_stage].nil?
         
         @theme.save!
 
@@ -113,6 +122,7 @@ module V1::Making
 
       def theme_params
         params.fetch(:theme, {}).permit(
+          :title,
           :content,
           :summary,
           :has_caution,
@@ -131,7 +141,9 @@ module V1::Making
           :need_agreement,
           :play_user_count,
           :use_memo,
-          :publish_type
+          :publish_type,
+          :publish_alert,
+          :has_teaser_stage
         )
       end
   end

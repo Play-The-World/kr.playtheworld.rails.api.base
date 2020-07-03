@@ -59,7 +59,7 @@ class V1::BaseController < ApplicationController
     
     def current_user
       # Model.current.user ||= Model::User.find(session[:user_id])
-      @current_user ||= session[:user_id] ? Model::User.find_by(id: session[:user_id]) : nil
+      @current_user ||= session[:user_id] ? Model::User::Base.find_by(id: session[:user_id]) : nil
       Model.current.user = @current_user
       @current_user
     end

@@ -1,8 +1,10 @@
 module V1::Making
   class MainController < BaseController
+    before_action :authenticate_user!#, only: [:create_]
+
     def create_theme
-      # params[:play_type]
-      # params[:render_type]
+      current_user.create_maker!(name: current_user.nickname) if current_user.maker.nil?
+
       ActiveRecord::Base.transaction do
         case params[:render_type]
         when "swiper"
@@ -28,6 +30,9 @@ module V1::Making
         st.categories << c unless c.nil?
         t = st.create_theme(render_type: rt)
         td = t.theme_data.create!
+
+        current_user.maker.super_themes << st
+        current_user.maker.themes << t
 
         set_data(t.as_json(:making))
         respond("성공")
