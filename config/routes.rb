@@ -6,6 +6,17 @@ Rails.application.routes.draw do
       namespace :main do
         post :create_theme
       end
+      namespace :sessions do
+        get :email
+        post :confirm_email
+        post :sign_in
+        post :sign_up
+        delete :sign_out
+        patch :update_nickname
+        patch :update_password
+        patch :update_email
+        get :test
+      end
       resources :super_themes, only: [:index, :show, :create, :update, :destroy] do
       end
       resources :themes, only: [:index, :show, :update, :destroy] do

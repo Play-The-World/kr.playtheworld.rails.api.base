@@ -32,6 +32,92 @@ module V1::Making
 
     # PATCH/PUT /:id
     def update
+      theme_params = params[:theme]
+      raise_error unless theme_params
+
+      ActiveRecord::Base.transaction do
+        @theme.super_theme.update!(title: theme_params[:title]) unless theme_params[:title].nil?
+        @theme.content = theme_params[:themeDescription] unless theme_params[:themeDescription].nil?
+        case theme_params[:themeType]
+        when "swiper"
+          @theme.render_type = Model::RenderType::Swiper.new
+        when "scroll"
+          @theme.render_type = Model::RenderType::Scroll.new
+        when "text"
+          @theme.render_type = Model::RenderType::Text.new
+        end
+        @theme.play_type = theme_params[:playType] unless theme_params[:playType].nil?
+        classification = @theme.super_theme.classifications.where(classifier_type: "Model::Category").take
+        case theme_params[:onOffType]
+        when "onLine"
+          category = Model::Category.find_by(type: "online")
+          if category.nil?
+            @theme.super_theme.categories << category
+          else
+            classification.update!(classifier_id: category.id)
+          end
+        when "offLine"
+          category = Model::Category.find_by(type: "offline")
+          if category.nil?
+            @theme.super_theme.categories << category
+          else
+            classification.update!(classifier_id: category.id)
+          end
+        end
+        if theme_params[:addFunction]
+          if theme_params[:addFunction][:attention]
+            att_params = theme_params[:addFunction][:attention]
+            @theme.caution = att_params[:brifEmphasisMessage]
+            @theme.caution_bold = att_params[:emphasisMessage]
+            @theme.need_agreement = att_params[:getUserAgree] unless att_params[:getUserAgree].nil?
+            @theme.has_caution = att_params[:isUse] unless att_params[:isUse].nil?
+          end
+          if theme_params[:addFunction][:dueDate]
+            @theme.deadline = theme_params[:addFunction][:dueDate][:endDate]
+            @theme.has_deadline = theme_params[:addFunction][:dueDate][:isUse]
+          end
+          if theme_params[:addFunction][:infoMessage]
+            @theme.additional_text = theme_params[:addFunction][:infoMessage][:message]
+            @theme.has_additional_text = theme_params[:addFunction][:infoMessage][:isUse]
+          end
+          @theme.use_memo = theme_params[:addFunction][:memo] unless theme_params[:addFunction][:memo].nil?
+          @theme.is_rankable = theme_params[:addFunction][:rank] unless theme_params[:addFunction][:rank].nil?
+          @theme.is_reviewable = theme_params[:addFunction][:review] unless theme_params[:addFunction][:review].nil?
+        end
+        # genre
+        case theme_params[:level]
+        when "easy"
+          @theme.theme_type = theme_params[:level]
+          @theme.difficulty = 0
+        when "normal"
+          @theme.theme_type = theme_params[:level]
+          @theme.difficulty = 5
+        when "hard"
+          @theme.theme_type = theme_params[:level]
+          @theme.difficulty = 10
+        end
+        @theme.play_user_count = theme_params[:participant] unless theme_params[:participant].nil?
+        @theme.play_time = theme_params[:playTime] unless theme_params[:playTime].nil?
+        if theme_params[:publish]
+          pp = theme_params[:publish]
+          @theme.publish_alert = pp[:alarm] unless pp[:alarm].nil?
+          @theme.publish_type = pp[:alarm] unless pp[:type].nil?
+        end
+        if theme_params[:startPosition]
+          pp = theme_params[:startPosition]
+          @theme.start_address = pp[:address]
+          @theme.start_position = pp[:description]
+        end
+
+        @theme.save!
+
+        set_data(@theme.as_json(:making_detail))
+        respond("성공")
+      end
+    end
+
+    # PATCH/PUT /:id
+    def update_old
       ActiveRecord::Base.transaction do
         @theme.super_theme.update!(title: theme_params[:title]) unless theme_params[:title].nil?
         @theme.content = theme_params[:content] unless theme_params[:content].nil?
@@ -120,31 +206,31 @@ module V1::Making
         Model.config.theme.constant
       end
 
-      def theme_params
-        params.fetch(:theme, {}).permit(
-          :title,
-          :content,
-          :summary,
-          :has_caution,
-          :caution,
-          :caution_bold,
-          :start_address,
-          :start_position,
-          :difficulty,
-          :render_type,
-          :price,
-          :play_time,
-          :has_deadline,
-          :deadline,
-          :is_reviewable,
-          :is_rankable,
-          :need_agreement,
-          :play_user_count,
-          :use_memo,
-          :publish_type,
-          :publish_alert,
-          :has_teaser_stage
-        )
-      end
+      # def theme_params
+      #   params.fetch(:theme, {}).permit(
+      #     :title,
+      #     :content,
+      #     :summary,
+      #     :has_caution,
+      #     :caution,
+      #     :caution_bold,
+      #     :start_address,
+      #     :start_position,
+      #     :difficulty,
+      #     :render_type,
+      #     :price,
+      #     :play_time,
+      #     :has_deadline,
+      #     :deadline,
+      #     :is_reviewable,
+      #     :is_rankable,
+      #     :need_agreement,
+      #     :play_user_count,
+      #     :use_memo,
+      #     :publish_type,
+      #     :publish_alert,
+      #     :has_teaser_stage
+      #   )
+      # end
   end
 end
