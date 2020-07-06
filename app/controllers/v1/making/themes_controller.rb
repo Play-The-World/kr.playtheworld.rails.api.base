@@ -1,6 +1,5 @@
 module V1::Making
   class ThemesController < BaseController
-    before_action :authenticate_user!#, only: [:create]
     before_action :set_theme, except: [:index]
   
     # GET /

@@ -1,7 +1,5 @@
 module V1::Making
   class MainController < BaseController
-    before_action :authenticate_user!#, only: [:create_]
-
     def create_theme
       current_user.create_maker!(name: current_user.nickname) if current_user.maker.nil?
 
