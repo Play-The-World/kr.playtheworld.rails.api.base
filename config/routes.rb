@@ -21,8 +21,9 @@ Rails.application.routes.draw do
       end
       resources :themes, only: [:index, :show, :update, :destroy] do
         member do
-          delete :remove_image
-          patch :upload_image
+          delete :image, action: :remove_image
+          post :image, action: :create_image
+          patch :image, action: :update_image
         end
       end
     end

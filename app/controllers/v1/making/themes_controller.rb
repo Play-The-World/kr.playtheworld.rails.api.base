@@ -163,7 +163,7 @@ module V1::Making
       end
     end
 
-    # DELETE /:id
+    # DELETE /:id/image
     def destroy
       if @theme.super_theme.destroy
         respond("성공")
@@ -172,12 +172,28 @@ module V1::Making
       end
     end
 
-    # PATCH /:id/upload_image
-    def upload_image
+    # POST /:id/image
+    def create_image
       # ImageType = :profile, :preview
       ActiveRecord::Base.transaction do
-        image = @theme.images.create!(type: params[:image_type])
-        image.attach(params[:file])
+        image = @theme.images.create!(
+            type: params[:image][:type],
+            order: params[:image][:order]
+          )
+        image.attach(params[:image][:file])
+
+        set_data(image)
+        respond("성공")
+      end
+    end
+
+    # PATCH /:id/image
+    def update_image
+      ActiveRecord::Base.transaction do
+        image = @theme.images.find(params[:image][:id])
+        image.type = params[:image][:type] unless params[:image][:type].nil?
+        image.order = params[:image][:order] unless params[:image][:order].nil?
+        image.attach(params[:image][:file]) unless params[:image][:file].nil?
 
         set_data(image)
         respond("성공")
@@ -186,7 +202,7 @@ module V1::Making
 
     # DELETE /:id/remove_image
     def remove_image
-      @image = Model::Image.find_by(id: params[:image_id])
+      @image = @theme.images.find_by(id: params[:image][:id])
       raise_error("존재하지 않는 이미지", 4000) if @image.nil?
 
       if @image.destroy
@@ -199,6 +215,7 @@ module V1::Making
     private
       def set_theme
         @theme = constant.find_by_fake_id(params[:id])
+        raise_error("해당 테마를 찾을 수 없습니다.", 4998) if @theme.nil?
       end
 
       def constant

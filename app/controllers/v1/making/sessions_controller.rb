@@ -48,6 +48,8 @@ module V1::Making
 
     # 가입
     def sign_up
+      raise_error("이미 로긴", 4000) unless current_user.nil?
+
       # TODO 올바른 이메일 체크
       # raise_error("올바르지 않은 이메일 주소", 4000)
 
