@@ -22,7 +22,7 @@ module Error
         errors: [
           {
             message: @message,
-            code: @code
+            # code: @code
           }
         ]
       }

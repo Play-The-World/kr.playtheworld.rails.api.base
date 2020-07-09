@@ -2,12 +2,6 @@ class V1::BaseController < ApplicationController
   include Pagy::Backend
   # before_action :authenticate_user
   after_action { pagy_headers_merge(@pagy) if @pagy }
-  # before_action :allow_cross_domain_ajax
-  # def allow_cross_domain_ajax
-  #     # headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
-  #     # headers['Access-Control-Request-Method'] = 'GET, POST'
-  #     headers['Access-Control-Allow-Credentials'] = 'true'
-  # end
 
   Error = ::Error
 
@@ -21,17 +15,29 @@ class V1::BaseController < ApplicationController
   #   render_error(error)
   # end
 
+  # axios이상함..
+  def param
+    pa = params.fetch(:user, {})
+    pa = JSON.parse(pa) if pa.is_a?(String)
+    # pa.permit(:email, :password, :password_confirmation, :nickname, :email_confirmation)
+    result = {}
+    pa.each { |k, v| result[k.to_sym] = v }
+    result
+  end
+
   protected
-    def respond(message = nil, code = nil, status = Response::DEFAULT_STATUS)
+    def respond(message = nil, status = Response::DEFAULT_STATUS, code = nil)
       response = { response: Response.new(message, code) }
       response.merge!({ data: @data }) if @data
       render json: response, status: status
     end
-    def raise_error(message = nil, code = nil, status = nil)
+    # def raise_error(message = nil, code = nil, status = nil)
+    def raise_error(message = nil, status = nil, code = nil)
       raise Error::Standard.new(message, code, status)
     end
     def render_error(e)
       render json: e, status: e.status
+      # render text: nil, status: e.status
     end
     def set_data(data)
       @data = data
@@ -54,7 +60,8 @@ class V1::BaseController < ApplicationController
     end
 
     def authenticate_user!
-      raise_error("로그인 필요", 1000, :unauthorized) if current_user.nil?
+      # raise_error("로그인 필요", 1000, :unauthorized) if current_user.nil?
+      raise_error("로그인 필요", :unauthorized) if current_user.nil?
     end
     
     def current_user

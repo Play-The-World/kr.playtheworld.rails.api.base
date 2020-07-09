@@ -21,6 +21,10 @@ gem 'bootsnap', '>= 1.4.5', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+
+  # API Docs
+  gem 'rspec-rails'
+  gem 'rswag-specs'
 end
 
 group :development do
@@ -68,3 +72,5 @@ gem "aws-sdk-s3", require: false
 # API Docs
 # gem 'zero-rails_openapi' # https://github.com/zhandao/zero-rails_openapi/
 # gem 'apipie-rails' # https://github.com/Apipie/apipie-rails
+# gem 'rswag-api'
+# gem 'rswag-ui'

@@ -7,14 +7,15 @@ Rails.application.routes.draw do
         post :create_theme
       end
       namespace :sessions do
+        get :current_user, action: :current_user_data
         get :email
         post :confirm_email
         post :sign_in
         post :sign_up
         delete :sign_out
-        patch :update_nickname
-        patch :update_password
-        patch :update_email
+        patch :nickname, action: :update_nickname
+        patch :password, action: :update_password
+        patch :email, action: :update_email
         get :test
       end
       resources :super_themes, only: [:index, :show, :create, :update, :destroy] do

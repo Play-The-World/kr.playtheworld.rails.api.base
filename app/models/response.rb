@@ -14,7 +14,7 @@ class Response
   def as_json(options = {})
     {
       message: @message,
-      code: @code
+      # code: @code
     }
   end
 end

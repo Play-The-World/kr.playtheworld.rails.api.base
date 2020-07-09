@@ -302,3 +302,5 @@ eric.rb
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+/swagger
