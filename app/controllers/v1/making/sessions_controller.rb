@@ -143,9 +143,6 @@ module V1::Making
     end
 
     private
-      def user_params
-        param
-      end
       def set_data_user
         user = {
           email: session[:email]

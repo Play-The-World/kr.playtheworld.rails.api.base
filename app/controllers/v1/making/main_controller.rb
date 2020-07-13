@@ -12,28 +12,21 @@ module V1::Making
         when "text"
           rt = Model::RenderType::Text.new
         else
-          raise_error("잘못된 RenderType", 4000)
+          raise_error("잘못된 RenderType", 400)
         end
 
-        case params[:category]
-        when "online"
-          c = Model::Category.find_by(title: "온라인")
-        when "offline"
-          c = Model::Category.find_by(title: "오프라인")
-        else
-          raise_error("잘못된 카테고리", 4001)
-        end
-
+        c = Model::Category.find_by(type: params[:category]&.downcase)
+        raise_error("잘못된 카테고리", 404) if c.nil?
         st = Model::SuperTheme::Normal.create!
-        st.categories << c unless c.nil?
+        st.categories << c
         t = st.create_theme(render_type: rt)
-        td = t.theme_data.create!
+        t.theme_data.create!
 
         current_user.maker.super_themes << st
         current_user.maker.themes << t
 
         set_data(t.as_json(:making))
-        respond("성공")
+        respond("생성 성공", 201)
       end
     end
   end

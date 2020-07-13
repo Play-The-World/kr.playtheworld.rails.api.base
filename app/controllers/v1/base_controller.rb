@@ -16,7 +16,7 @@ class V1::BaseController < ApplicationController
   # end
 
   # axios이상함..
-  def param
+  def user_params
     pa = params.fetch(:user, {})
     pa = JSON.parse(pa) if pa.is_a?(String)
     # pa.permit(:email, :password, :password_confirmation, :nickname, :email_confirmation)

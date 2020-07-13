@@ -31,13 +31,13 @@ module V1::Making
 
     # PATCH/PUT /:id
     def update
-      theme_param = param[:theme]
-      raise_error unless theme_param
+      theme_params = params[:theme]
+      raise_error unless theme_params
 
       ActiveRecord::Base.transaction do
-        @theme.super_theme.update!(title: theme_param[:title]) unless theme_param[:title].nil?
-        @theme.content = theme_param[:themeDescription] unless theme_param[:themeDescription].nil?
-        case theme_param[:themeType]
+        @theme.super_theme.update!(title: theme_params[:title]) unless theme_params[:title].nil?
+        @theme.content = theme_params[:themeDescription] unless theme_params[:themeDescription].nil?
+        case theme_params[:themeType]
         when "swiper"
           @theme.render_type = Model::RenderType::Swiper.new
         when "scroll"
@@ -45,9 +45,9 @@ module V1::Making
         when "text"
           @theme.render_type = Model::RenderType::Text.new
         end
-        @theme.play_type = theme_param[:playType] unless theme_param[:playType].nil?
+        @theme.play_type = theme_params[:playType] unless theme_params[:playType].nil?
         classification = @theme.super_theme.classifications.where(classifier_type: "Model::Category").take
-        case theme_param[:onOffType]
+        case theme_params[:onOffType]
         when "onLine"
           category = Model::Category.find_by(type: "online")
           if category.nil?
@@ -63,47 +63,47 @@ module V1::Making
             classification.update!(classifier_id: category.id)
           end
         end
-        if theme_param[:addFunction]
-          if theme_param[:addFunction][:attention]
-            att_param = theme_param[:addFunction][:attention]
-            @theme.caution = att_param[:brifEmphasisMessage]
-            @theme.caution_bold = att_param[:emphasisMessage]
-            @theme.need_agreement = att_param[:getUserAgree] unless att_param[:getUserAgree].nil?
-            @theme.has_caution = att_param[:isUse] unless att_param[:isUse].nil?
+        if theme_params[:addFunction]
+          if theme_params[:addFunction][:attention]
+            att_params = theme_params[:addFunction][:attention]
+            @theme.caution = att_params[:brifEmphasisMessage]
+            @theme.caution_bold = att_params[:emphasisMessage]
+            @theme.need_agreement = att_params[:getUserAgree] unless att_params[:getUserAgree].nil?
+            @theme.has_caution = att_params[:isUse] unless att_params[:isUse].nil?
           end
-          if theme_param[:addFunction][:dueDate]
-            @theme.deadline = theme_param[:addFunction][:dueDate][:endDate]
-            @theme.has_deadline = theme_param[:addFunction][:dueDate][:isUse]
+          if theme_params[:addFunction][:dueDate]
+            @theme.deadline = theme_params[:addFunction][:dueDate][:endDate]
+            @theme.has_deadline = theme_params[:addFunction][:dueDate][:isUse]
           end
-          if theme_param[:addFunction][:infoMessage]
-            @theme.additional_text = theme_param[:addFunction][:infoMessage][:message]
-            @theme.has_additional_text = theme_param[:addFunction][:infoMessage][:isUse]
+          if theme_params[:addFunction][:infoMessage]
+            @theme.additional_text = theme_params[:addFunction][:infoMessage][:message]
+            @theme.has_additional_text = theme_params[:addFunction][:infoMessage][:isUse]
           end
-          @theme.use_memo = theme_param[:addFunction][:memo] unless theme_param[:addFunction][:memo].nil?
-          @theme.is_rankable = theme_param[:addFunction][:rank] unless theme_param[:addFunction][:rank].nil?
-          @theme.is_reviewable = theme_param[:addFunction][:review] unless theme_param[:addFunction][:review].nil?
+          @theme.use_memo = theme_params[:addFunction][:memo] unless theme_params[:addFunction][:memo].nil?
+          @theme.is_rankable = theme_params[:addFunction][:rank] unless theme_params[:addFunction][:rank].nil?
+          @theme.is_reviewable = theme_params[:addFunction][:review] unless theme_params[:addFunction][:review].nil?
         end
         # genre
-        case theme_param[:level]
+        case theme_params[:level]
         when "easy"
-          @theme.theme_type = theme_param[:level]
+          @theme.theme_type = theme_params[:level]
           @theme.difficulty = 0
         when "normal"
-          @theme.theme_type = theme_param[:level]
+          @theme.theme_type = theme_params[:level]
           @theme.difficulty = 5
         when "hard"
-          @theme.theme_type = theme_param[:level]
+          @theme.theme_type = theme_params[:level]
           @theme.difficulty = 10
         end
-        @theme.play_user_count = theme_param[:participant] unless theme_param[:participant].nil?
-        @theme.play_time = theme_param[:playTime] unless theme_param[:playTime].nil?
-        if theme_param[:publish]
-          pp = theme_param[:publish]
+        @theme.play_user_count = theme_params[:participant] unless theme_params[:participant].nil?
+        @theme.play_time = theme_params[:playTime] unless theme_params[:playTime].nil?
+        if theme_params[:publish]
+          pp = theme_params[:publish]
           @theme.publish_alert = pp[:alarm] unless pp[:alarm].nil?
           @theme.publish_type = pp[:alarm] unless pp[:type].nil?
         end
-        if theme_param[:startPosition]
-          pp = theme_param[:startPosition]
+        if theme_params[:startPosition]
+          pp = theme_params[:startPosition]
           @theme.start_address = pp[:address]
           @theme.start_position = pp[:description]
         end
@@ -118,24 +118,24 @@ module V1::Making
     # PATCH/PUT /:id
     def update_old
       ActiveRecord::Base.transaction do
-        @theme.super_theme.update!(title: theme_param[:title]) unless theme_param[:title].nil?
-        @theme.content = theme_param[:content] unless theme_param[:content].nil?
-        @theme.caution = theme_param[:caution] unless theme_param[:caution].nil?
-        @theme.caution_bold = theme_param[:caution_bold] unless theme_param[:caution_bold].nil?
-        @theme.start_address = theme_param[:start_address] unless theme_param[:start_address].nil?
-        @theme.start_position = theme_param[:start_position] unless theme_param[:start_position].nil?
-        case theme_param[:difficulty]
+        @theme.super_theme.update!(title: theme_params[:title]) unless theme_params[:title].nil?
+        @theme.content = theme_params[:content] unless theme_params[:content].nil?
+        @theme.caution = theme_params[:caution] unless theme_params[:caution].nil?
+        @theme.caution_bold = theme_params[:caution_bold] unless theme_params[:caution_bold].nil?
+        @theme.start_address = theme_params[:start_address] unless theme_params[:start_address].nil?
+        @theme.start_position = theme_params[:start_position] unless theme_params[:start_position].nil?
+        case theme_params[:difficulty]
         when "easy"
-          @theme.theme_type = theme_param[:difficulty]
+          @theme.theme_type = theme_params[:difficulty]
           @theme.difficulty = 0
         when "normal"
-          @theme.theme_type = theme_param[:difficulty]
+          @theme.theme_type = theme_params[:difficulty]
           @theme.difficulty = 5
         when "hard"
-          @theme.theme_type = theme_param[:difficulty]
+          @theme.theme_type = theme_params[:difficulty]
           @theme.difficulty = 10
         end
-        case theme_param[:render_type]
+        case theme_params[:render_type]
         when "swiper"
           @theme.render_type = Model::RenderType::Swiper.new
         when "scroll"
@@ -143,18 +143,18 @@ module V1::Making
         when "text"
           @theme.render_type = Model::RenderType::Text.new
         end
-        @theme.price = theme_param[:price] unless theme_param[:price].nil?
-        @theme.play_time = theme_param[:play_time] unless theme_param[:play_time].nil?
-        @theme.use_memo = theme_param[:use_memo] unless theme_param[:use_memo].nil?
-        @theme.has_deadline = theme_param[:has_deadline] unless theme_param[:has_deadline].nil?
-        @theme.deadline = theme_param[:deadline] unless theme_param[:deadline].nil?
-        @theme.is_reviewable = theme_param[:is_reviewable] unless theme_param[:is_reviewable].nil?
-        @theme.is_rankable = theme_param[:is_rankable] unless theme_param[:is_rankable].nil?
-        @theme.need_agreement = theme_param[:need_agreement] unless theme_param[:need_agreement].nil?
-        @theme.play_user_count = theme_param[:play_user_count] unless theme_param[:play_user_count].nil?
-        @theme.publish_type = theme_param[:publish_type] unless theme_param[:publish_type].nil?
-        @theme.publish_alert = theme_param[:publish_alert] unless theme_param[:publish_alert].nil?
-        @theme.has_teaser_stage = theme_param[:has_teaser_stage] unless theme_param[:has_teaser_stage].nil?
+        @theme.price = theme_params[:price] unless theme_params[:price].nil?
+        @theme.play_time = theme_params[:play_time] unless theme_params[:play_time].nil?
+        @theme.use_memo = theme_params[:use_memo] unless theme_params[:use_memo].nil?
+        @theme.has_deadline = theme_params[:has_deadline] unless theme_params[:has_deadline].nil?
+        @theme.deadline = theme_params[:deadline] unless theme_params[:deadline].nil?
+        @theme.is_reviewable = theme_params[:is_reviewable] unless theme_params[:is_reviewable].nil?
+        @theme.is_rankable = theme_params[:is_rankable] unless theme_params[:is_rankable].nil?
+        @theme.need_agreement = theme_params[:need_agreement] unless theme_params[:need_agreement].nil?
+        @theme.play_user_count = theme_params[:play_user_count] unless theme_params[:play_user_count].nil?
+        @theme.publish_type = theme_params[:publish_type] unless theme_params[:publish_type].nil?
+        @theme.publish_alert = theme_params[:publish_alert] unless theme_params[:publish_alert].nil?
+        @theme.has_teaser_stage = theme_params[:has_teaser_stage] unless theme_params[:has_teaser_stage].nil?
         
         @theme.save!
 
@@ -177,10 +177,10 @@ module V1::Making
       # ImageType = :profile, :preview
       ActiveRecord::Base.transaction do
         image = @theme.images.create!(
-            type: param[:image][:type],
-            order: param[:image][:order]
+            type: params[:image][:type],
+            order: params[:image][:order]
           )
-        image.attach(param[:image][:file])
+        image.attach(params[:image][:file])
 
         set_data(image)
         respond("성공", 201)
@@ -190,10 +190,10 @@ module V1::Making
     # PATCH /:id/image
     def update_image
       ActiveRecord::Base.transaction do
-        image = @theme.images.find(param[:image][:id])
-        image.type = param[:image][:type] unless param[:image][:type].nil?
-        image.order = param[:image][:order] unless param[:image][:order].nil?
-        image.attach(param[:image][:file]) unless param[:image][:file].nil?
+        image = @theme.images.find(params[:image][:id])
+        image.type = params[:image][:type] unless params[:image][:type].nil?
+        image.order = params[:image][:order] unless params[:image][:order].nil?
+        image.attach(params[:image][:file]) unless params[:image][:file].nil?
 
         set_data(image)
         respond("성공")
@@ -202,7 +202,7 @@ module V1::Making
 
     # DELETE /:id/remove_image
     def remove_image
-      @image = @theme.images.find_by(id: param[:image][:id])
+      @image = @theme.images.find_by(id: params[:image][:id])
       raise_error("존재하지 않는 이미지", 404) if @image.nil?
 
       if @image.destroy
@@ -214,7 +214,7 @@ module V1::Making
 
     private
       def set_theme
-        @theme = constant.find_by_fake_id(param[:id])
+        @theme = constant.find_by_fake_id(params[:id])
         raise_error("해당 테마를 찾을 수 없습니다.", 404) if @theme.nil?
       end
 
@@ -222,8 +222,8 @@ module V1::Making
         Model.config.theme.constant
       end
 
-      # def theme_param
-      #   param.fetch(:theme, {}).permit(
+      # def theme_params
+      #   params.fetch(:theme, {}).permit(
       #     :title,
       #     :content,
       #     :summary,

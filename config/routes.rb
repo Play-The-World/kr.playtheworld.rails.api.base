@@ -21,7 +21,11 @@ Rails.application.routes.draw do
       resources :super_themes, only: [:index, :show, :create, :update, :destroy] do
       end
       resources :themes, only: [:index, :show, :update, :destroy] do
+
+      end
+      resources :edit, only: [] do
         member do
+          post :stage_list
           delete :image, action: :remove_image
           post :image, action: :create_image
           patch :image, action: :update_image
