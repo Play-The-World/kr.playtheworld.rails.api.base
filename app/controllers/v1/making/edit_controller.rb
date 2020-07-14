@@ -6,11 +6,12 @@ module V1::Making
       ActiveRecord::Base.transaction do
         td = @theme.current_theme_data
 
-        params[:stage_list].each do |sl|
-          # 새로운 SL
+        result = params[:stage_lists].map do |sl|
           if sl[:id].nil?
+            # 새로운 SL
             s = Model::StageList.new
           else
+            # 있던 SL
             s = td.stage_lists.find(sl[:id])
           end
 
@@ -18,7 +19,13 @@ module V1::Making
           s.type = sl[:type]
           s.stage_list_number = sl[:stageListNo] unless sl[:stageListNo].nil?
           s.save!
+          s
         end
+
+        # TODO: 없는 SL 지우기
+        
+        set_data(result.as_json(:making))
+        respond("성공", 200)
       end
     end
 

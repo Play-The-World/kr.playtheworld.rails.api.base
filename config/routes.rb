@@ -3,6 +3,15 @@ Rails.application.routes.draw do
 
     # 제작 툴 사이트용 API
     namespace :making do
+      namespace :test do
+        get '/themes', action: :index_theme
+        get '/themes/:id', action: :show_theme
+        post '/themes/:id', action: :create_theme
+        patch '/themes/:id', action: :update_theme
+        delete '/themes/:id', action: :destroy_theme
+        get '/images/:id', action: :image
+        post '/images', action: :upload_image
+      end
       namespace :main do
         post :create_theme
       end
