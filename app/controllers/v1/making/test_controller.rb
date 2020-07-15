@@ -1,6 +1,6 @@
 module V1::Making
   class TestController < BaseController
-    skip_before_action :authenticate_user!, except: [:upload_images, :image]
+    skip_before_action :authenticate_user!, only: [:upload_images, :image]
     before_action :set_theme, only: [:update_theme, :show_theme, :destroy_theme]
 
     def index_theme
