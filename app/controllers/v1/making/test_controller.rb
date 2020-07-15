@@ -44,7 +44,7 @@ module V1::Making
     def upload_images
       data = params[:images].map do |image|
         d = Base64.strict_encode64(image.read)
-        Model::PlainImage.create!(value: d)
+        Model::PlainImage.create!(value: d, filesize: image.size, filename: image.original_filename, content_type: image.content_type)
       end
       # 1개 테스트용
       # image = params[:images]
@@ -57,7 +57,7 @@ module V1::Making
 
     # GET
     def image
-      i = Model::Image.find(params[:id])
+      i = Model::PlainImage.find(params[:id].to_i)
       # i = Model::PlainImage.last
       send_data Base64.decode64(i.value), type: i.content_type, disposition: 'inline'
     end
