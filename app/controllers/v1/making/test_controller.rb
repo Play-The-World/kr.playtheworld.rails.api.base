@@ -6,13 +6,17 @@ module V1::Making
     def index_theme
       data = current_user.plain_themes
 
-      set_data(data)
+      @pagy, themes = pagy(data)
+      set_data(themes)
+      set_meta({ total: data.size })
       respond("성공", 200)
     end
 
     def create_theme
       data = params[:data]
       theme_number = data[:themeNumber]
+      raise_error("themeNumber는 필수 요소 입니다.", 404) if theme_number.nil?
+
       t = current_user.plain_themes.create!(theme_number: theme_number, value: data.to_json)
 
       set_data(t)
@@ -38,13 +42,14 @@ module V1::Making
     
     # POST
     def upload_images
-      # data = params[:images].map do |image|
-      #   d = Base64.strict_encode64(image)
-      #   Model::PlainImage.create!(value: d)
-      # end
-      image = params[:images]
-      d = Base64.strict_encode64(image.read)
-      data = Model::PlainImage.create!(value: d, filesize: image.size, filename: image.original_filename, content_type: image.content_type)
+      data = params[:images].map do |image|
+        d = Base64.strict_encode64(image.read)
+        Model::PlainImage.create!(value: d)
+      end
+      # 1개 테스트용
+      # image = params[:images]
+      # d = Base64.strict_encode64(image.read)
+      # data = Model::PlainImage.create!(value: d, filesize: image.size, filename: image.original_filename, content_type: image.content_type)
 
       set_data(data)
       respond("성공", 200)

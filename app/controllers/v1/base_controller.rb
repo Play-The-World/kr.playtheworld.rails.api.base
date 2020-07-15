@@ -29,6 +29,7 @@ class V1::BaseController < ApplicationController
     def respond(message = nil, status = Response::DEFAULT_STATUS, code = nil)
       response = { response: Response.new(message, code) }
       response.merge!({ data: @data }) if @data
+      response.merge!({ meta: @meta }) if @meta
       render json: response, status: status
     end
     # def raise_error(message = nil, code = nil, status = nil)
@@ -42,6 +43,10 @@ class V1::BaseController < ApplicationController
     def set_data(data)
       @data = data
       @data = @data.as_json unless data.is_a?(Hash)
+    end
+    def set_meta(meta)
+      @meta = meta
+      @meta = @meta.as_json unless meta.is_a?(Hash)
     end
 
   private
