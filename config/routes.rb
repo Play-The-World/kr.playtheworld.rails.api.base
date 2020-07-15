@@ -9,8 +9,8 @@ Rails.application.routes.draw do
         post '/themes/:id', action: :create_theme
         patch '/themes/:id', action: :update_theme
         delete '/themes/:id', action: :destroy_theme
+        post '/images', action: :upload_images
         get '/images/:id', action: :image
-        post '/images', action: :upload_image
       end
       namespace :main do
         post :create_theme
