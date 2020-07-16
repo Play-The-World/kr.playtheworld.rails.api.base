@@ -1,6 +1,7 @@
 module V1::Making
   class SessionsController < BaseController
-    skip_before_action :authenticate_user!, except: [:confirm_email, :sign_out, :update_nickname]
+    skip_before_action :authenticate_user!, except: [:confirm_email, :update_nickname]
+    skip_before_action :verify_authenticity_token, only: [:sign_out]
     # before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname]
     User = ::Model::User
 
@@ -26,7 +27,7 @@ module V1::Making
 
     # 이메일 인증
     def confirm_email
-      if current_user.status != :unauthorized
+      if current_user.status != "unauthorized"
         raise_error("잘못된 요청", 400)
       elsif current_user.confirm_email(user_params[:email_confirmation])
         respond("성공")
@@ -88,8 +89,11 @@ module V1::Making
     # 로그아웃
     def sign_out
       # 로그아웃
-      # session.delete(:user_id)
+      session[:user_id] = nil
+      session.delete(:user_id)
       reset_session
+      # puts "session!"
+      # puts session.inspect
       respond("로그아웃 성공")
     end
 

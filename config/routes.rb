@@ -5,10 +5,10 @@ Rails.application.routes.draw do
     namespace :making do
       namespace :test do
         get '/themes', action: :index_theme
-        get '/themes/:id', action: :show_theme
-        post '/themes/:id', action: :create_theme
-        patch '/themes/:id', action: :update_theme
-        delete '/themes/:id', action: :destroy_theme
+        get '/themes', action: :show_theme
+        post '/themes', action: :create_theme
+        patch '/themes', action: :update_theme
+        delete '/themes', action: :destroy_theme
         post '/images', action: :upload_images
         get '/images/:id', action: :image
       end

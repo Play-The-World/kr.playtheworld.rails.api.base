@@ -42,7 +42,12 @@ module PlayTheWorldAPI
 
     # Middlewares
     # Session
-    config.session_store :cookie_store, key: '_playtheworld' # <-- this also configures session_options for use below
+    config.session_store :cookie_store,
+      # domain: '192.168.0.14',
+      # secure: true, # for HTTPS
+      # same_site: :lax,
+      httponly: true,
+      key: '_playtheworld'
     config.middleware.use ActionDispatch::Cookies # Required for all session management (regardless of session_store)
     config.middleware.use config.session_store, config.session_options
 
