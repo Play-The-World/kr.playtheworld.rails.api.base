@@ -2,7 +2,7 @@ require 'swagger_helper'
 
 describe 'Making - Test API', swagger_doc: 'v1/swagger.yaml' do
 
-  path '/test/themes' do
+  path '/test/theme_list' do
     get '테마 목록' do
       tags 'Test'
       consumes 'application/json'
@@ -41,7 +41,7 @@ describe 'Making - Test API', swagger_doc: 'v1/swagger.yaml' do
     end
   end
 
-  path '/test/themes/{id}' do
+  path '/test/themes' do
     post '테마 생성' do
       tags 'Test'
       consumes 'application/json'
@@ -80,7 +80,14 @@ describe 'Making - Test API', swagger_doc: 'v1/swagger.yaml' do
 
     get '테마 조회' do
       tags 'Test'
+      consumes 'application/json'
       produces 'application/json'
+      parameter name: :data, in: :body, schema: {
+        type: :object,
+        properties: {
+          data: { type: :string }
+        }
+      }
 
       response '200', '성공' do
         schema type: :object,
@@ -145,7 +152,14 @@ describe 'Making - Test API', swagger_doc: 'v1/swagger.yaml' do
 
     delete '테마 삭제' do
       tags 'Test'
+      consumes 'application/json'
       produces 'application/json'
+      parameter name: :data, in: :body, schema: {
+        type: :object,
+        properties: {
+          data: { type: :string }
+        }
+      }
 
       response '200', '성공' do
         schema type: :object,

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     # 제작 툴 사이트용 API
     namespace :making do
       namespace :test do
-        get '/themes', action: :index_theme
+        get '/theme_list', action: :index_theme
         get '/themes', action: :show_theme
         post '/themes', action: :create_theme
         patch '/themes', action: :update_theme
