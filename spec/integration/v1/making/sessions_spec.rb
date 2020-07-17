@@ -252,6 +252,9 @@ describe 'Making - Sessions API', swagger_doc: 'v1/swagger.yaml' do
         response '401', '로그인 필요' do
           run_test!
         end
+        response '403', '이미 가입된 이메일(중복)' do
+          run_test!
+        end
       end
     end
   end
