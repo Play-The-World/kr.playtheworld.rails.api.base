@@ -1,7 +1,7 @@
 module V1::Making
   class SessionsController < BaseController
     skip_before_action :authenticate_user!, except: [:confirm_email, :update_nickname]
-    skip_before_action :verify_authenticity_token, only: [:sign_out]
+    # skip_before_action :verify_authenticity_token, only: [:sign_out]
     # before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname]
     User = ::Model::User
 
