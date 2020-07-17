@@ -134,11 +134,18 @@ module V1::Making
 
       if current_user.email == user_params[:email]
         respond("변경사항 없음", 202)
-      elsif current_user.update(email: user_params[:email])
-        respond("이메일 변경 성공.")
       else
-        # 뭔가 에러
-        raise_error
+        user = User::Base.find_by(email: user_params[:email])
+
+        raise_error("중복된 이메일입니다.", 403) if !user.nil? and user.status != "unauthorized"
+        
+        user.destroy unless user.nil?
+        if current_user.update(email: user_params[:email])
+          respond("이메일 변경 성공.")
+        else
+          # 뭔가 에러
+          raise_error
+        end
       end
     end
 
