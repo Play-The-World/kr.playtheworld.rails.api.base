@@ -9,8 +9,8 @@ module V1::Making
       data = current_user.plain_themes
 
       @pagy, themes = pagy(data)
-      result = themes.as_json.map do |a|
-        JSON.parse(a[:value])
+      result = themes.map do |a|
+        JSON.parse(a.value)
       end
 
       # themes.as_json.each do |a|
