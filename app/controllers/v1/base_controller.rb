@@ -51,18 +51,18 @@ class V1::BaseController < ApplicationController
 
   private
     def pagy_get_vars(collection, vars)
-      vars[:count] ||= cache_count(collection)
+      # vars[:count] ||= cache_count(collection)
       vars[:items]   = params[:items].to_i if params[:items]
       vars[:page]  ||= params[ vars[:page_param] || Pagy::VARS[:page_param] ]
       vars
     end
 
-    def cache_count(collection)
-      cache_key = "pagy-#{collection.model.name}:#{collection.to_sql}"
-      Rails.cache.fetch(cache_key, expires_in: 20 * 60) do
-        collection.count(:all)
-      end
-    end
+    # def cache_count(collection)
+    #   cache_key = "pagy-#{collection.model.name}:#{collection.to_sql}"
+    #   Rails.cache.fetch(cache_key, expires_in: 20 * 60) do
+    #     collection.count(:all)
+    #   end
+    # end
 
     def authenticate_user!
       # raise_error("로그인 필요", 1000, :unauthorized) if current_user.nil?
