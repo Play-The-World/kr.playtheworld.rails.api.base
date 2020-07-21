@@ -1,16 +1,17 @@
 module V1::Making
   class TestController < BaseController
+    # skip_before_action :authenticate_user!, only: [:upload_images, :image, :index_theme]
     skip_before_action :authenticate_user!, only: [:upload_images, :image]
     before_action :set_theme, only: [:update_theme, :show_theme, :destroy_theme]
 
     def index_theme
+      # data = Model::User::Base.find(25).plain_themes
       data = current_user.plain_themes
-      # data = Model::PlainTheme.all
 
       @pagy, themes = pagy(data)
       result = themes.as_json.map do |a|
-        JSON.parse(a[:value]) rescue nil
-      end.compact.select { |a| !a.empty? }
+        JSON.parse(a[:value])
+      end
 
       # themes.as_json.each do |a|
       #   puts a[:theme_number]
@@ -32,7 +33,9 @@ module V1::Making
     end
 
     def update_theme
-      @theme.update(value: @data.to_json)
+      @theme.update!(value: @data.to_json)
+      set_data(@theme)
+      respond("성공", 200)
     end
     
     def show_theme
