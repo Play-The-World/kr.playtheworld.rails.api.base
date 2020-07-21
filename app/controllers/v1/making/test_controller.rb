@@ -1,17 +1,17 @@
 module V1::Making
   class TestController < BaseController
-    skip_before_action :authenticate_user!, only: [:upload_images, :image, :index_theme]
+    skip_before_action :authenticate_user!, only: [:upload_images, :image]
     before_action :set_theme, only: [:update_theme, :show_theme, :destroy_theme]
 
     def index_theme
-      # data = current_user.plain_themes
-      data = Model::PlainTheme.all
+      data = current_user.plain_themes
+      # data = Model::PlainTheme.all
 
       @pagy, themes = pagy(data)
       result = themes.as_json.map do |a|
         JSON.parse(a[:value]) rescue nil
       end.compact.select { |a| !a.empty? }
-      
+
       # themes.as_json.each do |a|
       #   puts a[:theme_number]
       # end
