@@ -47,7 +47,8 @@ module PlayTheWorldAPI
       secure: true, # for HTTPS
       same_site: :none,
       httponly: true,
-      key: '_playtheworld'
+      key: '_playtheworld',
+      expire_after: nil
     config.middleware.use ActionDispatch::Cookies # Required for all session management (regardless of session_store)
     config.middleware.use config.session_store, config.session_options
 
