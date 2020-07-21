@@ -38,7 +38,7 @@ module V1::Making
 
     # 로그인
     def sign_in
-      raise_error("이미 로긴", 400) unless current_user.nil?
+      # raise_error("이미 로긴", 400) unless current_user.nil?
 
       user = User::Base.where(email: user_params[:email]).where.not(status: :unauthorized).take
       # 유저 없음.
