@@ -52,6 +52,7 @@ class V1::BaseController < ApplicationController
   private
     def pagy_get_vars(collection, vars)
       # vars[:count] ||= cache_count(collection)
+      vars[:count]   = collection.count(:all)
       vars[:items]   = params[:items].to_i if params[:items]
       vars[:page]  ||= params[ vars[:page_param] || Pagy::VARS[:page_param] ]
       vars
