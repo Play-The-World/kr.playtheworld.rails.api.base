@@ -29,7 +29,8 @@ module V1::Making
     def confirm_email
       # 로그인 안된 경우
       if current_user.nil?
-        user = User::Base.find_by(email: session[:email])
+        email = user_params[:email] || session[:email]
+        user = User::Base.find_by(email: email)
         raise_error("해당 유저를 찾을 수 없습니다.", 404) if user.nil?
 
         if user.confirm_email(user_params[:email_confirmation])
