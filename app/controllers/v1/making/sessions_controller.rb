@@ -1,6 +1,6 @@
 module V1::Making
   class SessionsController < BaseController
-    skip_before_action :authenticate_user!, except: [:confirm_email, :update_nickname]
+    skip_before_action :authenticate_user!, except: [:update_nickname]
     # skip_before_action :verify_authenticity_token, only: [:sign_out]
     # before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname]
     User = ::Model::User
@@ -27,12 +27,27 @@ module V1::Making
 
     # 이메일 인증
     def confirm_email
-      if current_user.status != "unauthorized"
-        raise_error("잘못된 요청", 400)
-      elsif current_user.confirm_email(user_params[:email_confirmation])
-        respond("성공")
+      # 로그인 안된 경우
+      if current_user.nil?
+        user = User::Base.find_by(email: session[:email])
+        raise_error("해당 유저를 찾을 수 없습니다.", 404) if user.nil?
+
+        if user.confirm_email(user_params[:email_confirmation])
+          # 로그인 성공
+          reset_session
+          session[:user_id] = user.id
+          respond("성공")
+        else
+          raise_error("잘못된 인증번호", 403)
+        end
       else
-        raise_error("잘못된 인증번호", 403)
+        if current_user.status != "unauthorized"
+          raise_error("잘못된 요청", 400)
+        elsif current_user.confirm_email(user_params[:email_confirmation])
+          respond("성공")
+        else
+          raise_error("잘못된 인증번호", 403)
+        end
       end
     end
 
