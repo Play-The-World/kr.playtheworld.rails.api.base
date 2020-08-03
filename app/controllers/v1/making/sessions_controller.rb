@@ -15,12 +15,13 @@ module V1::Making
       raise_error("이메일 주소를 입력해주세요.", 404) if user_params[:email].nil?
       # TODO: EMAIL주소 올바른지 확인 필요.
       # raise_error("올바르지 않은 이메일 주소")
+      # set_data_user
+
       if User::Base.where(email: user_params[:email]).where.not(status: :unauthorized).exists?
         respond("가입된 이메일", 201)
       else
         reset_session
         session[:email] = user_params[:email]
-        # set_data_user
         respond("아직 가입 안된 이메일", 200)
       end
     end
