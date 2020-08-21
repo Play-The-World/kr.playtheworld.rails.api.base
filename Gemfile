@@ -74,3 +74,6 @@ gem "aws-sdk-s3", require: false
 # gem 'apipie-rails' # https://github.com/Apipie/apipie-rails
 # gem 'rswag-api'
 # gem 'rswag-ui'
+
+# Real-time WebSocket
+gem 'pusher' # https://github.com/pusher/pusher-http-ruby

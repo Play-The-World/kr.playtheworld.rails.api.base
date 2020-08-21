@@ -1,0 +1,1 @@
+Pusher.trigger('UserChannel1', 'message', { message: "hello" })
