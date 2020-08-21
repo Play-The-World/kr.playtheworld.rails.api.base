@@ -1,1 +1,1 @@
-Pusher.trigger('UserChannel1', 'message', { message: "hello" })
+Model::Pusher.trigger('UserChannel1', 'message', { message: "hello" })
