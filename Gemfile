@@ -77,3 +77,8 @@ gem "aws-sdk-s3", require: false
 
 # Real-time WebSocket
 gem 'pusher' # https://github.com/pusher/pusher-http-ruby
+
+# ActiveJob
+gem 'sidekiq' # https://github.com/mperham/sidekiq
+gem 'redis' # https://redis.io
+gem 'hiredis' # https://github.com/redis/hiredis
