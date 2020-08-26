@@ -63,8 +63,4 @@ Rails.application.configure do
 
   # Set host
   self.default_url_options = { host: "localhost:3000" }
-
-  # ActiveJob
-  config.active_job.queue_name_prefix = Settings.active_job.prefix
-  config.active_job.queue_adapter = :sidekiq
 end

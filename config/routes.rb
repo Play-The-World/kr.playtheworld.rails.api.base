@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   namespace :v1, defaults: { format: :json } do
+    namespace :test do
+      get :job
+      get :pusher
+    end
 
     # 제작 툴 사이트용 API
     namespace :making do

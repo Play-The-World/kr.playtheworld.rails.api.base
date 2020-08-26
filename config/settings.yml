@@ -3,8 +3,5 @@ aws:
     region: ap-northeast-2
     bucket: playtheworld-main
 
-active_job:
-  prefix: ptw_app
-
 redis:
-  url: redis://localhost:6379/0
+  url: redis://127.0.0.1:6379

@@ -66,5 +66,10 @@ module PlayTheWorldAPI
     # Annotations
     config.annotations.register_directories("engines")
     config.annotations.register_tags("TESTME")
+
+    # ActiveJob
+    # You can not use prefix with sidekiq. ref: https://github.com/mperham/sidekiq/issues/4034
+    # config.active_job.queue_name_prefix = Settings.active_job.prefix
+    config.active_job.queue_adapter = :sidekiq
   end
 end

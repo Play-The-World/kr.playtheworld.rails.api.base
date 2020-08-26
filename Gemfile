@@ -82,3 +82,7 @@ gem 'pusher' # https://github.com/pusher/pusher-http-ruby
 gem 'sidekiq' # https://github.com/mperham/sidekiq
 gem 'redis' # https://redis.io
 gem 'hiredis' # https://github.com/redis/hiredis
+
+# Procfile-based application
+# gem 'foreman' # https://github.com/ddollar/foreman
+gem 'invoker' # https://invoker.codemancers.com
