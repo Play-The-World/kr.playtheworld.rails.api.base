@@ -2,6 +2,7 @@
 :concurrency: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 :timeout: 30
 :queues:
+  - [high, 1]
+  - [default, 1]
   - [low, 1]
-  - [default, 5]
-  - [high, 10]
+  
