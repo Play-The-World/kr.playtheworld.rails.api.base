@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       get :pusher
     end
 
+    namespace :pusher do
+      post :auth
+    end
+
     # 제작 툴 사이트용 API
     namespace :making do
       namespace :test do
