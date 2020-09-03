@@ -27,3 +27,7 @@ Sidekiq.default_worker_options = {
   # dead: true,
   # retry: true,
 }
+
+Sidekiq::Bouncer.configure do |config|
+  config.redis = Rails.application.redis
+end

@@ -12,6 +12,7 @@ PATH
       rails-i18n (~> 6.0.0)
       rolify
       sidekiq
+      sidekiq-bouncer
 
 GEM
   remote: https://rubygems.org/
@@ -96,7 +97,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    blueprinter (0.25.0)
+    blueprinter (0.25.1)
     bootsnap (1.4.6)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -303,6 +304,7 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sidekiq-bouncer (0.1.1)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -321,8 +323,8 @@ GEM
       thread_safe (~> 0.1)
     uuid (2.3.9)
       macaddr (~> 1.0)
-    warden (1.2.8)
-      rack (>= 2.0.6)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
