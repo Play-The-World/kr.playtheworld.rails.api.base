@@ -29,5 +29,5 @@ Sidekiq.default_worker_options = {
 }
 
 Sidekiq::Bouncer.configure do |config|
-  config.redis = Rails.application.redis
+  config.redis = Redis.new
 end
