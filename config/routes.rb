@@ -55,6 +55,9 @@ Rails.application.routes.draw do
 
     # 플레이 사이트용 API
     namespace :playing do
+      namespace :test do
+        post :new_play
+      end
       namespace :main do
         get :news
         get :banners
