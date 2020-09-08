@@ -16,6 +16,12 @@ module V1::Playing
       respond("성공")
     end
 
+    def next_stage_list
+      @play.go_next!
+      # set_data(@play.tracks.last.as_json(:play))
+      respond("성공")
+    end
+
     # 현재 스테이지 목록
     def stage_lists
       if params[:after].to_i > 0
@@ -84,11 +90,13 @@ module V1::Playing
           password: "123456",
           password_confirmation: "123456"
         )
-        sign_in(user)
+        Model.current.user = user
+        session[:user_id] = user.id
       end
       def set_play
-        Model.current.play = Model::Play::Base.find(session[:play_id])
-        # Model.current.play = Model::Play::Base.find(params[:id])
+        # TEST에서 session이 잘 안되서..
+        Model.current.play = Model::Play::Base.last
+        # Model.current.play = Model::Play::Base.find(session[:play_id])
         @play ||= Model.current.play
       end
   end

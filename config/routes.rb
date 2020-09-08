@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     namespace :playing do
       namespace :test do
         post :new_play
+        post :next_stage_list
       end
       namespace :main do
         get :news
