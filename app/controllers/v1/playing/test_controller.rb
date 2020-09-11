@@ -22,64 +22,23 @@ module V1::Playing
       respond("성공")
     end
 
-    # 현재 스테이지 목록
-    def stage_lists
-      if params[:after].to_i > 0
-        data = @play.stage_lists.offset(params[:after].to_i)
-      else
-        data = @play.stage_lists
-      end
-
-      if params[:stages] == "true"
-        data = data.as_json(:stages)
-      end
-
-      render json: {
-        data: data
-      }
-    end
-
-    def detail
-      render json: {
-        data: @play.as_json(:playing),
-      }
-    end
-
-    def set
-      # TODO: 플레이가 있는지, 권한이 있는지.
-      session[:play_id] = params[:play_id].to_i
-      set_play
-      set_data(@play)
-      respond("성공")
-    end
-
-    def answer
-      raise_error("종료된 플레이", 4000) unless @play.playing?
-      raise_error("지니간 스테이지임", 4001) if @play.stage_lists.last.id != params[:stage_list_id].to_i
+    def submit_answer
+      raise_error("종료된 플레이", 400) unless @play.playing?
+      raise_error("지니간 스테이지임", 401) if @play.stage_lists.last.id != params[:stage_list_id].to_i
 
       if @play.submit_answer(params[:answer])
-        respond("정답 맞춤", 2000)
+        respond("정답 맞춤", 200)
       else
-        respond("틀림", 2001)
-      end
-    end
-
-    def hint
-      raise_error("종료된 플레이", 4000) unless @play.playing?
-      raise_error("지니간 스테이지임", 4001) if @play.stage_lists.last.id != params[:stage_list_id].to_i
-      
-      hint, result, message = @play.use_hint(params[:hint_number].to_i)
-
-      unless result
-        raise_error(message, 4002)
-      else
-        set_data(hint)
-        respond(message, 2000)
+        respond("틀림", 201)
       end
     end
 
     def on_stage
-      # stage_index:
+      if @play.on_stage(stage_index: params[:stage_index], stage_list_index: params[:stage_list_index])
+        respond("성공")
+      else
+        raise_error("실패")
+      end
     end
 
     private

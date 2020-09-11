@@ -58,6 +58,8 @@ Rails.application.routes.draw do
       namespace :test do
         post :new_play
         post :next_stage_list
+        post :submit_answer
+        get :on_stage
       end
       namespace :main do
         get :news
