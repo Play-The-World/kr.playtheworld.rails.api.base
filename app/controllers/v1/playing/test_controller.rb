@@ -5,6 +5,12 @@ module V1::Playing
     before_action :set_user
     before_action :set_play, except: [:new_play]
 
+    # GET
+    def test
+      set_data({ themes: Model::Theme::Base.all.as_json(:play)})
+      respond
+    end
+
     # POST
     def new_play
       # 냥토리얼

@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         post :next_stage_list
         post :submit_answer
         get :on_stage
+        get :test
       end
       namespace :main do
         get :news
