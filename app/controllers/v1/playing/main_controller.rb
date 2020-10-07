@@ -14,22 +14,27 @@ module V1::Playing
           categories: [:translations],
         ]
       ).with_translations.all
-      render json: {
-        data: {
-          main_post: main_post.as_json(),
-          banners: banners.as_json()
-        }
-      }
+      # render json: {
+      #   data: {
+      #     main_post: main_post.as_json(),
+      #     banners: banners.as_json()
+      #   }
+      # }
+      # set_data({ main_post: main_post.as_json(:posts) })
+      # set_data({ banners: banners.as_json(:super_themes) })
+      respond
     end
 
     def topics
       t = Model::Repository::Topic.new.current_topics_with_super_themes.distinct
-      render json: {
-        data: {
-          topics: t
-        },
-        meta: { total: t.size }
-      }
+      # render json: {
+      #   data: {
+      #     topics: t
+      #   },
+      #   meta: { total: t.size }
+      # }
+      set_data({ topics: t.as_json(:base) })
+      respond
     end
     
     def topics2

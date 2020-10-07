@@ -41,8 +41,9 @@ class V1::BaseController < ApplicationController
       # render text: nil, status: e.status
     end
     def set_data(data)
-      @data = data
-      @data = @data.as_json unless data.is_a?(Hash)
+      @data = {} if @data.nil?
+      data = data.as_json unless data.is_a?(Hash)
+      @data.merge!(data)
     end
     def set_meta(meta)
       @meta = meta
