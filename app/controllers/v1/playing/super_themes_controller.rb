@@ -28,7 +28,7 @@ module V1::Playing
     # GET /:id
     def show
       render json: {
-        data: @super_theme.as_json(:detail)
+        data: @super_theme.as_json(:show)
       }
     end
 

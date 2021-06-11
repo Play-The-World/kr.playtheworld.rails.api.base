@@ -1,3 +1,4 @@
 [submodule "engines/model"]
 	path = engines/model
+	branch = merge
 	url = https://github.com/Play-The-World/kr.playtheworld.rails.model.git
