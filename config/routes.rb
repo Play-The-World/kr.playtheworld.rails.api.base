@@ -79,7 +79,7 @@ Rails.application.routes.draw do
         patch :update_email
         get :test
       end
-      resources :themes, only: [:show] do
+      resources :themes, only: [:show, :index] do
         member do
           post :play
           get :related_topics

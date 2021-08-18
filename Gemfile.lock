@@ -1,5 +1,5 @@
 PATH
-  remote: engines/model
+  remote: ../model
   specs:
     model (0.1.0)
       blueprinter
@@ -167,7 +167,7 @@ GEM
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    globalize (6.0.0)
+    globalize (6.0.1)
       activemodel (>= 4.2, < 7.0)
       activerecord (>= 4.2, < 7.0)
       request_store (~> 1.0)

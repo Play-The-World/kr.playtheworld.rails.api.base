@@ -34,7 +34,7 @@ module V1::Playing
 
     private
       def set_super_theme
-        @super_theme = constant.find_by_fake_id(params[:id])
+        @super_theme = constant.where(fake_id: params[:id]).or(constant.where(id: params[:id])).includes(:themes).take
       end
 
       def constant

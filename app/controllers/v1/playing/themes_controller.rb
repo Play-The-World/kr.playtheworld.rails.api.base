@@ -1,9 +1,17 @@
 module V1::Playing
   class ThemesController < BaseController
-    before_action :set_theme#, only: [:show, :play]
+    before_action :set_theme, only: [:show, :play]
     before_action :authenticate_user!, only: [:play]
 
     Theme = Model::Theme::Base
+
+    # GET /
+    def index
+      set_data({
+        themes: Theme.all.as_json(:show)
+      })
+      respond
+    end
 
     # GET /:id
     def show
@@ -27,7 +35,7 @@ module V1::Playing
 
     private
       def set_theme
-        @theme = Theme.includes(:super_theme).find_by(fake_id: params[:id])
+        @theme = Theme.where(fake_id: params[:id]).or(Theme.where(id: params[:id])).includes(:super_theme).take
         raise_error("존재하지 않는 테마입니다.", 404) if @theme.nil?
 
         @super_theme = @theme.super_theme

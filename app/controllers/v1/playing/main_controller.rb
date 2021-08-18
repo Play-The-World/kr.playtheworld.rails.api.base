@@ -33,7 +33,7 @@ module V1::Playing
       #   },
       #   meta: { total: t.size }
       # }
-      set_data({ topics: t.as_json(:base) })
+      set_data({ topics: t.as_json(:banner) })
       respond
     end
     
