@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module PlayTheWorldAPI
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -42,15 +42,20 @@ module PlayTheWorldAPI
 
     # Middlewares
     # Session
+    # config.session_store :cookie_store, key: '_ptw_session'
     config.session_store :cookie_store,
-      # domain: '192.168.0.14',
-      secure: true, # for HTTPS
-      same_site: :none,
+      # domain: 'localhost',
+      # secure: true, # for HTTPS
+      secure: Rails.env.production?,
+      # same_site: :none,
       httponly: true,
       key: '_playtheworld',
       expire_after: nil
     config.middleware.use ActionDispatch::Cookies # Required for all session management (regardless of session_store)
     config.middleware.use config.session_store, config.session_options
+    config.action_dispatch.cookies_serializer = :json
+
+    # Rack::Attack.enabled = false
 
     # config.action_dispatch.default_headers = {
     #   'Access-Control-Allow-Origin' => '*',
@@ -59,9 +64,9 @@ module PlayTheWorldAPI
     # }
 
     # Autoloads
-    [
-      %W(#{config.root}/lib),
-    ].each { |path| config.autoload_paths += path }
+    # [
+    #   %W(#{config.root}/lib),
+    # ].each { |path| config.autoload_paths += path }
 
     # Annotations
     config.annotations.register_directories("engines")

@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::API
   # include DeviseTokenAuth::Concerns::SetUserByToken
-  include ActionController::Cookies
+  # include ActionController::Cookies
   # include ActionController::RequestForgeryProtection
   include ActionController::MimeResponds
   # protect_from_forgery with: :exception
   # before_action :set_csrf_cookie
   respond_to :json
   # around_action :set_current_user
+  # skip_before_action :verify_authenticity_token
 
   def cors_preflight
     render nothing: true
@@ -21,7 +22,7 @@ class ApplicationController < ActionController::API
       # to address the thread variable leak issues in Puma/Thin webserver
       Model::Current.user = nil
     end
-    # def set_csrf_cookie
-    #   cookies["CSRF-TOKEN"] = form_authenticity_token
-    # end
+    def set_csrf_cookie
+      cookies["CSRF-TOKEN"] = form_authenticity_token
+    end
 end

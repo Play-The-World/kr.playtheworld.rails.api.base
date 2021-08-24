@@ -1,5 +1,11 @@
 class V1::BaseController < ApplicationController
   include Pagy::Backend
+  # include Devise::Controllers::Helpers
+  # devise_group :user, contains: [:user]
+  # module Mapping
+  #   def self.name; "user" end
+  # end
+  # define_helpers(Mapping)
   # before_action :authenticate_user
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
@@ -26,14 +32,15 @@ class V1::BaseController < ApplicationController
   end
 
   protected
-    def respond(message = nil, status = Response::DEFAULT_STATUS, code = nil)
+    def respond(message = nil, code = 2000, status = Response::DEFAULT_STATUS)
+    # def respond(message = nil, status = Response::DEFAULT_STATUS, code = nil)
       response = { response: Response.new(message, code) }
       response.merge!({ data: @data }) if @data
       response.merge!({ meta: @meta }) if @meta
       render json: response, status: status
     end
-    # def raise_error(message = nil, code = nil, status = nil)
-    def raise_error(message = nil, status = nil, code = nil)
+    def raise_error(message = nil, code = 4000, status = nil)
+    # def raise_error(message = nil, status = nil, code = nil)
       raise Error::Standard.new(message, code, status)
     end
     def render_error(e)
@@ -42,12 +49,12 @@ class V1::BaseController < ApplicationController
     end
     def set_data(data)
       @data = {} if @data.nil?
-      data = data.as_json unless data.is_a?(Hash)
+      data = data.as_json # unless data.is_a?(Hash)
       @data.merge!(data)
     end
     def set_meta(meta)
       @meta = meta
-      @meta = @meta.as_json unless meta.is_a?(Hash)
+      @meta = @meta.as_json # unless meta.is_a?(Hash)
     end
 
   private
@@ -67,8 +74,8 @@ class V1::BaseController < ApplicationController
     # end
 
     def authenticate_user!
-      # raise_error("로그인 필요", 1000, :unauthorized) if current_user.nil?
-      raise_error("로그인 필요", :unauthorized) if current_user.nil?
+      raise_error("로그인 필요", 1000, :unauthorized) if current_user.nil?
+      # raise_error("로그인 필요", :unauthorized) if current_user.nil?
     end
     
     def current_user

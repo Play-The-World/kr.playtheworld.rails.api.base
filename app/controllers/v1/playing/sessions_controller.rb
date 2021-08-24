@@ -3,9 +3,19 @@ module V1::Playing
     before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname]
     User = ::Model::User
 
+    def current
+      if current_user
+        set_data({ user: current_user })
+      end
+      respond
+    end
+
     # 이메일 가입여부 확인
     def email
       # TODO: EMAIL주소 올바른지 확인 필요.
+      unless Validate.email(user_params[:email])
+        raise_error("올바르지 않은 이메일 주소", 4000)
+      end
       # raise_error("올바르지 않은 이메일 주소")
       if User::Base.where(email: user_params[:email]).exists?
         respond("가입된 이메일")
@@ -27,7 +37,7 @@ module V1::Playing
 
     # 로그인
     def sign_in
-      raise_error("이미 로긴", 4000) unless current_user.nil?
+      raise_error("이미 로그인되어 있습니다.", 4000) unless current_user.nil?
 
       user = User::Base.find_by(email: user_params[:email])
       # 유저 없음.
@@ -36,8 +46,9 @@ module V1::Playing
       # TODO: 이메일 인증 받았는지 등. 분기 처리 많이 필요할 듯.
       if user.valid_password?(user_params[:password])
         # 로그인 성공
-        reset_session
+        # reset_session
         session[:user_id] = user.id
+        set_data({ user: user })
         respond("성공적으로 로그인되었습니다.")
       else
         # 비번틀림
@@ -61,6 +72,7 @@ module V1::Playing
         if user.save
           # 가입 성공 + 로그인
           session[:user_id] = user.id
+          set_data({ user: user })
           respond("성공적으로 가입되었습니다.")
         else
           # 뭔가 에러 생김.

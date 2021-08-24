@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         get :create_new_play
       end
       namespace :sessions do
+        get :current
         get :email
         post :confirm_email
         post :sign_in
