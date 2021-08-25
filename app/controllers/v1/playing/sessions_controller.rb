@@ -12,7 +12,6 @@ module V1::Playing
 
     # 이메일 가입여부 확인
     def email
-      # TODO: EMAIL주소 올바른지 확인 필요.
       unless Validate.email(user_params[:email])
         raise_error("올바르지 않은 이메일 주소", 4000)
       end
@@ -58,26 +57,28 @@ module V1::Playing
 
     # 가입
     def sign_up
-      # TODO 올바른 이메일 체크
-      # raise_error("올바르지 않은 이메일 주소", 4000)
+      unless Validate.email(user_params[:email])
+        raise_error("올바르지 않은 이메일 주소", 4000)
+      end
 
       if User::Base.where(email: user_params[:email]).exists?
         # 이미 가입된 이메일
         raise_error("이미 가입된 이메일입니다.", 4001)
-      else
-        # TODO 비번 양식 확인
-        # raise_error("올바르지 않은 비번 양식", 4002)
+      end
 
-        user = User::Base.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
-        if user.save
-          # 가입 성공 + 로그인
-          session[:user_id] = user.id
-          set_data({ user: user })
-          respond("성공적으로 가입되었습니다.")
-        else
-          # 뭔가 에러 생김.
-          raise_error
-        end
+      unless Validate.password(user_params[:password])
+        raise_error("올바르지 않은 비밀번호 양식입니다.", 4002)
+      end
+
+      user = User::Base.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
+      if user.save
+        # 가입 성공 + 로그인
+        session[:user_id] = user.id
+        set_data({ user: user })
+        respond("성공적으로 가입되었습니다.")
+      else
+        # 뭔가 에러 생김.
+        raise_error
       end
     end
 
@@ -87,10 +88,10 @@ module V1::Playing
         # 로그아웃
         # session.delete(:user_id)
         reset_session
-        respond("로그아웃 성공")
+        respond("로그아웃되었습니다.")
       else
         # 로그인되어 있지 않음
-        raise_error("로그인 안되있음.", 4000)
+        raise_error("로그인이 되어있지 않습니다.", 4001)
       end
     end
 
