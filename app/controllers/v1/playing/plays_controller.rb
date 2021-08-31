@@ -6,17 +6,23 @@ module V1::Playing
     # 현재 스테이지 목록
     def stage_lists
       if params[:after].to_i > 0
-        data = @play.stage_lists.offset(params[:after].to_i)
+        data = @play.stage_lists.includes({
+          translations: [],
+          stages: [:audios, :videos, :images, :translations]
+        }).offset(params[:after].to_i)
       else
-        data = @play.stage_lists
+        data = @play.stage_lists.includes({
+          translations: [],
+          stages: [:audios, :videos, :images, :translations]
+        })
       end
 
-      if params[:stages] == "true"
-        data = data.as_json(:stages)
-      end
+      # if params[:stages]
+      #   data = data.as_json(:play)
+      # end
 
       render json: {
-        data: data
+        data: data.as_json(:play)
       }
     end
 
