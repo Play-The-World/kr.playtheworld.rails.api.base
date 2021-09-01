@@ -27,8 +27,11 @@ module V1::Playing
     end
 
     def detail
+      # @play = Play.where(id: @play.id)
+      #   .includes()
+      #   .take
       render json: {
-        data: @play.as_json(:playing),
+        data: @play.as_json(:play),
       }
     end
 
