@@ -47,7 +47,9 @@ module V1::Playing
       raise_error("종료된 플레이", 4000) unless @play.playing?
       raise_error("지니간 스테이지임", 4001) if @play.stage_lists.last.id != params[:stage_list_id].to_i
 
-      if @play.submit_answer(params[:answer])
+      correct, _branch = @play.submit_answer(params[:answer])
+
+      if correct
         respond("정답 맞춤", 2000)
       else
         respond("틀림", 2001)
