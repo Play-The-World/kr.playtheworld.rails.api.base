@@ -71,7 +71,10 @@ module V1::Playing
     end
 
     def on_stage
-      # stage_index:
+      @play.on_stage(stage_index: params[:stage_index].to_i, stage_list_index: params[:stage_list_index].to_i)
+      respond('성공', 2000)
+    # rescue
+    #   raise_error('스테이지 동기화에 실패하였습니다.')
     end
 
     private

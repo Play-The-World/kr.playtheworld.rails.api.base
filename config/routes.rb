@@ -92,6 +92,7 @@ Rails.application.routes.draw do
         get :stage_lists
         post :answer
         post :hint
+        get :on_stage
       end
       resources :super_themes, only: [:index, :show] do
       end
