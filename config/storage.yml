@@ -21,6 +21,8 @@ admin_s3:
   secret_access_key: <%= Rails.application.credentials.aws[:s3][:secret_access_key] %>
   region: <%= Settings.aws.s3.region %>
   bucket: playtheworld-admin-uploads
+  upload:
+    server_side_encryption: 'aws:kms'
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
