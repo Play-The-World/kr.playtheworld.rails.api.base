@@ -34,7 +34,15 @@ module V1::Playing
 
     private
       def set_super_theme
-        @super_theme = constant.where(fake_id: params[:id]).or(constant.where(id: params[:id])).includes(:themes).take
+        @super_theme = constant.where(fake_id: params[:id]).or(constant.where(id: params[:id]))
+          .includes(
+            themes: {
+              images: {
+                file: :blob
+              }
+            }
+          )
+          .take
       end
 
       def constant
