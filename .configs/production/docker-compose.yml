@@ -6,7 +6,7 @@ services:
     restart: always
     depends_on: 
       - db
-    entrypoint: ./.configs/production/start-up.sh
+    entrypoint: ./start-up.sh
     environment:
       DB_USERNAME: playtheworld
       DB_PASSWORD: Rhemspdla1!

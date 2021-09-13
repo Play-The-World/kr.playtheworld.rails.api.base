@@ -72,6 +72,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $NGINX_REPOSITORY_URI:api
       - docker push $NGINX_REPOSITORY_URI:$IMAGE_TAG
+      - mv $CONFIG_DIR/docker-compose.yml docker-compose.yml
 
 artifacts:
   files:
