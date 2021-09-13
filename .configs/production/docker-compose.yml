@@ -4,8 +4,6 @@ services:
   app:
     image: 947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/api
     restart: always
-    depends_on: 
-      - db
     entrypoint: ./start-up.sh
     environment:
       DB_USERNAME: playtheworld
