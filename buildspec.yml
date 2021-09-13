@@ -69,6 +69,8 @@ phases:
       - echo pushing to repo
       - docker push $REPOSITORY_URI:stable
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $NGINX_REPOSITORY_URI:api
+      - docker push $NGINX_REPOSITORY_URI:$IMAGE_TAG
 
 artifacts:
   files:
