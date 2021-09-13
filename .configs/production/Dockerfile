@@ -5,6 +5,7 @@ LABEL maintainer="Mechuri mechuri@playthe.world"
 WORKDIR /app
 
 ENV ENABLE_FILE_LOG true
+ENV BUNDLER_WITHOUT development test
 
 COPY . .
 
