@@ -5,17 +5,17 @@ version: 0.2
 env:
   variables:
     REMOTE_ORIGIN: "https://github.com/Play-The-World/kr.playtheworld.rails.api.base.git"
-    GIT_TOKEN: "8bc2db5d30945e3c4e0a19fdc65333980d57f574"
+    GIT_TOKEN: "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"
     AWS_DEFAULT_REGION: "ap-northeast-2"
     AWS_ACCOUNT_ID: "947202957156"
-    IMAGE_REPO_NAME: "playtheworld/test-api"
+    IMAGE_REPO_NAME: "playtheworld/api"
 
 phases:
   install:
     runtime-versions:
-      docker: 19
-      ruby: 2.7
-      
+      docker: 20
+      ruby: 3.0
+
     commands:
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
@@ -31,22 +31,37 @@ phases:
   pre_build:
     commands:
       - echo PreBuild started on `date`
-      - echo Logging in to Amazon ECR.... 
+      - echo Logging in to Amazon ECR....
       - aws --version
+      # Login
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # Avoid AWS DockerHub pull limit
+      - docker login -u spb829 -p ed198344-7397-407d-abd2-b1707b9e5f05
+      # Set envs
+      - RAILS_ENV=$BUILD_ENV
+      - RACK_ENV=$BUILD_ENV
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)
       - IMAGE_TAG=${COMMIT_HASH:=stable}
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - CONFIG_DIR=.configs/$BUILD_ENV
+      # Copy Files
+      - cp $CONFIG_DIR/start-up.sh start-up.sh
+      - cp $CONFIG_DIR/database.yml config/database.yml
+      - mkdir nginx && cp $CONFIG_DIR/nginx/conf.d/*.conf nginx/
 
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker image... 
-      - cp $CONFIG_DIR/start-up.sh start-up.sh
-      - cp $CONFIG_DIR/database.yml config/database.yml
-      - docker build -f $CONFIG_DIR/Dockerfile -t $REPOSITORY_URI:stable .
-      - docker tag $REPOSITORY_URI:stable $REPOSITORY_URI:$IMAGE_TAG
+      # Docker - Nginx
+      - echo Building the Docker images...\(1/2\) - Nginx
+      - docker build -f ./.configs/nginx.Dockerfile -t $NGINX_REPOSITORY_URI:api .
+      - docker tag $NGINX_REPOSITORY_URI:api $NGINX_REPOSITORY_URI:$IMAGE_TAG
+      # - rm -rf public/css public/js public/media
+      # Docker - App
+      - echo Building the Docker images...\(2/2\) - App
+      - docker build -f $CONFIG_DIR/Dockerfile -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$BUILD_ENV
 
   post_build:
     commands:
@@ -54,10 +69,8 @@ phases:
       - echo pushing to repo
       - docker push $REPOSITORY_URI:stable
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - mv $CONFIG_DIR/Dockerrun.aws.json Dockerrun.aws.json
 
 artifacts:
   files:
-    - Dockerrun.aws.json
+    - docker-compose.yml
     - .ebextensions/*.config
-    - .configs/**/*

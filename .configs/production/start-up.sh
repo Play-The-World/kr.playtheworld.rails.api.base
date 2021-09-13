@@ -9,6 +9,8 @@
 # Pre-comple app assets
 # sh ./asset-pre-compile.sh
 
+rm -f /app/tmp/pids/server.pid
+
 # Start Application
 # bundle exec puma -C config/puma.rb
 bundle exec rails server -b 0.0.0.0 -p 3000

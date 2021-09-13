@@ -2,34 +2,32 @@ version: '3'
 
 services:
   app:
-    build: 
-      context: ../../
-      dockerfile: ./.configs/production/Dockerfile
+    image: 947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/api
     restart: always
     depends_on: 
       - db
     entrypoint: ./.configs/production/start-up.sh
     environment:
-      DB_USERNAME: root
+      DB_USERNAME: playtheworld
       DB_PASSWORD: Rhemspdla1!
-      DB_DATABASE: new_playthe.world
+      DB_DATABASE: new_production
       DB_PORT: 3306
-      DB_HOST: nas.playthe.world
+      DB_HOST: playtheworld-main.cluster-cfmnnfrjqm0a.ap-northeast-2.rds.amazonaws.com
       RACK_ENV: production
       RAILS_ENV: production
       RAILS_MAX_THREADS: 5
+      RAILS_MASTER_KEY: b5eaa4ed133ad1e8cb94bdee99823ae3
     volumes:
-      - ../../.docker/log/app:/app/log
-      - ../../.docker/storage:/app/storage
+      - ${EB_LOG_BASE_DIR}/app:/app/log
   
   nginx:
-    image: nginx:alpine
+    image: 947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/nginx:api
     restart: always
-    depends_on: 
+    depends_on:
       - app
     ports:
       - 80:80
-      - 443:443
-    volumes: 
-      - ../../.docker/log/nginx:/var/log/nginx
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    volumes:
+      - ${EB_LOG_BASE_DIR}/nginx:/var/log/nginx
+    links:
+      - app

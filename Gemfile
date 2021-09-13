@@ -18,6 +18,10 @@ gem 'bootsnap', '>= 1.7.2', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+group :production do
+  gem 'model', path: 'engines/model'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -35,6 +39,8 @@ group :development do
   # Error Page
   gem "better_errors"
   gem "binding_of_caller"
+
+  gem 'model', path: '../model'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -60,8 +66,6 @@ gem 'jwt' # https://github.com/jwt/ruby-jwt
 gem 'mysql2'
 
 # Model
-# gem 'model', path: 'engines/model'
-gem 'model', path: '../model'
 gem 'pagy' #, '~> 3.7.0'  # https://github.com/ddnexus/pagy
 
 # AWS S3 for active-stroage
