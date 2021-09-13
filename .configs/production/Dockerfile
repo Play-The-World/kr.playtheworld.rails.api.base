@@ -10,6 +10,7 @@ ENV ENABLE_FILE_LOG true
 COPY . .
 
 RUN bundle config set --local deployment true
+RUN bundle config unset frozen
 RUN bundle install
 
 EXPOSE 3000
