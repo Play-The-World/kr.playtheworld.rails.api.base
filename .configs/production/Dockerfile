@@ -5,10 +5,11 @@ LABEL maintainer="Mechuri mechuri@playthe.world"
 WORKDIR /app
 
 ENV ENABLE_FILE_LOG true
-ENV BUNDLER_WITHOUT development test
+# ENV BUNDLER_WITHOUT development test
 
 COPY . .
 
+RUN bundle config set --local deployment true
 RUN bundle install
 
 EXPOSE 3000
