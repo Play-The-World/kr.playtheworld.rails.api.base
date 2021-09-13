@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  app:
+    image: 947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/renewal:staging
+    restart: always
+    environment:
+      DB_USERNAME: playtheworld
+      DB_PASSWORD: Rhemspdla1!
+      DB_DATABASE: staging
+      DB_PORT: 3306
+      DB_HOST: playtheworld-main.cluster-cfmnnfrjqm0a.ap-northeast-2.rds.amazonaws.com
+      RACK_ENV: staging
+      RAILS_ENV: staging
+      RAILS_MAX_THREADS: 5
+      CONTAINER_ROLE: app_server
+      TEST_SERVER: 'true'
+      SERVER_TYPE: test
+    volumes:
+      - ${EB_LOG_BASE_DIR}/app:/app/log
+    # depends_on:
+    #   - redis
+  
+  nginx:
+    image: 947202957156.dkr.ecr.ap-northeast-2.amazonaws.com/playtheworld/nginx:renewal
+    restart: always
+    depends_on:
+      - app
+    ports:
+      - 80:80
+    volumes:
+      - ${EB_LOG_BASE_DIR}/nginx:/var/log/nginx
+    links:
+      - app
+
+  # redis:
+  #   image: redis:4.0-alpine
+  #   command: redis-server
+  #   volumes:
+  #     - /var/app/current/redis:/data
