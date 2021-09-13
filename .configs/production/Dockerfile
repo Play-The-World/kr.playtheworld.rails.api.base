@@ -18,6 +18,7 @@ RUN bundle config build.nokogiri --use-system-libraries \
     && bundle config set without 'development:test:assets' \
     && bundle config set path 'vendor/bundle'
 
+# BUNDLE
 RUN bundle install
 
 EXPOSE 3000
