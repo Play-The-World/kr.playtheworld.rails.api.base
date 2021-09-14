@@ -8,7 +8,10 @@
 # Rails.application.config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ['localhost:8080', 'localhost:8081', '192.168.0.83:8080', 'covy.playthe.world']
+    origins [
+      'localhost:8080',
+      'ex.playthe.world',
+    ]
     # origins '*'
     resource '*',
       headers: :any,
