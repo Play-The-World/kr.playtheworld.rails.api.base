@@ -31,6 +31,10 @@ class V1::BaseController < ApplicationController
     result
   end
 
+  def pusher(name:, event:, params:)
+    Model::Pusher.trigger(name, event.to_s, params)
+  end
+
   protected
     def respond(message = nil, code = 2000, status = Response::DEFAULT_STATUS)
     # def respond(message = nil, status = Response::DEFAULT_STATUS, code = nil)

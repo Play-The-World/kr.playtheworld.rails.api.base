@@ -95,6 +95,14 @@ Rails.application.routes.draw do
         get :on_stage
       end
       resources :super_themes, only: [:index, :show] do
+        resources :game_rooms, only: [:index, :show, :create] do
+          member do
+            post :entry
+            post :ready
+            delete :exit
+            post :select_character
+          end
+        end
       end
     end
   end

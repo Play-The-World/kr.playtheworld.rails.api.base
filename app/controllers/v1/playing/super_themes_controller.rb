@@ -27,8 +27,13 @@ module V1::Playing
 
     # GET /:id
     def show
+      if @super_theme.type == Model::SuperTheme::Crime.to_s
+        data = @super_theme.as_json(:crime_show)
+      else
+        data = @super_theme.as_json(:show)
+      end
       render json: {
-        data: @super_theme.as_json(:show)
+        data: data
       }
     end
 
@@ -38,7 +43,7 @@ module V1::Playing
           .includes(
             themes: {
               images: {
-                file: :blob
+                # file: :blob
               }
             }
           )

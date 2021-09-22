@@ -11,6 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins [
       'localhost:8080',
       'ex.playthe.world',
+      'ericsnas.com:8080',
     ]
     # origins '*'
     resource '*',

@@ -13,24 +13,26 @@ module V1::Playing
     # 이메일 가입여부 확인
     def email
       unless Validate.email(user_params[:email])
-        raise_error("올바르지 않은 이메일 주소", 4000)
+        raise_error("올바르지 않은 이메일 주소입니다.", 4000)
       end
       # raise_error("올바르지 않은 이메일 주소")
       if User::Base.where(email: user_params[:email]).exists?
-        respond("가입된 이메일")
+        respond("가입된 이메일입니다.")
       else
-        respond("아직 가입 안된 이메일", 2001)
+        respond("성공", 2001)
       end
     end
 
     # 이메일 인증
     def confirm_email
-      if current_user.status != :unauthorized
-        raise_error("잘못된 요청", 4000)
-      elsif current_user.confirm_email(user_params[:email_confirmation])
+      # if current_user.status != :unauthorized
+      #   raise_error("잘못된 요청입니다.", 4000)
+      # end
+      if current_user.confirm_email(user_params[:email_confirmation])
+        set_data({ user: current_user })
         respond("성공")
       else
-        raise_error("잘못된 인증번호", 4001)
+        raise_error("잘못된 인증번호입니다.", 4001)
       end
     end
 
@@ -58,7 +60,7 @@ module V1::Playing
     # 가입
     def sign_up
       unless Validate.email(user_params[:email])
-        raise_error("올바르지 않은 이메일 주소", 4000)
+        raise_error("올바르지 않은 이메일 주소입니다.", 4000)
       end
 
       if User::Base.where(email: user_params[:email]).exists?
@@ -70,9 +72,15 @@ module V1::Playing
         raise_error("올바르지 않은 비밀번호 양식입니다.", 4002)
       end
 
-      user = User::Base.new(email: user_params[:email], password: user_params[:password], password_confirmation: user_params[:password])
+      user = User::Base.new(
+        email: user_params[:email],
+        password: user_params[:password],
+        password_confirmation: user_params[:password],
+        sign_up_step: :confirmation,
+      )
       if user.save
         # 가입 성공 + 로그인
+        # TODO: Email 보내기
         session[:user_id] = user.id
         set_data({ user: user })
         respond("성공적으로 가입되었습니다.")
@@ -96,10 +104,19 @@ module V1::Playing
     end
 
     def update_nickname
-      if current_user.nickname == user_params[:nickname]
-        respond("변경 사항 없음.")
-      elsif current_user.update(nickname: user_params[:nickname])
-        respond("닉네임 변경 성공", 2001)
+      unless Validate.nickname(user_params[:nickname])
+        raise_error("올바르지 않은 닉네임 입니다.", 4000)
+      end
+
+      if ![:nickname, :done].include?(current_user.sign_up_step.to_sym)
+        raise_error("잘못된 접근입니다.", 4002)
+      elsif current_user.nickname == user_params[:nickname]
+        respond("변경 사항이 없습니다.", 2001)
+      elsif Model::User::Base.where(nickname: user_params[:nickname]).exists?
+        raise_error("이미 존재하는 닉네임입니다.", 4001)
+      elsif current_user.update(nickname: user_params[:nickname], sign_up_step: :done)
+        set_data({ user: current_user })
+        respond("닉네임 변경 성공", 2000)
       else
         # 뭔가 에러
         raise_error
@@ -110,10 +127,10 @@ module V1::Playing
       # TODO 비번 양식 확인
       # raise_error("올바르지 않은 비번 양식")
 
-      raise_error("불일치", 4001) if user_params[:password] != user_params[:password_confirmation]
+      raise_error("비밀번호가 불일치합니다.", 4001) if user_params[:password] != user_params[:password_confirmation]
 
       if current_user.update(password: user_params[:password], password_confirmation: user_params[:password])
-        respond("비번 변경 성공.")
+        respond("비밀번호 변경 성공")
       else
         # 뭔가 에러
         raise_error
@@ -125,7 +142,7 @@ module V1::Playing
       # raise_error("올바르지 않은 이메일 주소", 4000)
 
       if current_user.email == user_params[:email]
-        respond("변경사항 없음", 2001)
+        respond("변경사항이 없습니다.", 2001)
       elsif current_user.update(email: user_params[:email])
         respond("이메일 변경 성공.")
       else

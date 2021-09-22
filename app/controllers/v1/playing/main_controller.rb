@@ -35,6 +35,8 @@ module V1::Playing
       # }
       set_data({ topics: t.as_json(:banner) })
       respond
+    rescue
+      respond
     end
     
     def topics2
