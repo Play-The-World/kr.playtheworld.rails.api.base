@@ -190,6 +190,7 @@ module V1::Playing
       def set_game_room
         @game_room = constant.find_by(id: params[:id])
         raise_error("존재하지 않는 방입니다.", nil, 404) if @game_room.nil?
+        Model::Current.game_room = @game_room
       end
 
       def constant
