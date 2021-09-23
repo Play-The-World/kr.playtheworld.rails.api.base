@@ -1,5 +1,5 @@
 module V1::Playing
-  class GameRoomsController < BaseController
+  class ChatRoomsController < BaseController
     # before_action :set_super_theme
     before_action :set_chat_room, except: [:index, :create]
     before_action :authenticate_user!, except: [:index]
