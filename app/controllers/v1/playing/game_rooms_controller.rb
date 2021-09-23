@@ -86,7 +86,7 @@ module V1::Playing
       pusher(
         name: "SuperTheme#{@super_theme.id}Rooms",
         event: "game_room",
-        params: data
+        params: @game_room.as_json(:crime)
       )
       respond
     end
