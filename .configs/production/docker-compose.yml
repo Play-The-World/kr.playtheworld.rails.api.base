@@ -6,11 +6,13 @@ services:
     restart: always
     entrypoint: ./start-up.sh
     environment:
-      DB_USERNAME: playtheworld
+      DB_PORT: 3306
       DB_PASSWORD: Rhemspdla1!
       DB_DATABASE: new_production
-      DB_PORT: 3306
-      DB_HOST: playtheworld-main.cluster-cfmnnfrjqm0a.ap-northeast-2.rds.amazonaws.com
+      # DB_USERNAME: playtheworld
+      DB_USERNAME: root
+      # DB_HOST: playtheworld-main.cluster-cfmnnfrjqm0a.ap-northeast-2.rds.amazonaws.com
+      DB_HOST: nas.playthe.world
       RACK_ENV: production
       RAILS_ENV: production
       RAILS_MAX_THREADS: 5
