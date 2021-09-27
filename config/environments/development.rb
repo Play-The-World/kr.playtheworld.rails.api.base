@@ -63,4 +63,11 @@ Rails.application.configure do
 
   # Set host
   self.default_url_options = { host: "localhost:3000" }
+
+  # AutoLoad
+  model_path = "../model/app/models/model/**/*.rb"
+  config.eager_load_paths += Dir[model_path]
+  ActiveSupport::Reloader.to_prepare do
+    Dir[model_path].each { |f| require_dependency("#{Dir.pwd}/#{f}") }
+  end
 end

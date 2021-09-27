@@ -30,7 +30,7 @@ module V1::Playing
 
     # POST /
     def create
-      @theme = @super_theme.themes.includes({
+      @theme ||= @super_theme.themes.includes({
         theme_data: {
           character_in_themes: {},
         },
@@ -98,6 +98,10 @@ module V1::Playing
         raise_error("참가하지 않은 방입니다.")
       end
 
+      if @game_room.status == :started
+        raise_error("게임을 시작한 방은 나갈 수 없습니다.")
+      end
+
       # 1명인 경우 방 삭제
       if @game_room.entries.size == 1
         id = @game_room.id
@@ -156,7 +160,7 @@ module V1::Playing
         raise_error("캐릭터가 선택되지 않았습니다.", 4000)
       end
 
-      entry = @game_room.entries.find_by(user: current_user)
+      entry = @game_room.entries.find { |e| e.user == current_user }
 
       if entry.nil?
         raise_error("참가하지 않은 방입니다.", 4001)
@@ -168,10 +172,41 @@ module V1::Playing
         event: "entry",
         params: entry.as_json(:base)
       )
+
+      if @game_room.entries.select { |e| e.ready }.size >= 1 # >= @game_room.max_user_count
+        start_play
+      end
+
       respond
     end
 
     private
+      def start_play
+        return if @game_room.status == :started
+
+        if @game_room.team.nil?
+          @team = Model::Team::Default.create!(purpose: :one_time)
+          @game_room.update!(team: @team)
+          @team.users << @game_room.users
+        end
+
+        @team ||= @game_room.team
+
+        plays = @team.start_play({ theme_data: @game_room.theme_data })
+        # @game_room.update!(super_play: plays[0].super_play, status: :started)
+
+        pusher(
+          name: "GameRoom#{@game_room.id}",
+          event: "start_play",
+          params: plays.map do |a|
+            {
+              play_id: a.id.to_s,
+              user_id: a.user_id.to_s
+            }
+          end
+        )
+      end
+
       def set_super_theme
         constant = Model.config.super_theme.constant
         @super_theme = constant.where(fake_id: params[:super_theme_id])
@@ -190,7 +225,7 @@ module V1::Playing
       def set_game_room
         @game_room = constant.find_by(id: params[:id])
         raise_error("존재하지 않는 방입니다.", nil, 404) if @game_room.nil?
-        Model::Current.game_room = @game_room
+        Model.current.game_room ||= @game_room
       end
 
       def constant

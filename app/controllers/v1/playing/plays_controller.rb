@@ -30,9 +30,14 @@ module V1::Playing
       # @play = Play.where(id: @play.id)
       #   .includes()
       #   .take
-      render json: {
-        data: @play.as_json(:play),
+      data = {
+        play: @play.as_json(:play)
       }
+      if @super_theme.type == 'Model::SuperTheme::Crime'
+        data[:super_theme] = @super_theme.as_json(:crime_show)
+      end
+      
+      render json: data
     end
 
     def set
@@ -79,9 +84,20 @@ module V1::Playing
 
     private
       def set_play
-        Model.current.play = Model::Play::Base.find(session[:play_id])
-        # Model.current.play = Model::Play::Base.find(params[:id])
-        @play ||= Model.current.play
+        if params[:play_id]
+          @play = Model::Play::Base.find_by(id: params[:play_id])
+          session[:play_id] = @play.id
+        end
+        puts 'params:', params[:play_id]
+
+        @play ||= Model::Play::Base.find_by(id: session[:play_id])
+
+        raise_error('플레이 데이터를 찾을 수 없습니다.') if @play.nil?
+        raise_error('접근 권한이 없습니다.') if @play.user != current_user
+        
+        Model.current.play ||= @play
+
+        @super_theme = @play.super_theme
       end
   end
 end
