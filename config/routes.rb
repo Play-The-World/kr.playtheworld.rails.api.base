@@ -93,6 +93,7 @@ Rails.application.routes.draw do
         post :answer
         post :hint
         get :on_stage
+        post :search
       end
       resources :super_themes, only: [:index, :show] do
         resources :game_rooms, only: [:index, :show, :create] do

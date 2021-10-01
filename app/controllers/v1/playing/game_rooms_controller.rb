@@ -195,16 +195,18 @@ module V1::Playing
         plays = @team.start_play({ theme_data: @game_room.theme_data })
         # @game_room.update!(super_play: plays[0].super_play, status: :started)
 
-        pusher(
-          name: "GameRoom#{@game_room.id}",
-          event: "start_play",
-          params: plays.map do |a|
-            {
-              play_id: a.id.to_s,
-              user_id: a.user_id.to_s
-            }
-          end
-        )
+        if plays
+          pusher(
+            name: "GameRoom#{@game_room.id}",
+            event: "start_play",
+            params: plays.map do |a|
+              {
+                play_id: a.id.to_s,
+                user_id: a.user_id.to_s
+              }
+            end
+          )
+        end
       end
 
       def set_super_theme

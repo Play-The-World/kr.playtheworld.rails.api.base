@@ -36,7 +36,7 @@ module V1::Playing
       if @super_theme.type == 'Model::SuperTheme::Crime'
         data[:super_theme] = @super_theme.as_json(:crime_show)
       end
-      
+
       render json: data
     end
 
@@ -80,6 +80,37 @@ module V1::Playing
       respond('성공', 2000)
     # rescue
     #   raise_error('스테이지 동기화에 실패하였습니다.')
+    end
+
+    def search
+      # params[:search_type] = 'normal' | 'deep'
+      # searchable_id, searchable_type
+      searchable = nil
+      case params[:searchable_type]
+      when 'game_map'
+        searchable = Model::GameMap.find_by(id: params[:searchable_id])
+      when 'character'
+        searchable = Model::Character.find_by(id: params[:searchable_id])
+      end
+
+      raise_error('단서 찾기에 실패하였습니다.') if searchable.nil?
+
+      track = @play.tracks.last
+      raise_error('잘못된 접근입니다.') if track.stage_list.type != 'Model::StageList::Search'
+
+      clues = @play.search(params[:search_type], searchable)
+
+      # if clues.size =< 0
+      #   @play.notify('아무 단서도 찾지 못했습니다.')
+      # else
+      # end
+
+      # set_data({})
+      # respond
+      # puts clues
+      render json: {
+        data: clues.as_json(:play)
+      }
     end
 
     private
