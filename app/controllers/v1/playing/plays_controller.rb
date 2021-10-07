@@ -35,6 +35,7 @@ module V1::Playing
       }
       if @super_theme.type == 'Model::SuperTheme::Crime'
         data[:super_theme] = @super_theme.as_json(:crime_show)
+        data[:super_play] = @play.super_play.as_json(:crime)
       end
 
       render json: data

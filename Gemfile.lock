@@ -1,5 +1,5 @@
 PATH
-  remote: engines/model
+  remote: ../model
   specs:
     model (0.1.0)
       blueprinter
