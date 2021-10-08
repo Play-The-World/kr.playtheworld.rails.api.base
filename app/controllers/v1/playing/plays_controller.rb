@@ -114,6 +114,17 @@ module V1::Playing
       }
     end
 
+    def ready
+      @play.set_ready(params[:ready])
+
+      if @play.super_play.plays.find { |pl| !pl.ready }.nil?
+        @play.super_play.go_next!
+        @play.super_play.set_ready(false)
+      end
+
+      respond
+    end
+
     private
       def set_play
         if params[:play_id]
