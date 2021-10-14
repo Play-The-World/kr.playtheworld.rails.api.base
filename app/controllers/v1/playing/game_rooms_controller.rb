@@ -192,7 +192,7 @@ module V1::Playing
 
         @team ||= @game_room.team
 
-        plays = @team.start_play({ theme_data: @game_room.theme_data })
+        plays = @team.start_play({ theme_data: @game_room.theme_data, game_room: @game_room })
         # @game_room.update!(super_play: plays[0].super_play, status: :started)
 
         if plays

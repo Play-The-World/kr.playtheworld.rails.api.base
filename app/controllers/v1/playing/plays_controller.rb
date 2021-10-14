@@ -117,7 +117,9 @@ module V1::Playing
     def ready
       @play.set_ready(params[:ready])
 
+      # 전부 다 준비 완료 하면?
       if @play.super_play.plays.find { |pl| !pl.ready }.nil?
+        @play.super_play.notify('다음 단계로 넘어갑니다.')
         @play.super_play.go_next!
         @play.super_play.set_ready(false)
       end
@@ -131,14 +133,16 @@ module V1::Playing
           @play = Model::Play::Base.find_by(id: params[:play_id])
           session[:play_id] = @play.id
         end
-        puts 'params:', params[:play_id]
+        # puts 'params:', params[:play_id]
 
         @play ||= Model::Play::Base.find_by(id: session[:play_id])
+        @super_play ||= @play.super_play
 
         raise_error('플레이 데이터를 찾을 수 없습니다.') if @play.nil?
         raise_error('접근 권한이 없습니다.') if @play.user != current_user
         
         Model.current.play ||= @play
+        Model.current.super_play ||= @super_play
 
         @super_theme = @play.super_theme
       end

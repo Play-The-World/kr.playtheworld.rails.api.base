@@ -1,0 +1,5 @@
+pusher:
+  app_id: '1261949'
+  key: '5a7cf4b269fdad9b6154'
+  secret: '7d239b32460dd15ec173'
+  cluster: "ap3"
