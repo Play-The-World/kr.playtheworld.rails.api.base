@@ -1,6 +1,6 @@
 module V1::Playing
   class SessionsController < BaseController
-    before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname]
+    before_action :authenticate_user!, only: [:confirm_email, :sign_out, :update_nickname, :agreement]
     User = ::Model::User
 
     def current
@@ -33,6 +33,27 @@ module V1::Playing
         respond("성공")
       else
         raise_error("잘못된 인증번호입니다.", 4001)
+      end
+    end
+
+    # (SNS로그인용) 약관 동의
+    def agreement
+      if [:done].include?(current_user.sign_up_step.to_sym)
+        set_data({ user: current_user })
+        respond("이미 처리되었습니다.", 2001)
+        return
+      end
+
+      unless [:nickname, :agreement].include?(current_user.sign_up_step.to_sym)
+        raise_error("잘못된 접근입니다.", 4001)
+      end
+
+      if current_user.update(sign_up_step: :nickname, terms_agreed_at: DateTime.now)
+        set_data({ user: current_user })
+        respond("성공", 2000)
+      else
+        # 뭔가 에러
+        raise_error
       end
     end
 

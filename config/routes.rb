@@ -72,6 +72,7 @@ Rails.application.routes.draw do
         get :current
         get :email
         post :confirm_email
+        post :agreement
         post :sign_in
         post :sign_up
         delete :sign_out
@@ -79,6 +80,10 @@ Rails.application.routes.draw do
         patch :update_password
         patch :update_email
         get :test
+
+        namespace :oauth do
+          post '/connect/:provider', action: :connect
+        end
       end
       resources :themes, only: [:show, :index] do
         member do
@@ -185,6 +190,8 @@ Rails.application.routes.draw do
   end
   resources :view_types do
   end
+
+  devise_for :users, skip: :all, class_name: 'Model::User::Base'
 
   # CORS Preflight
   match '*all' => 'application#cors_preflight', via: [:options]
