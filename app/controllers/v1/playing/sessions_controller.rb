@@ -5,7 +5,11 @@ module V1::Playing
 
     def current
       if current_user
-        set_data({ user: current_user })
+        if params[:with_last_play] == 'true'
+          set_data({ user: current_user.as_json(:with_last_play) })
+        else
+          set_data({ user: current_user })
+        end
       end
       respond
     end
