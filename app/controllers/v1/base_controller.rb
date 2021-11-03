@@ -48,7 +48,9 @@ class V1::BaseController < ApplicationController
       raise Error::Standard.new(message, code, status)
     end
     def render_error(e)
-      render json: e, status: e.status
+      render json: {
+        response: e
+      }, status: e.status
       # render text: nil, status: e.status
     end
     def set_data(data)
